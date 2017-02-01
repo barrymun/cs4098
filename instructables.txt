@@ -1,0 +1,22 @@
+To activate the virtual environment: (do this from the home directory)
+
+source venv/bin/activate
+
+(The name of the current virtual environment will now appear on the left of the prompt
+(e.g. (venv)Your-Computer:your_project UserName$) to let you know that it’s active)
+
+To deactivate:
+
+deactivate
+
+
+When you have installed a lot of packages, do this:
+
+pip freeze > requirements.txt
+
+(This will capture the current state of all installed packages on the virtual
+environment, and update the requirements.txt file)
+
+To install the requirements from the requirements.txt: (from a fresh install, etc, or a repo update)
+
+pip install -r requirements.txt
