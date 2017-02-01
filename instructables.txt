@@ -1,3 +1,6 @@
+
+https://gitlab.scss.tcd.ie/andrew.butterfield/CS4098-2017/blob/master/Product-Backlog.md
+
 --------------------------------------------------------------------------------------
 Virtual Environment
 --------------------------------------------------------------------------------------
@@ -26,16 +29,12 @@ To install the requirements from the requirements.txt:
 
 pip install -r requirements.txt
 
-
-
 --------------------------------------------------------------------------------------
 TCL Installation
 --------------------------------------------------------------------------------------
 
 http://www.tcl.tk/software/tcltk/downloadnow85.html
 http://www.tcl.tk/doc/howto/compile.html
-
-
 
 --------------------------------------------------------------------------------------
 check Installation
@@ -45,9 +44,7 @@ https://libcheck.github.io/check/
 https://github.com/libcheck/check
 
 ***WARNING***: This must be installed:
-	sudo apt-get install texinfo
-
-
+sudo apt-get install texinfo
 
 --------------------------------------------------------------------------------------
 expect Installation
@@ -55,21 +52,17 @@ expect Installation
 
 http://expect.sourceforge.net/
 
-
-
 --------------------------------------------------------------------------------------
 libxml2 Installation
 --------------------------------------------------------------------------------------
 
 http://www.xmlsoft.org/
 
-
-
 --------------------------------------------------------------------------------------
 peos Installation
 --------------------------------------------------------------------------------------
 
 ***WARNING***: This must be installed:
-	sudo apt-get install flex
+sudo apt-get install flex
 
 See: https://github.com/jnoll/peos for full instructions.
