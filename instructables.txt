@@ -1,3 +1,4 @@
+
 --------------------------------------------------------------------------------------
 Virtual Environment
 --------------------------------------------------------------------------------------
@@ -13,13 +14,12 @@ To deactivate:
 
 deactivate
 
-
 When you have installed a lot of packages, do this:
 
 pip freeze > requirements.txt
 
 (This will capture the current state of all installed packages on the virtual
-environment, and update the requirements.txt file)
+	environment, and update the requirements.txt file)
 
 To install the requirements from the requirements.txt:
 	(from a fresh install, etc, or a repo update)
@@ -38,7 +38,19 @@ http://www.tcl.tk/doc/howto/compile.html
 
 
 --------------------------------------------------------------------------------------
-Check Installation
+check Installation
 --------------------------------------------------------------------------------------
 
 https://libcheck.github.io/check/
+https://github.com/libcheck/check
+
+***WARNING***: This must be installed:
+
+sudo apt-get install texinfo
+
+
+
+--------------------------------------------------------------------------------------
+expect Installation
+--------------------------------------------------------------------------------------
+
