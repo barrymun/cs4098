@@ -1,0 +1,26 @@
+*.dat 
+<<<<<<< HEAD
+=======
+*.dat.xml
+>>>>>>> 71f6a61cb06573d2dbf317e9ee585b978950aef8
+*.idx 
+*.o 
+*.tar
+*.txt
+.depend
+BUGS
+PMLServer 
+TAGS 
+TODO
+cflow
+cscope.out 
+daemon
+event.log
+shell 
+tags 
+xref 
+pelog
+peos
+peos_rest.res
+shell
+README

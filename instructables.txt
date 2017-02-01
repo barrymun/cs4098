@@ -45,8 +45,7 @@ https://libcheck.github.io/check/
 https://github.com/libcheck/check
 
 ***WARNING***: This must be installed:
-
-sudo apt-get install texinfo
+	sudo apt-get install texinfo
 
 
 
@@ -54,3 +53,23 @@ sudo apt-get install texinfo
 expect Installation
 --------------------------------------------------------------------------------------
 
+http://expect.sourceforge.net/
+
+
+
+--------------------------------------------------------------------------------------
+libxml2 Installation
+--------------------------------------------------------------------------------------
+
+http://www.xmlsoft.org/
+
+
+
+--------------------------------------------------------------------------------------
+peos Installation
+--------------------------------------------------------------------------------------
+
+***WARNING***: This must be installed:
+	sudo apt-get install flex
+
+See: https://github.com/jnoll/peos for full instructions.
