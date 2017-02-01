@@ -1,3 +1,7 @@
+--------------------------------------------------------------------------------------
+Virtual Environment
+--------------------------------------------------------------------------------------
+
 To activate the virtual environment: (do this from the home directory)
 
 source venv/bin/activate
@@ -17,6 +21,24 @@ pip freeze > requirements.txt
 (This will capture the current state of all installed packages on the virtual
 environment, and update the requirements.txt file)
 
-To install the requirements from the requirements.txt: (from a fresh install, etc, or a repo update)
+To install the requirements from the requirements.txt:
+	(from a fresh install, etc, or a repo update)
 
 pip install -r requirements.txt
+
+
+
+--------------------------------------------------------------------------------------
+TCL Installation
+--------------------------------------------------------------------------------------
+
+http://www.tcl.tk/software/tcltk/downloadnow85.html
+http://www.tcl.tk/doc/howto/compile.html
+
+
+
+--------------------------------------------------------------------------------------
+Check Installation
+--------------------------------------------------------------------------------------
+
+https://libcheck.github.io/check/
