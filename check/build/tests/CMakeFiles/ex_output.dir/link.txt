@@ -1,0 +1,1 @@
+/usr/bin/cc  -g    CMakeFiles/ex_output.dir/ex_output.c.o  -o ex_output -rdynamic ../src/libcheck.a ../lib/libcompat.a -lm -lrt 

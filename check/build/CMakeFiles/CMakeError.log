@@ -1,0 +1,236 @@
+Determining if the function _getpid exists failed with the following output:
+Change Dir: /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3004156515/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3004156515.dir/build.make CMakeFiles/cmTryCompileExec3004156515.dir/build
+make[1]: Entering directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3004156515.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_getpid   -o CMakeFiles/cmTryCompileExec3004156515.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3004156515
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3004156515.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_getpid    CMakeFiles/cmTryCompileExec3004156515.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3004156515 -rdynamic 
+CMakeFiles/cmTryCompileExec3004156515.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x15): undefined reference to `_getpid'
+collect2: error: ld returned 1 exit status
+make[1]: Leaving directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec3004156515] Error 1
+make: *** [cmTryCompileExec3004156515/fast] Error 2
+
+
+Determining if the function _strdup exists failed with the following output:
+Change Dir: /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2725844204/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2725844204.dir/build.make CMakeFiles/cmTryCompileExec2725844204.dir/build
+make[1]: Entering directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2725844204.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_strdup   -o CMakeFiles/cmTryCompileExec2725844204.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2725844204
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2725844204.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_strdup    CMakeFiles/cmTryCompileExec2725844204.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2725844204 -rdynamic 
+CMakeFiles/cmTryCompileExec2725844204.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x15): undefined reference to `_strdup'
+collect2: error: ld returned 1 exit status
+make[1]: *** [cmTryCompileExec2725844204] Error 1
+make[1]: Leaving directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec2725844204/fast] Error 2
+
+
+Performing C SOURCE FILE Test HAVE_STRUCT_ITIMERSPEC_IT_VALUE failed with the following output:
+Change Dir: /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2096006432/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2096006432.dir/build.make CMakeFiles/cmTryCompileExec2096006432.dir/build
+make[1]: Entering directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2096006432.dir/src.c.o
+/usr/bin/cc   -DHAVE_STRUCT_ITIMERSPEC_IT_VALUE   -o CMakeFiles/cmTryCompileExec2096006432.dir/src.c.o   -c /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/src.c
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/src.c: In function ‘main’:
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/src.c:6:29: error: storage size of ‘tmp’ isn’t known
+    static struct itimerspec tmp;
+                             ^
+make[1]: Leaving directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec2096006432.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec2096006432/fast] Error 2
+
+Source file was:
+
+#include <sys/time.h>
+
+int main()
+{
+   static struct itimerspec tmp;
+   if (sizeof(tmp.it_value))
+      return 0;
+  return 0;
+}
+
+Determining size of __int64 failed with the following output:
+Change Dir: /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec792840364/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec792840364.dir/build.make CMakeFiles/cmTryCompileExec792840364.dir/build
+make[1]: Entering directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec792840364.dir/__INT64.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec792840364.dir/__INT64.c.o   -c /home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/__INT64.c
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/__INT64.c:17:22: error: ‘__int64’ undeclared here (not in a function)
+ #define SIZE (sizeof(__int64))
+                      ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/__INT64.c:19:12: note: in expansion of macro ‘SIZE’
+   ('0' + ((SIZE / 10000)%10)),
+            ^
+make[1]: *** [CMakeFiles/cmTryCompileExec792840364.dir/__INT64.c.o] Error 1
+make[1]: Leaving directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec792840364/fast] Error 2
+
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/__INT64.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#endif
+
+#define SIZE (sizeof(__int64))
+char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining size of unsigned __int64 failed with the following output:
+Change Dir: /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec4051926243/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec4051926243.dir/build.make CMakeFiles/cmTryCompileExec4051926243.dir/build
+make[1]: Entering directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec4051926243.dir/UNSIGNED___INT64.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec4051926243.dir/UNSIGNED___INT64.c.o   -c /home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:17:31: error: expected ‘)’ before ‘__int64’
+ #define SIZE (sizeof(unsigned __int64))
+                               ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:19:12: note: in expansion of macro ‘SIZE’
+   ('0' + ((SIZE / 10000)%10)),
+            ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:17:31: error: expected ‘)’ before ‘__int64’
+ #define SIZE (sizeof(unsigned __int64))
+                               ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:20:12: note: in expansion of macro ‘SIZE’
+   ('0' + ((SIZE / 1000)%10)),
+            ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:17:31: error: expected ‘)’ before ‘__int64’
+ #define SIZE (sizeof(unsigned __int64))
+                               ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:21:12: note: in expansion of macro ‘SIZE’
+   ('0' + ((SIZE / 100)%10)),
+            ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:17:31: error: expected ‘)’ before ‘__int64’
+ #define SIZE (sizeof(unsigned __int64))
+                               ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:22:12: note: in expansion of macro ‘SIZE’
+   ('0' + ((SIZE / 10)%10)),
+            ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:17:31: error: expected ‘)’ before ‘__int64’
+ #define SIZE (sizeof(unsigned __int64))
+                               ^
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:23:12: note: in expansion of macro ‘SIZE’
+   ('0' +  (SIZE    % 10)),
+            ^
+make[1]: Leaving directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec4051926243.dir/UNSIGNED___INT64.c.o] Error 1
+make: *** [cmTryCompileExec4051926243/fast] Error 2
+
+/home/neil/Documents/cs4098/check/build/CMakeFiles/CheckTypeSize/UNSIGNED___INT64.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#endif
+
+#define SIZE (sizeof(unsigned __int64))
+char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining if the function subunit_test_start exists in the subunit failed with the following output:
+Change Dir: /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3155388207/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3155388207.dir/build.make CMakeFiles/cmTryCompileExec3155388207.dir/build
+make[1]: Entering directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3155388207.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=subunit_test_start   -o CMakeFiles/cmTryCompileExec3155388207.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3155388207
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3155388207.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=subunit_test_start    CMakeFiles/cmTryCompileExec3155388207.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3155388207 -rdynamic -lsubunit 
+/usr/bin/ld: cannot find -lsubunit
+collect2: error: ld returned 1 exit status
+make[1]: Leaving directory `/home/neil/Documents/cs4098/check/build/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec3155388207] Error 1
+make: *** [cmTryCompileExec3155388207/fast] Error 2
+
+

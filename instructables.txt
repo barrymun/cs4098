@@ -38,7 +38,19 @@ http://www.tcl.tk/doc/howto/compile.html
 
 
 --------------------------------------------------------------------------------------
-Check Installation
+check Installation
+--------------------------------------------------------------------------------------
+  
+https://libcheck.github.io/check/
+https://github.com/libcheck/check
+
+***WARNING***: This must be installed:
+
+sudo apt-get install texinfo
+
+
+
+--------------------------------------------------------------------------------------
+expect Installation
 --------------------------------------------------------------------------------------
 
-https://libcheck.github.io/check/

@@ -1,0 +1,9 @@
+check_check 1 177.161
+check_check_export 1 175.986
+test_output.sh 1 0.0762072
+test_log_output.sh 1 0.02035
+test_xml_output.sh 1 0.0305259
+test_tap_output.sh 1 0.0101879
+test_check_nofork.sh 1 0.00251102
+test_check_nofork_teardown.sh 1 0.00173092
+---
