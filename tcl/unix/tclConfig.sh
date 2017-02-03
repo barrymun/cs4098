@@ -100,7 +100,7 @@ TCL_LIB_FLAG='-ltcl8.5'
 
 # String to pass to linker to pick up the Tcl library from its
 # build directory.
-TCL_BUILD_LIB_SPEC='-L/home/neil/Documents/cs4098/tcl8.5.19/unix -ltcl8.5'
+TCL_BUILD_LIB_SPEC='-L/home/neil/Documents/cs4098/tcl/unix -ltcl8.5'
 
 # String to pass to linker to pick up the Tcl library from its
 # installed directory.
@@ -135,7 +135,7 @@ TCL_UNSHARED_LIB_SUFFIX='${VERSION}.a'
 # different place than the directory containing the source files, this
 # points to the location of the sources, not the location where Tcl was
 # compiled.
-TCL_SRC_DIR='/home/neil/Documents/cs4098/tcl8.5.19'
+TCL_SRC_DIR='/home/neil/Documents/cs4098/tcl'
 
 # List of standard directories in which to look for packages during
 # "package require" commands.  Contains the "prefix" directory plus also
@@ -153,14 +153,14 @@ TCL_STUB_LIB_FLAG='-ltclstub8.5'
 
 # String to pass to linker to pick up the Tcl stub library from its
 # build directory.
-TCL_BUILD_STUB_LIB_SPEC='-L/home/neil/Documents/cs4098/tcl8.5.19/unix -ltclstub8.5'
+TCL_BUILD_STUB_LIB_SPEC='-L/home/neil/Documents/cs4098/tcl/unix -ltclstub8.5'
 
 # String to pass to linker to pick up the Tcl stub library from its
 # installed directory.
 TCL_STUB_LIB_SPEC='-L/usr/local/lib -ltclstub8.5'
 
 # Path to the Tcl stub library in the build directory.
-TCL_BUILD_STUB_LIB_PATH='/home/neil/Documents/cs4098/tcl8.5.19/unix/libtclstub8.5.a'
+TCL_BUILD_STUB_LIB_PATH='/home/neil/Documents/cs4098/tcl/unix/libtclstub8.5.a'
 
 # Path to the Tcl stub library in the install directory.
 TCL_STUB_LIB_PATH='/usr/local/lib/libtclstub8.5.a'

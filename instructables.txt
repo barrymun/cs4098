@@ -30,6 +30,7 @@ environment, and update the requirements.txt file)
 
 To install the requirements from the requirements.txt:
 	(from a fresh install, etc, or a repo update)
+	(Do NOT run this while virtual env is active - deactivate beforehand)
 
 pip install -r requirements.txt
 

@@ -217,7 +217,7 @@ AC_FLAGS		= -DPACKAGE_NAME=\"tcl\" -DPACKAGE_TARNAME=\"tcl\" -DPACKAGE_VERSION=\
 AR			= ar
 RANLIB			= ranlib
 DTRACE			= 
-SRC_DIR			= /home/neil/Documents/cs4098/tcl8.5.19/unix
+SRC_DIR			= /home/neil/Documents/cs4098/tcl/unix
 TOP_DIR			= $(SRC_DIR)/..
 BUILD_DIR		= .
 GENERIC_DIR		= $(TOP_DIR)/generic
@@ -227,9 +227,9 @@ TOOL_DIR		= $(TOP_DIR)/tools
 UNIX_DIR		= $(TOP_DIR)/unix
 MAC_OSX_DIR		= $(TOP_DIR)/macosx
 # Must be absolute because of the cd dltest $(DLTEST_DIR)/configure below.
-DLTEST_DIR		= /home/neil/Documents/cs4098/tcl8.5.19/unix/dltest
+DLTEST_DIR		= /home/neil/Documents/cs4098/tcl/unix/dltest
 # Must be absolute to so the corresponding tcltest's tcl_library is absolute.
-TCL_BUILDTIME_LIBRARY	= /home/neil/Documents/cs4098/tcl8.5.19/library
+TCL_BUILDTIME_LIBRARY	= /home/neil/Documents/cs4098/tcl/library
 
 CC			= gcc
 #CC			= purify -best-effort gcc -DPURIFY
@@ -577,7 +577,7 @@ objs: ${OBJS}
 
 
 ${TCL_EXE}: ${TCLSH_OBJS} ${TCL_LIB_FILE}
-	${CC} ${CFLAGS} ${LDFLAGS} ${TCLSH_OBJS} -L/home/neil/Documents/cs4098/tcl8.5.19/unix -ltcl8.5 ${LIBS}  \
+	${CC} ${CFLAGS} ${LDFLAGS} ${TCLSH_OBJS} -L/home/neil/Documents/cs4098/tcl/unix -ltcl8.5 ${LIBS}  \
 		${CC_SEARCH_FLAGS} -o ${TCL_EXE}
 
 # Resetting the LIB_RUNTIME_DIR below is required so that the generated
@@ -589,7 +589,7 @@ tcltest: ${TCLTEST_OBJS} ${TCL_LIB_FILE} ${BUILD_DLTEST}
 	$(MAKE) tcltest-real LIB_RUNTIME_DIR="`pwd`"
 
 tcltest-real:
-	${CC} ${CFLAGS} ${LDFLAGS} ${TCLTEST_OBJS} -L/home/neil/Documents/cs4098/tcl8.5.19/unix -ltcl8.5 ${LIBS}  \
+	${CC} ${CFLAGS} ${LDFLAGS} ${TCLTEST_OBJS} -L/home/neil/Documents/cs4098/tcl/unix -ltcl8.5 ${LIBS}  \
 		${CC_SEARCH_FLAGS} -o tcltest
 
 # Note, in the targets below TCL_LIBRARY needs to be set or else "make test"
@@ -1501,7 +1501,7 @@ $(DTRACE_OBJ): $(DTRACE_SRC) $(TCL_OBJS)
 xttest:	${XTTEST_OBJS} ${GENERIC_OBJS} ${UNIX_OBJS} ${COMPAT_OBJS} \
 	tclLoadDl.o ${BUILD_DLTEST}
 	${CC} ${XTTEST_OBJS} ${GENERIC_OBJS} ${UNIX_OBJS} ${COMPAT_OBJS} \
-		tclLoadDl.o -L/home/neil/Documents/cs4098/tcl8.5.19/unix -ltcl8.5 ${LIBS} \
+		tclLoadDl.o -L/home/neil/Documents/cs4098/tcl/unix -ltcl8.5 ${LIBS} \
 		${CC_SEARCH_FLAGS} -L/usr/openwin/lib -lXt -o xttest
 
 tclXtNotify.o: $(UNIX_DIR)/tclXtNotify.c
