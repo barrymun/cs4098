@@ -51,8 +51,7 @@ pip install -r requirements.txt
 TCL Installation
 --------------------------------------------------------------------------------------
 
-http://www.tcl.tk/software/tcltk/downloadnow85.html
-http://www.tcl.tk/doc/howto/compile.html
+http://www.linuxfromscratch.org/blfs/view/svn/general/tcl.html
 
 --------------------------------------------------------------------------------------
 check Installation
@@ -68,7 +67,8 @@ sudo apt-get install texinfo
 expect Installation
 --------------------------------------------------------------------------------------
 
-http://expect.sourceforge.net/
+***REQUIRES tcl
+http://www.linuxfromscratch.org/blfs/view/svn/general/expect.html
 
 --------------------------------------------------------------------------------------
 libxml2 Installation
