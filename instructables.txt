@@ -34,7 +34,6 @@ To deactivate:
 
 deactivate
 
-
 When you have installed a lot of packages, do this:
 
 pip freeze > requirements.txt
@@ -52,11 +51,16 @@ pip install -r requirements.txt
 TCL Installation
 --------------------------------------------------------------------------------------
 
+sudo apt-get install -y tcl8.6
+sudo apt-get install -y libtcl8.6
+sudo apt-get install -y libc6
 http://www.linuxfromscratch.org/blfs/view/svn/general/tcl.html
 
 --------------------------------------------------------------------------------------
 check Installation
 --------------------------------------------------------------------------------------
+
+https://libcheck.github.io/check/index.html
 
 ***WARNING***: These must be installed:
 sudo apt-get install check
@@ -68,12 +72,14 @@ expect Installation
 
 ***REQUIRES tcl
 http://www.linuxfromscratch.org/blfs/view/svn/general/expect.html
+sudo apt-get install -y expect
 
 --------------------------------------------------------------------------------------
 libxml2 Installation
 --------------------------------------------------------------------------------------
 
 http://www.xmlsoft.org/
+sudo apt-get install -y libxml2
 
 --------------------------------------------------------------------------------------
 peos Installation
