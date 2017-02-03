@@ -1,9 +1,22 @@
 
+--------------------------------------------------------------------------------------
+General Setup
+--------------------------------------------------------------------------------------
+
+Project specifications and guidelines:
 https://gitlab.scss.tcd.ie/andrew.butterfield/CS4098-2017/blob/master/Product-Backlog.md
 
 LDAP credentials:
 username: CS username
 password: CS password
+
+Passwordless push access to git:
+Add public key to git under: Settings -> Keys
+git remote set-url origin git@github.com:barrymun/cs4098.git
+
+***WARNING***: These must be installed: (outside of the virtual env)
+sudo apt-get install texinfo
+sudo apt-get install flex
 
 --------------------------------------------------------------------------------------
 Virtual Environment
