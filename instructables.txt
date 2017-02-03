@@ -1,6 +1,10 @@
 
 https://gitlab.scss.tcd.ie/andrew.butterfield/CS4098-2017/blob/master/Product-Backlog.md
 
+LDAP credentials:
+username: CS username
+password: CS password
+
 --------------------------------------------------------------------------------------
 Virtual Environment
 --------------------------------------------------------------------------------------
