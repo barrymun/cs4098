@@ -1,2 +1,0 @@
-/usr/bin/ar cr libcompat.a  CMakeFiles/compat.dir/libcompat.c.o
-/usr/bin/ranlib libcompat.a

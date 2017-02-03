@@ -347,9 +347,9 @@ configure:3788: gcc -o conftest  -pipe   conftest.c  >&5
 conftest.c:44:6: warning: conflicting types for built-in function 'sin'
  char sin ();
       ^
-/tmp/ccuTWd55.o: In function `main':
+/tmp/ccXNTYCP.o: In function `main':
 conftest.c:(.text+0xd): undefined reference to `sin'
-/tmp/ccuTWd55.o:(.data+0x0): undefined reference to `sin'
+/tmp/ccXNTYCP.o:(.data+0x0): undefined reference to `sin'
 collect2: error: ld returned 1 exit status
 configure:3794: $? = 1
 configure: failed program was:
@@ -1826,9 +1826,9 @@ configure:12670: $? = 0
 configure:12682: result: yes
 configure:12763: checking for getpseudotty
 configure:12820: gcc -o conftest  -pipe   -Wl,--export-dynamic  conftest.c  >&5
-/tmp/ccG6DDo8.o: In function `main':
+/tmp/ccIocYDM.o: In function `main':
 conftest.c:(.text+0xd): undefined reference to `getpseudotty'
-/tmp/ccG6DDo8.o:(.data+0x0): undefined reference to `getpseudotty'
+/tmp/ccIocYDM.o:(.data+0x0): undefined reference to `getpseudotty'
 collect2: error: ld returned 1 exit status
 configure:12826: $? = 1
 configure: failed program was:
@@ -1987,9 +1987,9 @@ configure: failed program was:
 configure:12923: result: no
 configure:12940: checking for openpty
 configure:12997: gcc -o conftest  -pipe   -Wl,--export-dynamic  conftest.c  >&5
-/tmp/ccB8RoPb.o: In function `main':
+/tmp/cckl5KRO.o: In function `main':
 conftest.c:(.text+0xd): undefined reference to `openpty'
-/tmp/ccB8RoPb.o:(.data+0x0): undefined reference to `openpty'
+/tmp/cckl5KRO.o:(.data+0x0): undefined reference to `openpty'
 collect2: error: ld returned 1 exit status
 configure:13003: $? = 1
 configure: failed program was:
@@ -2935,9 +2935,9 @@ configure:15590: checking event handling
 configure:15595: result: via select
 configure:15617: checking for _getpty
 configure:15674: gcc -o conftest  -pipe   -Wl,--export-dynamic  conftest.c   -lutil -lieee -lm >&5
-/tmp/ccZb8qnT.o: In function `main':
+/tmp/ccZ1Zg8p.o: In function `main':
 conftest.c:(.text+0xd): undefined reference to `_getpty'
-/tmp/ccZb8qnT.o:(.data+0x0): undefined reference to `_getpty'
+/tmp/ccZ1Zg8p.o:(.data+0x0): undefined reference to `_getpty'
 collect2: error: ld returned 1 exit status
 configure:15680: $? = 1
 configure: failed program was:
@@ -3046,9 +3046,9 @@ configure: failed program was:
 configure:15705: result: no
 configure:15719: checking for getpty
 configure:15776: gcc -o conftest  -pipe   -Wl,--export-dynamic  conftest.c   -lutil -lieee -lm >&5
-/tmp/ccftkP3S.o: In function `main':
+/tmp/ccFV6GOp.o: In function `main':
 conftest.c:(.text+0xd): undefined reference to `getpty'
-/tmp/ccftkP3S.o:(.data+0x0): undefined reference to `getpty'
+/tmp/ccFV6GOp.o:(.data+0x0): undefined reference to `getpty'
 collect2: error: ld returned 1 exit status
 configure:15782: $? = 1
 configure: failed program was:

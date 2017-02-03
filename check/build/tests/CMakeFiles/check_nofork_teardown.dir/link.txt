@@ -1,1 +1,0 @@
-/usr/bin/cc  -g    CMakeFiles/check_nofork_teardown.dir/check_nofork_teardown.c.o  -o check_nofork_teardown -rdynamic ../src/libcheck.a ../lib/libcompat.a -lm -lrt 

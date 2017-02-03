@@ -1,1 +1,0 @@
-/usr/bin/cc  -g    CMakeFiles/check_nofork.dir/check_nofork.c.o  -o check_nofork -rdynamic ../src/libcheck.a ../lib/libcompat.a -lm -lrt 

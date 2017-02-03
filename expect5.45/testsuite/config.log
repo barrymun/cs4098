@@ -343,9 +343,9 @@ configure:3711: gcc -o conftest  -pipe   conftest.c  >&5
 conftest.c:43:6: warning: conflicting types for built-in function 'sin'
  char sin ();
       ^
-/tmp/ccohbfcs.o: In function `main':
+/tmp/ccNlcUTb.o: In function `main':
 conftest.c:(.text+0xd): undefined reference to `sin'
-/tmp/ccohbfcs.o:(.data+0x0): undefined reference to `sin'
+/tmp/ccNlcUTb.o:(.data+0x0): undefined reference to `sin'
 collect2: error: ld returned 1 exit status
 configure:3717: $? = 1
 configure: failed program was:

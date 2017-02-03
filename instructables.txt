@@ -17,6 +17,7 @@ git remote set-url origin git@github.com:barrymun/cs4098.git
 ***WARNING***: These must be installed: (outside of the virtual env)
 sudo apt-get install texinfo
 sudo apt-get install flex
+sudo apt-get install check
 
 --------------------------------------------------------------------------------------
 Virtual Environment
@@ -56,11 +57,9 @@ http://www.linuxfromscratch.org/blfs/view/svn/general/tcl.html
 --------------------------------------------------------------------------------------
 check Installation
 --------------------------------------------------------------------------------------
-  
-https://libcheck.github.io/check/
-https://github.com/libcheck/check
 
-***WARNING***: This must be installed:
+***WARNING***: These must be installed:
+sudo apt-get install check
 sudo apt-get install texinfo
 
 --------------------------------------------------------------------------------------
