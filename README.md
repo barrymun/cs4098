@@ -3,5 +3,5 @@
 ### Aaron Joyce 
 ### Bryan Quirke
 ### Erik Eviston
-### Jessa Pajarit
+### Jessa Pajarito
 ### Neil Barry-Murphy

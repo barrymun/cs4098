@@ -97,3 +97,8 @@ peos Installation
 See: https://github.com/jnoll/peos for full instructions.
 ***WARNING***: This must be installed:
 sudo apt-get install flex
+
+To test if peos is working run:
+
+bash pml_test.sh
+
