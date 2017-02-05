@@ -11,6 +11,8 @@ sudo apt-get install -y check
 sudo apt-get install -y expect
 sudo apt-get install -y libxml2
 sudo apt-get install flex
+sudo apt-get install -y libreadline-dev
+sudo apt-get install -y lib32ncurses5-dev
 
 --------------------------------------------------------------------------------------
 General Setup
