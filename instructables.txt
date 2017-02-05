@@ -10,9 +10,15 @@ sudo apt-get install -y tcl-dev
 sudo apt-get install -y check
 sudo apt-get install -y expect
 sudo apt-get install -y libxml2
-sudo apt-get install flex
+sudo apt-get install -y flex
+sudo apt-get install -y bison
+sudo apt-get install -y byacc
+sudo apt-get install -y python-dev
+sudo apt-get install -y python3-dev
 sudo apt-get install -y libreadline-dev
 sudo apt-get install -y lib32ncurses5-dev
+sudo apt-get update
+sudo apt-get upgrade -y
 
 --------------------------------------------------------------------------------------
 General Setup

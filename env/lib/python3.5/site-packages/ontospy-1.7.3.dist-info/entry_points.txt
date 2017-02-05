@@ -1,0 +1,5 @@
+[console_scripts]
+ontospy = ontospy.main:main_cli
+ontospy-shell = ontospy.shell.main:cli_run_shell
+ontospy-viz = ontospy.viz.main:cli_run_viz
+
