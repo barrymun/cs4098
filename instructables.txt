@@ -1,3 +1,16 @@
+--------------------------------------------------------------------------------------
+TL;DR
+--------------------------------------------------------------------------------------
+
+pip install -r requirements.txt
+sudo apt-get update
+sudo apt-get upgrade -y 
+sudo apt-get install -y tcl
+sudo apt-get install -y tcl-dev
+sudo apt-get install -y check
+sudo apt-get install -y expect
+sudo apt-get install -y libxml2
+sudo apt-get install flex
 
 --------------------------------------------------------------------------------------
 General Setup
@@ -13,10 +26,6 @@ password: CS password
 Passwordless push access to git:
 Add public key to git under: Settings -> Keys
 git remote set-url origin git@github.com:barrymun/cs4098.git
-
-***WARNING***: These must be installed: (outside of the virtual env)
-sudo apt-get install texinfo
-sudo apt-get install flex
 
 --------------------------------------------------------------------------------------
 Virtual Environment
@@ -50,22 +59,21 @@ pip install -r requirements.txt
 TCL Installation
 --------------------------------------------------------------------------------------
 
+(IGNORE HERE FOR NOW - WIP)
+
+http://www.linuxfromscratch.org/blfs/view/svn/general/tcl.html
 sudo apt-get install -y tcl8.6
 (sanity check) sudo apt-get install -y tcl
 sudo apt-get install -y libtcl8.6
 sudo apt-get install -y libc6
 sudo apt-get install -y tcl-dev
-http://www.linuxfromscratch.org/blfs/view/svn/general/tcl.html
 
 --------------------------------------------------------------------------------------
 check Installation
 --------------------------------------------------------------------------------------
 
 https://libcheck.github.io/check/index.html
-
-***WARNING***: These must be installed:
 sudo apt-get install check
-sudo apt-get install texinfo
 
 --------------------------------------------------------------------------------------
 expect Installation
@@ -86,7 +94,6 @@ sudo apt-get install -y libxml2
 peos Installation
 --------------------------------------------------------------------------------------
 
+See: https://github.com/jnoll/peos for full instructions.
 ***WARNING***: This must be installed:
 sudo apt-get install flex
-
-See: https://github.com/jnoll/peos for full instructions.
