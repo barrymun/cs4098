@@ -2,7 +2,6 @@
 TL;DR
 --------------------------------------------------------------------------------------
 
-pip install -r requirements.txt
 sudo apt-get update
 sudo apt-get upgrade -y 
 sudo apt-get install -y tcl
@@ -19,6 +18,8 @@ sudo apt-get install -y libreadline-dev
 sudo apt-get install -y lib32ncurses5-dev
 sudo apt-get update
 sudo apt-get upgrade -y
+
+pip install -r requirements.txt
 
 --------------------------------------------------------------------------------------
 General Setup
@@ -109,4 +110,3 @@ sudo apt-get install flex
 To test if peos is working run:
 
 bash pml_test.sh
-
