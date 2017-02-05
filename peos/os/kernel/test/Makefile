@@ -2,14 +2,14 @@
 PML_DIR=../../../pml
 CC = gcc
 
-CFLAGS = -g -Wall -I. -I.. -I$(PML_DIR) -I/home/jnoll/include
+CFLAGS = -g -Wall -I. -I.. -I$(PML_DIR)
 # keep track of dependencies automatically
 .KEEP_STATE:
 
 # lib
-LIBS =  -lpml -ltcl -lm -lrt -lpthread
+LIBS =  -lpml -ltcl -lm -lrt -lpthread -lsubunit
 TEST_LIBS = -lcheck $(LIBS)
-LDFLAGS = -g -L/home/jnoll/lib -L$(PML_DIR)/pml/
+LDFLAGS = -g -L$(PML_DIR)/pml/
 
 # objects
 CORE_OBJS = action.o error.o events.o graph.o graph_engine.o process_table.o process.o resources.o predicate_evaluator.o peos_util.o
