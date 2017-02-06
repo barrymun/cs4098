@@ -3,6 +3,8 @@
 ### Group Members:
 Aaron Joyce, Bryan Quirke, Erik Eviston, Jessa Pajarito, Neil Barry-Murphy
 
+Note: Please ignore the instructables.txt file. This is a reference for the group only.
+
 ### Activate the virtual environment:
 
 ```bash
@@ -11,8 +13,7 @@ source env/bin/activate
 
 ### Using the PEOS system to analyse a PML file:
 
-The PML file used here is: peos/compiler/models/lib_checkout.pml
-Execute the following:
+The PML file used here is: peos/compiler/models/lib_checkout.pml. Execute the following:
 
 ```bash
 bash setup.sh

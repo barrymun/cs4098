@@ -4,6 +4,9 @@ sudo apt-get update
 
 sudo apt-get upgrade -y
 
+sudo apt-get -y install python-pip
+pip install --upgrade pip
+
 sudo apt-get install -y \
     tcl \
     tcl-dev \
@@ -22,7 +25,7 @@ sudo apt-get update
 
 sudo apt-get upgrade -y
 
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 
 cd peos/
 
