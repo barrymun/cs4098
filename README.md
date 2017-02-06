@@ -27,6 +27,12 @@ Execute the following:
 ```python
 python readowl.py
 ```
+NOTE: If the above command fails, it means the permissions are not correctly set for the 
+root user on your virtual machine or device. Execute:
+```bash
+sudo pip install ontospy
+```
+as a quick fix.
 
 Execute:
 ```bash
