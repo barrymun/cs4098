@@ -1,11 +1,7 @@
 # Overwatch
 
 ### Group Members:
-Aaron Joyce
-Bryan Quirke
-Erik Eviston
-Jessa Pajarito
-Neil Barry-Murphy
+Aaron Joyce, Bryan Quirke, Erik Eviston, Jessa Pajarito, Neil Barry-Murphy
 
 ### Activate the virtual environment:
 
