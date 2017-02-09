@@ -1,0 +1,23 @@
+PML File Selection,12
+PML File Loading,12
+PML Analysis Selection,12
+Running PML Analysis,14
+On-Screen PML Reporting,20
+PML Log-file Generation,16
+PML Error and Warning highlights,18
+Select specific OWL Ontology,12
+Load Selected Ontology,16
+Identify drugs in PML,38
+Identify drugs in DINTO,32
+Identify DDIs,28
+On-Screen DINTO Reporting,20
+DINTO Logfile Generation,16
+DINTO Error and Warning highlights,18
+Adding Time to PML,20
+DDI Timing Analysis,38
+Merging Clinical Pathways written in PML,38
+DDI-aware Pathway modifications,38
+Subsetting DINTO,30
+DINTO re-structuring,42
+finfer-friendly PEOS,50
+fbinfer-proof PEOS,50
