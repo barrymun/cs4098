@@ -1,0 +1,21 @@
+<!doctype html>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+<title>Overwatch - PML File Selection</title>
+<h1>Select Required PML Document</h1>
+<ul>
+    <table>
+        {%- for file in pml_files %}
+        <tr>
+            {% set link = "file://" + file %}
+            {% set line = url_for('static', filename=link) %}
+            {% set new_line = line[8:] %}
+
+            <td><a href="/{{ new_line }}" target="_blank">
+                {{ file }}
+            </a></td>
+
+            {%- endfor %}
+        </tr>
+    </table>
+</ul>

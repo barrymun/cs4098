@@ -110,3 +110,10 @@ sudo apt-get install flex
 To test if peos is working run:
 
 bash pml_test.sh
+
+--------------------------------------------------------------------------------------
+Errors with flask workarounds:
+--------------------------------------------------------------------------------------
+
+No module named datetime issue:
+cp /usr/bin/python2.7 $(which python2.7)
