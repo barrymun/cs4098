@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
 
 {% extends "bootstrap/base.html" %}
-{% block title %}Overwatch - PML File Selection{% endblock %}
+{% block title %}Overwatch - User Selection{% endblock %}
 
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
@@ -27,8 +27,9 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="page-header">
-        <h1>&nbsp;Selected Files</h1>
+    <div class="page-header" style="padding-bottom: 100px;">
+        <h1 class="col-md-11">&nbsp;Selected PML Files</h1>
+        <h1 class="col-md-1"><a href="/">&nbsp;Home</a></h1>
     </div>
 </head>
 
@@ -51,7 +52,7 @@
         </ul>
         <div class="jumbotron">
             <div class="load">
-                <input type="submit" class="btn btn-info btn-lg" value="Analyse Files">
+                <input type="submit" class="btn btn-info btn-lg" value="Analyse PML Files">
             </div>
         </div>
     </form>
