@@ -2,66 +2,54 @@
 # Use "source venv/bin/activate"
 
 from flask import Flask, Markup, render_template
+from flask_bootstrap import Bootstrap
 from Tkinter import Tk
+from flask import request
 from tkFileDialog import askopenfilename
+from flask.ext.pymongo import PyMongo
 
+import md5
 import webbrowser
 import os
 
 app = Flask(__name__)
+mongo = PyMongo(app)
+Bootstrap(app)
 
+
+@app.route('/select-files', methods=['POST'])
+def handle_selected_files():
+    selected_files = request.form
+    files = request.form.getlist('check')
+    return render_template('selected.html', files=files)
 
 @app.route('/')
-def search_path():
-    path = os.getcwd() + "/peos"
-    #print path
-    return render_template('index.html', pml_files=get_pml(path))
+def index():
+    db = mongo.db.dist
+    return render_template('index.html', pml_files=db.files.find())
 
-
-# def get_pml(path):
-#     pml_files = []
-#     for root, dirs, files in os.walk(path):
-#         for current_directory in dirs:
-#             for currentFile in files:
-#                 ext = ('.pml')
-#                 if currentFile.endswith(ext):
-#                     pml_files.append(root + "/" + current_directory + "/" + currentFile)
-#     return pml_files
-
-
-def get_pml(path):
-    pml_files = []
-    ext = ('.pml')
+# @param extension = ".pml"
+def load_pml_source_files(path, extension):
+    ext = (extension)
+    db = mongo.db.dist
     for root, dirs, files in os.walk(path):
         for file in files:
-            if file.endswith(ext):
-                #print (os.path.join(root, file))
-                pml_files.append(os.path.join(root, file))
-    return pml_files
+            if (file.endswith(ext)):
+                if (db.files.find_one({'name':file})):
+                    continue
+                # search Mongo. If in Mongo, ignore. Otherwise, add.
+                file_path = os.path.join(root, file)
+                m = md5.new()
+                m.update(file)
+                db.files.insert({'name':file, 'path':file_path, 'id':m.hexdigest()})
 
 
-# @app.route('/')
-# def index():
-#     # we don't want a full GUI, so keep the root window from appearing
-#     Tk().withdraw()
-#     # show an "Open" dialog box and return the path to the selected file
-#     filename = askopenfilename()
-#     # Return content of this file itself
-#     this_source = open(filename).read()
-#     return "<pre>%s</pre>" % Markup.escape(this_source)
 
-
-# <title>Path: {{ tree.name }}</title>
-# <h1>{{ tree.name }}</h1>
-# <ul>
-#     {%- for item in tree.children recursive %}
-#     <li>{{ item.name }}
-#         {%- if item.children -%}
-#         <ul>{{ loop(item.children) }}</ul>
-#         {%- endif %}
-#     </li>
-#     {%- endfor %}
-# </ul>
+def setup():
+    path = os.getcwd() + "/peos"
+    load_pml_source_files(path, '.pml')
 
 if __name__ == '__main__':
+    with app.app_context():
+        setup()
     app.run()

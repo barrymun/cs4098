@@ -1,0 +1,26 @@
+<!doctype html>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+{% extends "bootstrap/base.html" %}
+{% block title %}Overwatch - PML File Selection{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+    <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>You Selected</h1>
+ <table>
+     <tr>
+         <th class="col-md-3">&nbsp;Filename</th>
+     </tr>
+     {%- for file in files %}
+         <tr>
+             <td class="col-md-3">&nbsp;{{ file }}</td>
+         </tr>
+     {%- endfor %}
+ </table>
+{% endblock %}
