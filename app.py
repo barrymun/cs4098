@@ -15,16 +15,17 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 Bootstrap(app)
-bashCommand = "rm pml_logfile.log"
+bashCommand = "rm logfile.log"
 process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 process.communicate()
-LOG_FILENAME = 'pml_logfile.log'
+LOG_FILENAME = 'logfile.log'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
 @app.route('/analyse-owl-files', methods=['POST'])
 def analyse_owl_selected_files():
     db = mongo.db.dist
+    db.analysisowl.drop()
     files = db.selectedowl.find()
     for file in files:
         name = file['name']
@@ -36,7 +37,6 @@ def analyse_owl_selected_files():
         a_class = model.getClass("DINTO_000001")
         a_class = a_class[0]
         data = a_class.serialize()
-        # print(a_class.serialize())
         m = md5.new()
         m.update(name)
         if (data != None):
@@ -58,6 +58,7 @@ def analyse_owl_selected_files():
 @app.route('/select-owl-files', methods=['POST'])
 def handle_selected_owl_files():
     db = mongo.db.dist
+    db.selectedowl.drop()
     owlfiles = request.form.getlist('checkowl')
     for file in owlfiles:
         current_file = db.owlfiles.find_one({'name': file})
@@ -78,6 +79,7 @@ def dinto_index():
 @app.route('/analyse-files', methods=['POST'])
 def analyse_selected_files():
     db = mongo.db.dist
+    db.analysis.drop()
     bashCommand = "peos/pml/check/pmlcheck "
     files = db.selected.find()
     for file in files:
@@ -108,6 +110,7 @@ def analyse_selected_files():
 @app.route('/select-files', methods=['POST'])
 def handle_selected_files():
     db = mongo.db.dist
+    db.selected.drop()
     files = request.form.getlist('check')
     for file in files:
         current_file = db.files.find_one({'name': file})
