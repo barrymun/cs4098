@@ -2,7 +2,32 @@ table {
     border-collapse: collapse;
 }
 
-table, th, td {
+table, th, td, tr {
     border: 1px solid black;
-    width: 60%;
+    width: 70%;
 }
+
+th {
+    height: 55px;
+}
+
+.table {
+    width: 70%;
+}
+
+.table-striped {
+    width: 70%;
+}
+
+.table-bordered {
+    width: 70%;
+}
+
+.load {
+    text-align: center;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #F3EEC3;
+ }
