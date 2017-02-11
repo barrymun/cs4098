@@ -3,6 +3,7 @@
 
 import md5
 import os
+import subprocess
 
 from flask import Flask, render_template
 from flask import request
@@ -12,6 +13,22 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 Bootstrap(app)
+
+
+@app.route('/analyse-files', methods=['POST'])
+def analyse_selected_files():
+    db = mongo.db.dist
+    bashCommand = "peos/pml/check/pmlcheck "
+    files = db.selected.find()
+    for file in files:
+        path = file['path']
+        name = file['name']
+        executeCommand = bashCommand + path
+        process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+        m = md5.new()
+        m.update(name)
+        db.analysis.insert({'name': name, 'path': path, 'process': process.communicate(), 'id': m.hexdigest()})
+    return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
 @app.route('/select-files', methods=['POST'])
@@ -54,6 +71,7 @@ def setup():
     db = mongo.db.dist
     db.files.drop()
     db.selected.drop()
+    db.analysis.drop()
     path = os.getcwd() + "/peos"
     load_pml_source_files(path, '.pml')
 

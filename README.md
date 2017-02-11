@@ -70,3 +70,35 @@ Navigate to the homepage:
 ```bash
 http://127.0.0.1:5000/
 ```
+
+# Using the Mongo Database
+Installation for Ubuntu 16.04 will be handled by the setup script.
+<br/>
+Open a terminal and execute the following:
+<br/><br/>
+Log In to the Mongo shell:
+```bash
+mongo
+```
+Switch to the project database:
+```bash
+use app
+```
+List all currently available collections:
+<br/>
+(Should be empty prior to launching the flask app)
+```bash
+db.getCollectionNames()
+```
+List all pml files in the project:
+```bash
+db.dist.files.find()
+```
+List all pml files that you have selected as a user:
+```bash
+db.dist.selected.find()
+```
+List all pml files that have been analysed:
+```bash
+db.dist.analysis.find()
+```
