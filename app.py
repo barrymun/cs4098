@@ -1,6 +1,7 @@
 # Python 2.7 required
 # Use "source venv/bin/activate"
 
+import logging
 import md5
 import os
 import subprocess
@@ -13,6 +14,11 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 Bootstrap(app)
+bashCommand = "rm pml_logfile.log"
+process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+process.communicate()
+LOG_FILENAME = 'pml_logfile.log'
+logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
 @app.route('/analyse-files', methods=['POST'])
@@ -25,9 +31,24 @@ def analyse_selected_files():
         name = file['name']
         executeCommand = bashCommand + path
         process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+        log_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+        check_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         m = md5.new()
         m.update(name)
-        db.analysis.insert({'name': name, 'path': path, 'process': process.communicate(), 'id': m.hexdigest()})
+        if (check_process.communicate() != ('', None)):
+            db.analysis.insert({'name': name, 'path': path, 'process': process.communicate(), 'id': m.hexdigest()})
+            logging.info('\n')
+            logging.info("Name = [ " + name + " ]")
+            logging.info("Path = [ " + path + " ]")
+            logging.info(log_process.communicate())
+        else:
+            db.analysis.insert(
+                {'name': name, 'path': path, 'process': "ERROR: syntax error at input", 'id': m.hexdigest()})
+            logging.info('\n')
+            logging.info("Name = [ " + name + " ]")
+            logging.info("Path = [ " + path + " ]")
+            logging.info("ERROR: syntax error at input")
+
     return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
