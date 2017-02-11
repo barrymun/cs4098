@@ -1,5 +1,7 @@
 # Overwatch
 
+# Zero Velocity Release Guide
+
 ### Group Members:
 Aaron Joyce
 <br/>
@@ -46,3 +48,25 @@ Execute:
 deactivate
 ```
 when finished.
+
+# PML File selection and Loading
+
+Activate the virtual environment (Python 2.7 required):
+```bash
+source venv/bin/activate
+```
+
+Install necessary requirements:
+```bash
+pip install -r requirements.txt
+```
+
+Run the flask application:
+```bash
+python app.py
+```
+
+Navigate to the homepage:
+```bash
+http://127.0.0.1:5000/
+```

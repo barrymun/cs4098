@@ -20,9 +20,7 @@ sudo apt-get install -y \
     python-dev \
     python3-dev \
     libreadline-dev \
-    lib32ncurses5-dev \
-    python3-tk \
-    python-tk
+    lib32ncurses5-dev
 
 sudo apt-get update
 
