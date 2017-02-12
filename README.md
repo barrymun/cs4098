@@ -18,36 +18,39 @@ Neil Barry-Murphy
 
 Note: Please ignore the instructables.txt file. This is a reference for the group only.
 
-### Activate the virtual environment:
-```bash
-source venv/bin/activate
-```
-
 # File Selection and Analysis as a Flask Application
 
 Activate the virtual environment (Python 2.7 required):
 ```bash
 source venv/bin/activate
 ```
-Install necessary requirements:
+Run the setup script:
 ```bash
-pip install -r requirements.txt
+bash setup.sh
 ```
-If above command fails for permissions reasons, execute the following:
+Restart mongo:
 ```bash
-sudo pip install -r requirements.txt
+sudo service mongod restart
 ```
 Run the flask application:
 ```python
 python app.py
 ```
-If the above command fails, restart mongo:
+Install necessary requirements, with root permissions (if above command fails):
 ```bash
-sudo service mongod restart
+sudo pip install -r requirements.txt
 ```
 Navigate to the homepage:
 ```bash
 http://127.0.0.1:5000/
+```
+If you cannot access the webpage at this point, restart mongo again:
+```bash
+sudo service mongod restart
+```
+And restart the application:
+```python
+python app.py
 ```
 
 # Using the Mongo Database
