@@ -13,7 +13,7 @@ Jessa Pajarito
 <br/>
 Neil Barry-Murphy
 <br/>
-![alt tag](https://github.com/barrymun/cs4098/tree/master/static/missing-team-member.png)
+![Left Game](https://raw.githubusercontent.com/barrymun/cs4098/master/static/missing-team-member.png?token=AO6TcC4OfL6ceSkoyhC508no4nOT6hycks5YqZLDwA%3D%3D)
 
 
 Note: Please ignore the instructables.txt file. This is a reference for the group only.
@@ -23,7 +23,7 @@ Note: Please ignore the instructables.txt file. This is a reference for the grou
 source venv/bin/activate
 ```
 
-# PML/OWL-DINTO File selection and Loading as a Flask Application
+# File Selection and Analysis as a Flask Application
 
 Activate the virtual environment (Python 2.7 required):
 ```bash
@@ -48,6 +48,38 @@ sudo service mongod restart
 Navigate to the homepage:
 ```bash
 http://127.0.0.1:5000/
+```
+
+# Using the Mongo Database
+Installation for Ubuntu 16.04 will be handled by the setup script.
+<br/>
+Open a terminal and execute the following:
+<br/><br/>
+Log In to the Mongo shell:
+```bash
+mongo
+```
+Switch to the project database:
+```mongo
+use app
+```
+List all currently available collections:
+<br/>
+(Should be empty prior to launching the flask app)
+```mongo
+db.getCollectionNames()
+```
+List all pml files in the project:
+```mongo
+db.dist.files.find()
+```
+List all pml files that you have selected as a user:
+```mongo
+db.dist.selected.find()
+```
+List all pml files that have been analysed:
+```mongo
+db.dist.analysis.find()
 ```
 
 ## Please Ignore All Below This Section (See Above)
@@ -80,35 +112,3 @@ Execute:
 deactivate
 ```
 when finished.
-
-# Using the Mongo Database
-Installation for Ubuntu 16.04 will be handled by the setup script.
-<br/>
-Open a terminal and execute the following:
-<br/><br/>
-Log In to the Mongo shell:
-```bash
-mongo
-```
-Switch to the project database:
-```bash
-use app
-```
-List all currently available collections:
-<br/>
-(Should be empty prior to launching the flask app)
-```bash
-db.getCollectionNames()
-```
-List all pml files in the project:
-```bash
-db.dist.files.find()
-```
-List all pml files that you have selected as a user:
-```bash
-db.dist.selected.find()
-```
-List all pml files that have been analysed:
-```bash
-db.dist.analysis.find()
-```
