@@ -36,21 +36,19 @@ Run the flask application:
 ```python
 python app.py
 ```
-Install necessary requirements, with root permissions (if above command fails):
+(IF FLASK APP FAILS) Install necessary requirements, with root permissions && restart mongo :
 ```bash
 sudo pip install -r requirements.txt
+
+sudo service mongod restart
+```
+Now start the application again:
+```python
+python app.py
 ```
 Navigate to the homepage:
 ```bash
 http://127.0.0.1:5000/
-```
-If you cannot access the webpage at this point, restart mongo again:
-```bash
-sudo service mongod restart
-```
-And restart the application:
-```python
-python app.py
 ```
 
 # Using the Mongo Database
