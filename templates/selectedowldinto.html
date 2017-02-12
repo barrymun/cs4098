@@ -1,6 +1,7 @@
 <!doctype html>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main.js') }}">
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
 
 {% extends "bootstrap/base.html" %}
@@ -53,6 +54,9 @@
         <div class="jumbotron">
             <div class="load">
                 <input type="submit" class="btn btn-info btn-lg" value="Analyse OWL Files">
+                <!--<div id="loading"></div>-->
+                <!--<div id="content">-->
+                <!--</div>-->
             </div>
         </div>
     </form>

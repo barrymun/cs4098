@@ -45,9 +45,9 @@
             <tr>
                 <td class="col-md-3">&nbsp;{{ file['name'] }}</td>
                 {% if "ERROR" in file['process'] %}
-                <td class="col-md-9"><font color="#FF0000">&nbsp;{{ file['process'] }}</font></td>
+                <td class="col-md-9"><font color="#FF0000">{{ file['process'] }}</font></td>
                 {% else %}
-                <td class="col-md-9">&nbsp;{{ file['process'] }}</td>
+                <td class="col-md-9">{{ file['process'] }}</td>
                 {% endif %}
             </tr>
             {%- endfor %}

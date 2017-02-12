@@ -27,7 +27,22 @@ th {
     text-align: center;
 }
 
-.table-striped>tbody>tr:nth-child(odd)>td,
-.table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: #F3EEC3;
- }
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #F3EEC3;
+}
+
+div#content {
+    display: none;
+}
+
+div#loading {
+    top: 200px;
+    margin: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 160px;
+    height: 24px;
+    background: url(ajax-loader.gif) no-repeat;
+    cursor: wait;
+}

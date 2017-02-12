@@ -20,6 +20,7 @@ process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 process.communicate()
 LOG_FILENAME = 'logfile.log'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
+logging.info("Active")
 
 
 @app.route('/analyse-owl-files', methods=['POST'])
@@ -34,7 +35,7 @@ def analyse_owl_selected_files():
         model.classes
         model.properties
         model.toplayer
-        a_class = model.getClass("DINTO_000001")
+        a_class = model.toplayer
         a_class = a_class[0]
         data = a_class.serialize()
         m = md5.new()
@@ -91,19 +92,19 @@ def analyse_selected_files():
         check_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         m = md5.new()
         m.update(name)
-        if (check_process.communicate() != ('', None)):
-            db.analysis.insert({'name': name, 'path': path, 'process': process.communicate(), 'id': m.hexdigest()})
+        if (check_process.communicate()[0] != ""):
+            db.analysis.insert({'name': name, 'path': path, 'process': process.communicate()[0], 'id': m.hexdigest()})
             logging.info('\n')
             logging.info("Name = [ " + name + " ]")
             logging.info("Path = [ " + path + " ]")
-            logging.info(log_process.communicate())
+            logging.info(log_process.communicate()[0])
         else:
             db.analysis.insert(
-                {'name': name, 'path': path, 'process': "ERROR: syntax error at input", 'id': m.hexdigest()})
+                {'name': name, 'path': path, 'process': "ERROR: PML file format incorrect", 'id': m.hexdigest()})
             logging.info('\n')
             logging.info("Name = [ " + name + " ]")
             logging.info("Path = [ " + path + " ]")
-            logging.info("ERROR: syntax error at input")
+            logging.info("ERROR: PML file format incorrect")
     return render_template('analyse.html', analyse_files=db.analysis.find())
 
 

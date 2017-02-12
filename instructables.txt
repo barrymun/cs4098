@@ -117,3 +117,6 @@ Errors with flask workarounds:
 
 No module named datetime issue:
 cp /usr/bin/python2.7 $(which python2.7)
+
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 111] Connection refused
+sudo service mongod restart
