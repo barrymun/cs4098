@@ -15,10 +15,7 @@ Neil Barry-Murphy
 <br/>
 ![Left Game](https://raw.githubusercontent.com/barrymun/cs4098/master/static/missing-team-member.png?token=AO6TcC4OfL6ceSkoyhC508no4nOT6hycks5YqZLDwA%3D%3D)
 
-
-Note: Please ignore the instructables.txt file. This is a reference for the group only.
-
-# File Selection and Analysis as a Flask Application
+# Using the Flask Application
 
 Activate the virtual environment (Python 2.7 required):
 ```bash
@@ -36,13 +33,15 @@ Run the flask application:
 ```python
 python app.py
 ```
-(IF FLASK APP FAILS) Install necessary requirements, with root permissions && restart mongo :
+(If The Flask Application Fails)
+<br/>
+Install necessary requirements with root permissions and restart mongo:
 ```bash
 sudo pip install -r requirements.txt
 
 sudo service mongod restart
 ```
-Now start the application again:
+Now, re-start the application:
 ```python
 python app.py
 ```
@@ -50,6 +49,88 @@ Navigate to the homepage:
 ```bash
 http://127.0.0.1:5000/
 ```
+
+# Feature List, and How to Test Them
+
+Please note that all explanations are accompanied by images.
+<br/>
+See the documentation section of this repo for more information.
+
+## (1) PML File Selection
+
+Navigate to the home page. Click on the "PML Analysis" button.
+<br/>
+Select any number of files from the presented menu, and click "Load Selected Files" when ready.
+
+## (2) PML File Loading
+
+Ensure that your selected files from the previous section are correct.
+<br/>
+Navigate to the previous page if necessary.
+<br/>
+Note that if navigating backwards, all files from a previous selection will not be persisted.
+<br/>
+(You will have to reselect all files).
+<br/>
+When ready, select the "Analyse PML Files" button.
+
+## (3) Running PML analysis
+
+From the previous section, select the "Analyse PML Files" button.
+<br/>
+This will use the PEOS system to analyse any and all specified files.
+<br/>
+The results will be displayed on screen.
+
+## (4) On-Screen PML reporting
+
+The results of any successfully analysed tests will be displayed. Any errors will also be presented.
+
+## (5) PML Error and Warning Highlights
+
+Errors, from the previous section, will be highlighted by the system.
+<br/>
+These may include errors within the actual files themselves.
+
+## (6) PML Log File Generation
+
+A logfile with all information regarding the analysis of the files will be created.
+<br/>
+This is named "info.log", and is generated in the root directory.
+<br/>
+A second log file, "info.log.1" is also created to handle information that would otherwise be displayed in the terminal.
+
+## (7) Select Specific OWL Ontology
+
+Navigate to the home page. Click on the "DINTO Reporting" button.
+<br/>
+Select any number of files from the presented menu, and click "Load Selected Files" when ready.
+
+## (8) Load Selected Ontology
+
+Ensure that your selected files from the previous section are correct.
+<br/>
+Navigate to the previous page if necessary.
+<br/>
+Note that if navigating backwards, all files from a previous selection will not be persisted.
+<br/>
+(You will have to reselect all files).
+<br/>
+When ready, select the "Analyse OWL Files" button.
+
+## (9) On-Screen DINTO Reporting
+
+The results of any successfully analysed tests will be displayed. Any errors will also be presented.
+
+## (10) DINTO Logfile Generation
+
+Uses the same Logfile as the PML reporting feature. The two systems, however, are clearly differentiated.
+
+## (11) DINTO Error and Warning Highlights
+
+Errors, from section 9, will be highlighted by the system.
+<br/>
+These may include errors within the actual files themselves.
 
 # Using the Mongo Database
 Installation for Ubuntu 16.04 will be handled by the setup script.
@@ -83,33 +164,10 @@ List all pml files that have been analysed:
 db.dist.analysis.find()
 ```
 
-## Please Ignore All Below This Section (See Above)
+## Deactivating the Virtual Environment
 
-### Using the PEOS system to analyse a PML file:
-The PML file used here is: peos/compiler/models/lib_checkout.pml. Execute the following:
-
-```bash
-bash setup.sh
-```
-
-### Parse some OWL from the DINTO ontology and report some statistic about the file contents:
-Information is printed alongside the results.
-Execute the following:
-```python
-python readowl.py
-```
-
-NOTE: If the above command fails, it means the permissions are not correctly set for the 
-root user on your virtual machine or device.
-<br/>
-Execute:
-```bash
-sudo pip install ontospy
-```
-to fix.
-
-Execute:
+When finished with your analysis if the system, execute:
 ```bash
 deactivate
 ```
-when finished.
+This will disable the virtual environment.
