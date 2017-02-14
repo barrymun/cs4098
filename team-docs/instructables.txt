@@ -1,0 +1,122 @@
+--------------------------------------------------------------------------------------
+TL;DR
+--------------------------------------------------------------------------------------
+
+sudo apt-get update
+sudo apt-get upgrade -y 
+sudo apt-get install -y tcl
+sudo apt-get install -y tcl-dev
+sudo apt-get install -y check
+sudo apt-get install -y expect
+sudo apt-get install -y libxml2
+sudo apt-get install -y flex
+sudo apt-get install -y bison
+sudo apt-get install -y byacc
+sudo apt-get install -y python-dev
+sudo apt-get install -y python3-dev
+sudo apt-get install -y libreadline-dev
+sudo apt-get install -y lib32ncurses5-dev
+sudo apt-get update
+sudo apt-get upgrade -y
+
+pip install -r requirements.txt
+
+--------------------------------------------------------------------------------------
+General Setup
+--------------------------------------------------------------------------------------
+
+Project specifications and guidelines:
+https://gitlab.scss.tcd.ie/andrew.butterfield/CS4098-2017/blob/master/Product-Backlog.md
+
+LDAP credentials:
+username: CS username
+password: CS password
+
+Passwordless push access to git:
+Add public key to git under: Settings -> Keys
+git remote set-url origin git@github.com:barrymun/cs4098.git
+
+--------------------------------------------------------------------------------------
+Virtual Environment
+--------------------------------------------------------------------------------------
+
+To activate the virtual environment: (do this from the home directory)
+
+source venv/bin/activate
+
+(The name of the current virtual environment will now appear on the left of the prompt
+(e.g. (venv)Your-Computer:your_project UserName$) to let you know that it’s active)
+
+To deactivate:
+
+deactivate
+
+When you have installed a lot of packages, do this:
+
+pip freeze > requirements.txt
+
+(This will capture the current state of all installed packages on the virtual
+environment, and update the requirements.txt file)
+
+To install the requirements from the requirements.txt:
+	(from a fresh install, etc, or a repo update)
+	(Do NOT run this while virtual env is active - deactivate beforehand)
+
+pip install -r requirements.txt
+
+--------------------------------------------------------------------------------------
+TCL Installation
+--------------------------------------------------------------------------------------
+
+(IGNORE HERE FOR NOW - WIP)
+
+http://www.linuxfromscratch.org/blfs/view/svn/general/tcl.html
+sudo apt-get install -y tcl8.6
+(sanity check) sudo apt-get install -y tcl
+sudo apt-get install -y libtcl8.6
+sudo apt-get install -y libc6
+sudo apt-get install -y tcl-dev
+
+--------------------------------------------------------------------------------------
+check Installation
+--------------------------------------------------------------------------------------
+
+https://libcheck.github.io/check/index.html
+sudo apt-get install check
+
+--------------------------------------------------------------------------------------
+expect Installation
+--------------------------------------------------------------------------------------
+
+***REQUIRES tcl
+http://www.linuxfromscratch.org/blfs/view/svn/general/expect.html
+sudo apt-get install -y expect
+
+--------------------------------------------------------------------------------------
+libxml2 Installation
+--------------------------------------------------------------------------------------
+
+http://www.xmlsoft.org/
+sudo apt-get install -y libxml2
+
+--------------------------------------------------------------------------------------
+peos Installation
+--------------------------------------------------------------------------------------
+
+See: https://github.com/jnoll/peos for full instructions.
+***WARNING***: This must be installed:
+sudo apt-get install flex
+
+To test if peos is working run:
+
+bash pml_test.sh
+
+--------------------------------------------------------------------------------------
+Errors with flask workarounds:
+--------------------------------------------------------------------------------------
+
+No module named datetime issue:
+cp /usr/bin/python2.7 $(which python2.7)
+
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 111] Connection refused
+sudo service mongod restart
