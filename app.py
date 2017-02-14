@@ -5,6 +5,7 @@ import logging
 import md5
 import os
 import subprocess
+from logging.handlers import RotatingFileHandler
 
 import ontospy
 from flask import Flask, render_template
@@ -15,12 +16,12 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 Bootstrap(app)
-bashCommand = "rm logfile.log"
-process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-process.communicate()
-LOG_FILENAME = 'logfile.log'
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
-logging.info("Active")
+remove_logfile = "rm info.log"
+remove_logfile_process = subprocess.Popen(remove_logfile.split(), stdout=subprocess.PIPE)
+remove_logfile_process.communicate()
+remove_logfile_errors = "rm info.log.1"
+remove_logfile_errors_process = subprocess.Popen(remove_logfile_errors.split(), stdout=subprocess.PIPE)
+remove_logfile_errors_process.communicate()
 
 
 @app.route('/analyse-owl-files', methods=['POST'])
@@ -42,17 +43,17 @@ def analyse_owl_selected_files():
         m.update(name)
         if (data != None):
             db.analysisowl.insert({'name': name, 'path': path, 'process': data, 'id': m.hexdigest()})
-            logging.info('\n')
-            logging.info("Name = [ " + name + " ]")
-            logging.info("Path = [ " + path + " ]")
-            logging.info(data)
+            app.logger.info('\n')
+            app.logger.info("Name = [ " + name + " ]")
+            app.logger.info("Path = [ " + path + " ]")
+            app.logger.info(data)
         else:
             db.analysisowl.insert(
                 {'name': name, 'path': path, 'process': "ERROR: no data present", 'id': m.hexdigest()})
-            logging.info('\n')
-            logging.info("Name = [ " + name + " ]")
-            logging.info("Path = [ " + path + " ]")
-            logging.info("ERROR: no data present")
+            app.logger.info('\n')
+            app.logger.info("Name = [ " + name + " ]")
+            app.logger.info("Path = [ " + path + " ]")
+            app.logger.info("ERROR: no data present")
     return render_template('analyseowldinto.html', analyse_owl_files=db.analysisowl.find())
 
 
@@ -94,17 +95,17 @@ def analyse_selected_files():
         m.update(name)
         if (check_process.communicate()[0] != ""):
             db.analysis.insert({'name': name, 'path': path, 'process': process.communicate()[0], 'id': m.hexdigest()})
-            logging.info('\n')
-            logging.info("Name = [ " + name + " ]")
-            logging.info("Path = [ " + path + " ]")
-            logging.info(log_process.communicate()[0])
+            app.logger.info('\n')
+            app.logger.info("Name = [ " + name + " ]")
+            app.logger.info("Path = [ " + path + " ]")
+            app.logger.info(log_process.communicate()[0])
         else:
             db.analysis.insert(
                 {'name': name, 'path': path, 'process': "ERROR: PML file format incorrect", 'id': m.hexdigest()})
-            logging.info('\n')
-            logging.info("Name = [ " + name + " ]")
-            logging.info("Path = [ " + path + " ]")
-            logging.info("ERROR: PML file format incorrect")
+            app.logger.info('\n')
+            app.logger.info("Name = [ " + name + " ]")
+            app.logger.info("Path = [ " + path + " ]")
+            app.logger.info("ERROR: PML file format incorrect")
     return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
@@ -182,4 +183,8 @@ def setup():
 if __name__ == '__main__':
     with app.app_context():
         setup()
+    logHandler = RotatingFileHandler('info.log', maxBytes=1000, backupCount=1)
+    logHandler.setLevel(logging.INFO)
+    app.logger.setLevel(logging.INFO)
+    app.logger.addHandler(logHandler)
     app.run(host='0.0.0.0', debug=True, port=5000)

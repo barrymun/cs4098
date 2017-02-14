@@ -1,3 +1,4 @@
 .idea/
-logfile.log
+info.log
+info.log.1
 test.py
