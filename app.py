@@ -28,33 +28,63 @@ remove_logfile_errors_process.communicate()
 def analyse_owl_selected_files():
     db = mongo.db.dist
     db.analysisowl.drop()
-    files = db.selectedowl.find()
+    files = request.form.getlist('checkheaders')
     for file in files:
+        current_file = db.toplayers.find_one({'header': file})
+        if (current_file):
+            name = current_file['name']
+            path = current_file['path']
+            header = current_file['header']
+            process = current_file['process']
+            m = md5.new()
+            m.update(file)
+            db.analysisowl.insert(
+                {'name': name, 'path': path, 'header': header, 'process': process, 'id': m.hexdigest()})
+            app.logger.info('\n')
+            app.logger.info("Name = [ " + name + " ]")
+            app.logger.info("Path = [ " + path + " ]")
+            app.logger.info("Header = [ " + header + " ]")
+            app.logger.info("Process = [ " + process + " ]")
+    return render_template('analyseowldinto.html', analyse_owl_files=db.analysisowl.find())
+
+
+@app.route('/get-toplayers', methods=['POST'])
+def get_toplayers():
+    db = mongo.db.dist
+    db.toplayers.drop()
+    top_layers = db.selectedowl.find()
+    for file in top_layers:
         name = file['name']
         path = file['path']
         model = ontospy.Ontospy(path)
-        model.classes
-        model.properties
-        model.toplayer
-        a_class = model.toplayer
-        a_class = a_class[0]
-        data = a_class.serialize()
-        m = md5.new()
-        m.update(name)
-        if (data != None):
-            db.analysisowl.insert({'name': name, 'path': path, 'process': data, 'id': m.hexdigest()})
-            app.logger.info('\n')
-            app.logger.info("Name = [ " + name + " ]")
-            app.logger.info("Path = [ " + path + " ]")
-            app.logger.info(data)
-        else:
-            db.analysisowl.insert(
-                {'name': name, 'path': path, 'process': "ERROR: no data present", 'id': m.hexdigest()})
-            app.logger.info('\n')
-            app.logger.info("Name = [ " + name + " ]")
-            app.logger.info("Path = [ " + path + " ]")
-            app.logger.info("ERROR: no data present")
-    return render_template('analyseowldinto.html', analyse_owl_files=db.analysisowl.find())
+        a_header = model.toplayer
+        x = 0
+        for i in a_header:
+            data = str(a_header[x])
+            process = str(a_header[x].serialize())
+            m = md5.new()
+            m.update(name)
+            if (data != None):
+                db.toplayers.insert(
+                    {'name': name, 'path': path, 'header': data, 'process': process, 'id': m.hexdigest()})
+                app.logger.info('\n')
+                app.logger.info("Name = [ " + name + " ]")
+                app.logger.info("Path = [ " + path + " ]")
+                app.logger.info("Header = [ " + data + " ]")
+                app.logger.info("Process = [ " + process + " ]")
+                app.logger.info(data)
+            else:
+                db.toplayers.insert(
+                    {'name': name, 'path': path, 'header': "ERROR: no data present",
+                     'process': "ERROR: no data present", 'id': m.hexdigest()})
+                app.logger.info('\n')
+                app.logger.info("Name = [ " + name + " ]")
+                app.logger.info("Path = [ " + path + " ]")
+                app.logger.info("Header = [ " + data + " ]")
+                app.logger.info("Process = [ " + process + " ]")
+                app.logger.info("ERROR: no data present")
+            x += 1
+    return render_template('getowlheaders.html', toplayer_owl_files=db.toplayers.find())
 
 
 @app.route('/select-owl-files', methods=['POST'])
@@ -173,6 +203,7 @@ def setup():
     db.selected.drop()
     db.analysis.drop()
     db.selectedowl.drop()
+    db.toplayers.drop()
     db.analysisowl.drop()
     path = os.getcwd() + "/peos"
     load_pml_source_files(path, '.pml')
