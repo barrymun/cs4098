@@ -29,14 +29,14 @@
 
     <div class="page-header" style="padding-bottom: 100px;">
         <h1 class="col-md-11">&nbsp;Analysis Results</h1>
-        <h1 class="col-md-1"><a href="/">&nbsp;Home</a></h1>
+        <h1 class="col-md-1"><a href="/">Home</a></h1>
     </div>
 </head>
 
 <body>
 <div>
-    <ul>
-        <table class="table table-striped table-bordered">
+    <ul style="padding-bottom: 50px;">
+        <table class="table table-striped table-bordered" style="width: 90%;">
             <tr>
                 <th class="col-md-3">&nbsp;Filename</th>
                 <th class="col-md-9">&nbsp;Process</th>
@@ -53,6 +53,18 @@
             {%- endfor %}
         </table>
     </ul>
+    <div id="bottom">
+        <div class="row">
+            <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9"></div>
+            <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                <div class="load">
+                    <button class="btn btn-info btn-lg">
+                        <a href="/index">Back</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 {% endblock %}

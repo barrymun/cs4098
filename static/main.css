@@ -24,7 +24,8 @@ th {
 }
 
 .load {
-    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .table-striped > tbody > tr:nth-child(odd) > td,
@@ -36,13 +37,10 @@ div#content {
     display: none;
 }
 
-div#loading {
-    top: 200px;
-    margin: auto;
-    position: absolute;
-    z-index: 1000;
-    width: 160px;
-    height: 24px;
-    background: url(ajax-loader.gif) no-repeat;
-    cursor: wait;
+#bottom {
+    text-align: center;
+    position: fixed;
+    background: gray;
+    width: 100%;
+    bottom: 0;
 }
