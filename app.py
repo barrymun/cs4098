@@ -131,7 +131,7 @@ def analyse_selected_files():
             app.logger.info(log_process.communicate()[0])
         else:
             db.analysis.insert(
-                {'name': name, 'path': path, 'process': "ERROR: PML file format incorrect", 'id': m.hexdigest()})
+                {'name': name, 'path': path, 'process': "ERROR: PML file contains syntax errors", 'id': m.hexdigest()})
             app.logger.info('\n')
             app.logger.info("Name = [ " + name + " ]")
             app.logger.info("Path = [ " + path + " ]")
