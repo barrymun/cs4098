@@ -75,14 +75,14 @@ def get_toplayers():
                 app.logger.info(data)
             else:
                 db.toplayers.insert(
-                    {'name': name, 'path': path, 'header': "ERROR: no data present",
+                    {'name': name, 'path': path, 'header': "INFO: no data present",
                      'process': "ERROR: no data present", 'id': m.hexdigest()})
                 app.logger.info('\n')
                 app.logger.info("Name = [ " + name + " ]")
                 app.logger.info("Path = [ " + path + " ]")
                 app.logger.info("Header = [ " + data + " ]")
                 app.logger.info("Process = [ " + process + " ]")
-                app.logger.info("ERROR: no data present")
+                app.logger.info("INFO: no data present")
             x += 1
     return render_template('getowlheaders.html', toplayer_owl_files=db.toplayers.find())
 

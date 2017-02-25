@@ -62,7 +62,7 @@ Navigate to the home page. Click on the "PML Analysis" button.
 <br/>
 Select any number of files from the presented menu, and click "Load Selected Files" when ready.
 <br/><br/>
-To quickly try an example with the two successful tests and one unsuccessful test, select the following files:
+To quickly try an example with two successful tests and one unsuccessful test, select the following files:
 <br/>
 `test.pml` - (PASS)
 <br/>
