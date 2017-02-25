@@ -44,7 +44,7 @@
             {%- for file in analyse_files %}
             <tr>
                 <td class="col-md-3">&nbsp;{{ file['name'] }}</td>
-                {% if "ERROR" in file['process'] %}
+                {% if "error" in file['process'] %}
                 <td class="col-md-9"><font color="#FF0000">{{ file['process'] }}</font></td>
                 {% else %}
                 <td class="col-md-9">{{ file['process'] }}</td>

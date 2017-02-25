@@ -121,6 +121,8 @@ def analyse_selected_files():
         process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         log_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         check_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+        error_process = subprocess.Popen(executeCommand.split(), stderr=subprocess.PIPE)
+        log_error_process = subprocess.Popen(executeCommand.split(), stderr=subprocess.PIPE)
         m = md5.new()
         m.update(name)
         if (check_process.communicate()[0] != ""):
@@ -131,11 +133,11 @@ def analyse_selected_files():
             app.logger.info(log_process.communicate()[0])
         else:
             db.analysis.insert(
-                {'name': name, 'path': path, 'process': "ERROR: PML file contains syntax errors", 'id': m.hexdigest()})
+                {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
             app.logger.info('\n')
             app.logger.info("Name = [ " + name + " ]")
             app.logger.info("Path = [ " + path + " ]")
-            app.logger.info("ERROR: PML file format incorrect")
+            app.logger.info(log_error_process.communicate()[1])
     return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
