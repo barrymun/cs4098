@@ -52,7 +52,17 @@ def analyse_owl_selected_files():
 def get_toplayers():
     db = mongo.db.dist
     db.toplayers.drop()
+    db.selectedowl.drop()
+    owlfiles = request.form.getlist('checkowl')
+    for file in owlfiles:
+        current_file = db.owlfiles.find_one({'name': file})
+        if (current_file):
+            path = current_file['path']
+            m = md5.new()
+            m.update(file)
+            db.selectedowl.insert({'name': file, 'path': path, 'id': m.hexdigest()})
     top_layers = db.selectedowl.find()
+
     for file in top_layers:
         name = file['name']
         path = file['path']
@@ -87,21 +97,6 @@ def get_toplayers():
     return render_template('getowlheaders.html', toplayer_owl_files=db.toplayers.find())
 
 
-@app.route('/select-owl-files', methods=['POST'])
-def handle_selected_owl_files():
-    db = mongo.db.dist
-    db.selectedowl.drop()
-    owlfiles = request.form.getlist('checkowl')
-    for file in owlfiles:
-        current_file = db.owlfiles.find_one({'name': file})
-        if (current_file):
-            path = current_file['path']
-            m = md5.new()
-            m.update(file)
-            db.selectedowl.insert({'name': file, 'path': path, 'id': m.hexdigest()})
-    return render_template('selectedowldinto.html', selected_owl_files=db.selectedowl.find())
-
-
 @app.route('/dinto-index', methods=['GET'])
 def dinto_index():
     db = mongo.db.dist
@@ -112,8 +107,18 @@ def dinto_index():
 def analyse_selected_files():
     db = mongo.db.dist
     db.analysis.drop()
+    db.selected.drop()
+    selected_files = request.form.getlist('check')
+    for select_file in selected_files:
+        current_file = db.files.find_one({'name': select_file})
+        if (current_file):
+            path = current_file['path']
+            m = md5.new()
+            m.update(select_file)
+            db.selected.insert({'name': select_file, 'path': path, 'id': m.hexdigest()})
     bashCommand = "peos/pml/check/pmlcheck "
     files = db.selected.find()
+
     for file in files:
         path = file['path']
         name = file['name']
@@ -125,14 +130,12 @@ def analyse_selected_files():
         log_error_process = subprocess.Popen(executeCommand.split(), stderr=subprocess.PIPE)
         m = md5.new()
         m.update(name)
+
         if (check_process.communicate()[0] != ""):
             output = process.communicate()[0]
-            print(output)
             formatted_output = output.splitlines()
-            # print(formatted_output)
             length = len(str(path)) + 1
             result = []
-            print(length)
             for line in formatted_output:
                 formatted_line = line[length:]
                 result.append(formatted_line)
@@ -150,21 +153,6 @@ def analyse_selected_files():
             app.logger.info("Path = [ " + path + " ]")
             app.logger.info(log_error_process.communicate()[1])
     return render_template('analyse.html', analyse_files=db.analysis.find())
-
-
-@app.route('/select-files', methods=['POST'])
-def handle_selected_files():
-    db = mongo.db.dist
-    db.selected.drop()
-    files = request.form.getlist('check')
-    for file in files:
-        current_file = db.files.find_one({'name': file})
-        if (current_file):
-            path = current_file['path']
-            m = md5.new()
-            m.update(file)
-            db.selected.insert({'name': file, 'path': path, 'id': m.hexdigest()})
-    return render_template('selected.html', selected_files=db.selected.find())
 
 
 @app.route('/index', methods=['GET'])
