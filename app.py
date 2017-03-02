@@ -16,12 +16,8 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 Bootstrap(app)
-remove_logfile = "rm info.log"
-remove_logfile_process = subprocess.Popen(remove_logfile.split(), stdout=subprocess.PIPE)
-remove_logfile_process.communicate()
-remove_logfile_errors = "rm info.log.1"
-remove_logfile_errors_process = subprocess.Popen(remove_logfile_errors.split(), stdout=subprocess.PIPE)
-remove_logfile_errors_process.communicate()
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+rootLogger = logging.getLogger()
 
 
 @app.route('/analyse-owl-files', methods=['POST'])
@@ -40,11 +36,11 @@ def analyse_owl_selected_files():
             m.update(file)
             db.analysisowl.insert(
                 {'name': name, 'path': path, 'header': header, 'process': process, 'id': m.hexdigest()})
-            app.logger.info('\n')
-            app.logger.info("Name = [ " + name + " ]")
-            app.logger.info("Path = [ " + path + " ]")
-            app.logger.info("Header = [ " + header + " ]")
-            app.logger.info("Process = [ " + process + " ]")
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info("Header = [ " + header + " ]")
+            rootLogger.info("Process = [ " + process + " ]")
     return render_template('analyseowldinto.html', analyse_owl_files=db.analysisowl.find())
 
 
@@ -77,22 +73,22 @@ def get_toplayers():
             if (data != None):
                 db.toplayers.insert(
                     {'name': name, 'path': path, 'header': data, 'process': process, 'id': m.hexdigest()})
-                app.logger.info('\n')
-                app.logger.info("Name = [ " + name + " ]")
-                app.logger.info("Path = [ " + path + " ]")
-                app.logger.info("Header = [ " + data + " ]")
-                app.logger.info("Process = [ " + process + " ]")
-                app.logger.info(data)
+                rootLogger.info('\n')
+                rootLogger.info("Name = [ " + name + " ]")
+                rootLogger.info("Path = [ " + path + " ]")
+                rootLogger.info("Header = [ " + data + " ]")
+                rootLogger.info("Process = [ " + process + " ]")
+                rootLogger.info(data)
             else:
                 db.toplayers.insert(
                     {'name': name, 'path': path, 'header': "INFO: no data present",
                      'process': "ERROR: no data present", 'id': m.hexdigest()})
-                app.logger.info('\n')
-                app.logger.info("Name = [ " + name + " ]")
-                app.logger.info("Path = [ " + path + " ]")
-                app.logger.info("Header = [ " + data + " ]")
-                app.logger.info("Process = [ " + process + " ]")
-                app.logger.info("INFO: no data present")
+                rootLogger.info('\n')
+                rootLogger.info("Name = [ " + name + " ]")
+                rootLogger.info("Path = [ " + path + " ]")
+                rootLogger.info("Header = [ " + data + " ]")
+                rootLogger.info("Process = [ " + process + " ]")
+                rootLogger.info("INFO: no data present")
             x += 1
     return render_template('getowlheaders.html', toplayer_owl_files=db.toplayers.find())
 
@@ -141,17 +137,17 @@ def analyse_selected_files():
                 result.append(formatted_line)
 
             db.analysis.insert({'name': name, 'path': path, 'process': result, 'id': m.hexdigest()})
-            app.logger.info('\n')
-            app.logger.info("Name = [ " + name + " ]")
-            app.logger.info("Path = [ " + path + " ]")
-            app.logger.info(log_process.communicate()[0])
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(log_process.communicate()[0])
         else:
             db.analysis.insert(
                 {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
-            app.logger.info('\n')
-            app.logger.info("Name = [ " + name + " ]")
-            app.logger.info("Path = [ " + path + " ]")
-            app.logger.info(log_error_process.communicate()[1])
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(log_error_process.communicate()[1])
     return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
@@ -215,8 +211,8 @@ def setup():
 if __name__ == '__main__':
     with app.app_context():
         setup()
-    logHandler = RotatingFileHandler('info.log', maxBytes=1000, backupCount=1)
+    logHandler = RotatingFileHandler('info.log', maxBytes=1000, backupCount=0)
     logHandler.setLevel(logging.INFO)
-    app.logger.setLevel(logging.INFO)
-    app.logger.addHandler(logHandler)
+    rootLogger.setLevel(logging.INFO)
+    rootLogger.addHandler(logHandler)
     app.run(host='0.0.0.0', debug=True, port=5000)

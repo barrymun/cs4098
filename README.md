@@ -50,6 +50,13 @@ Navigate to the homepage:
 http://127.0.0.1:5000/
 ```
 
+# Logging
+
+Once the app has been started, open another terminal in the same directory and execute:
+```bash
+tail -f info.log
+```
+
 # Feature List, and How to Test Them
 
 Please note that all explanations are accompanied by images.
@@ -67,6 +74,8 @@ To quickly try an example with two successful tests and one unsuccessful test, s
 `test.pml` - (PASS)
 <br/>
 `simple.pml` - (PASS)
+<br/>
+`lib_checkout.pml` - (PASS)
 <br/>
 `tc.pml` - (FAIL)
 
