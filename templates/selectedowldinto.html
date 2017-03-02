@@ -1,74 +1,73 @@
 <!doctype html>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='main.js') }}">
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 {% extends "bootstrap/base.html" %}
 {% block title %}Overwatch - User DINTO OWL Selection{% endblock %}
 
 {% block navbar %}
-<div class="navbar navbar-fixed-top">
-    <!-- ... -->
-</div>
+    <div class="navbar navbar-fixed-top">
+        <!-- ... -->
+    </div>
 {% endblock %}
 
 {% block content %}
-<head>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Overwatch</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-
-    <div class="page-header" style="padding-bottom: 100px;">
-        <h1 class="col-md-11">&nbsp;Selected OWL Files</h1>
-        <h1 class="col-md-1"><a href="/">Home</a></h1>
-    </div>
-</head>
-
-<body>
-<div>
-    <form action="/get-toplayers" method="post">
-        <ul style="padding-bottom: 50px;">
-            <table class="table table-striped table-bordered" style="width: 50%;">
-                <tr>
-                    <th class="col-md-4">&nbsp;Filename</th>
-                    <th class="col-md-8">&nbsp;Location</th>
-                </tr>
-                {%- for file in selected_owl_files %}
-                <tr>
-                    <td class="col-md-4">&nbsp;{{ file['name'] }}</td>
-                    <td class="col-md-8">&nbsp;{{ file['path'] }}</td>
-                </tr>
-                {%- endfor %}
-            </table>
-        </ul>
-        <div id="bottom">
-            <div class="row">
-                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                    <div class="load">
-                        <input type="submit" class="btn btn-info btn-lg" value="Next">
-                    </div>
+    <head>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Overwatch</a>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"></div>
-                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                    <div class="load">
-                        <button class="btn btn-info btn-lg">
-                            <a href="/dinto-index">Back</a>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="page-header" style="padding-bottom: 100px;">
+            <h1 class="col-md-11">&nbsp;Selected OWL Files</h1>
+            <h1 class="col-md-1"><a href="/">Home</a></h1>
         </div>
-    </form>
-</div>
-</body>
+    </head>
+
+    <body>
+    <div>
+        <form action="/get-toplayers" method="post">
+            <ul style="padding-bottom: 50px;">
+                <table class="table table-striped table-bordered" style="width: 50%;">
+                    <tr>
+                        <th class="col-md-4">&nbsp;Filename</th>
+                        <th class="col-md-8">&nbsp;Location</th>
+                    </tr>
+                    {%- for file in selected_owl_files %}
+                        <tr>
+                            <td class="col-md-4">&nbsp;{{ file['name'] }}</td>
+                            <td class="col-md-8">&nbsp;{{ file['path'] }}</td>
+                        </tr>
+                    {%- endfor %}
+                </table>
+            </ul>
+            <div id="bottom">
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="load">
+                            <input type="submit" class="btn btn-info btn-lg" value="Next">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"></div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="load">
+                            <button class="btn btn-info btn-lg" onclick="goBack()">Go Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </body>
 {% endblock %}

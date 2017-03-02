@@ -2,11 +2,11 @@
 # Use "source venv/bin/activate"
 
 import logging
-import md5
 import os
 import subprocess
 from logging.handlers import RotatingFileHandler
 
+import md5
 import ontospy
 from flask import Flask, render_template
 from flask import request
@@ -126,7 +126,18 @@ def analyse_selected_files():
         m = md5.new()
         m.update(name)
         if (check_process.communicate()[0] != ""):
-            db.analysis.insert({'name': name, 'path': path, 'process': process.communicate()[0], 'id': m.hexdigest()})
+            output = process.communicate()[0]
+            print(output)
+            formatted_output = output.splitlines()
+            # print(formatted_output)
+            length = len(str(path)) + 1
+            result = []
+            print(length)
+            for line in formatted_output:
+                formatted_line = line[length:]
+                result.append(formatted_line)
+
+            db.analysis.insert({'name': name, 'path': path, 'process': result, 'id': m.hexdigest()})
             app.logger.info('\n')
             app.logger.info("Name = [ " + name + " ]")
             app.logger.info("Path = [ " + path + " ]")
