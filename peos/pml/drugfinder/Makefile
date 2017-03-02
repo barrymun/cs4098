@@ -10,8 +10,6 @@ LDFLAGS =
 PROG	= drugFind
 YFLAGS	= -d
 
-all:		$(PROG)
-
 $(PROG):	$(OBJS) $(LIBS)
 		$(CC) $(CFLAGS) -o $(PROG) main.c $(OBJS) $(LIBS)
 
