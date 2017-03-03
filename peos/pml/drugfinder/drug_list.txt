@@ -1,1 +1,1 @@
-"[(loratadine,(8:00),drugid),(hydrocortone,(8:30,20:30),drugid),(paracetamol,(9:00,15:00),drugid)]"
+"[(fluoxitine,(9:00),drugid)]"

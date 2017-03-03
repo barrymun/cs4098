@@ -103,6 +103,50 @@ def dinto_index():
 def analyse_selected_files():
     db = mongo.db.dist
     db.analysis.drop()
+    files = db.check.find()
+    bash_command = "./peos/pml/drugfinder/drugFind "
+    bash_output = "cat drug_list.txt"
+
+    for file in files:
+        path = file['path']
+        name = file['name']
+        execute_command = bash_command + path
+        subprocess.Popen(execute_command.split(), stdout=subprocess.PIPE)
+        process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
+        log_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
+        check_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
+        error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
+        log_error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
+        m = md5.new()
+        m.update(name)
+
+        if check_process.communicate()[0] != "":
+            output = process.communicate()[0]
+            strip_first = output[1:]
+            strip_last = strip_first[:-2]
+            print("OUTPUT")
+            print(output)
+            print(strip_last)
+            print("END")
+            db.analysis.insert({'name': name, 'path': path, 'process': strip_last, 'id': m.hexdigest()})
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(log_process.communicate()[0])
+        else:
+            db.analysis.insert(
+                {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(log_error_process.communicate()[1])
+    return render_template('analyse.html', analyse_files=db.analysis.find())
+
+
+@app.route('/check-files', methods=['POST'])
+def check_selected_files():
+    db = mongo.db.dist
+    db.check.drop()
     db.selected.drop()
     selected_files = request.form.getlist('check')
     for select_file in selected_files:
@@ -135,20 +179,19 @@ def analyse_selected_files():
             for line in formatted_output:
                 formatted_line = line[length:]
                 result.append(formatted_line)
-
-            db.analysis.insert({'name': name, 'path': path, 'process': result, 'id': m.hexdigest()})
+            db.check.insert({'name': name, 'path': path, 'process': result, 'id': m.hexdigest()})
             rootLogger.info('\n')
             rootLogger.info("Name = [ " + name + " ]")
             rootLogger.info("Path = [ " + path + " ]")
             rootLogger.info(log_process.communicate()[0])
         else:
-            db.analysis.insert(
+            db.check.insert(
                 {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
             rootLogger.info('\n')
             rootLogger.info("Name = [ " + name + " ]")
             rootLogger.info("Path = [ " + path + " ]")
             rootLogger.info(log_error_process.communicate()[1])
-    return render_template('analyse.html', analyse_files=db.analysis.find())
+    return render_template('check.html', check_files=db.check.find())
 
 
 @app.route('/index', methods=['GET'])
@@ -198,11 +241,11 @@ def setup():
     db = mongo.db.dist
     db.files.drop()
     db.selected.drop()
-    db.analysis.drop()
+    db.check.drop()
     db.selectedowl.drop()
     db.toplayers.drop()
     db.analysisowl.drop()
-    path = os.getcwd() + "/peos"
+    path = os.getcwd() + "/peos/pml/drugfinder"
     load_pml_source_files(path, '.pml')
     dinto_path = os.getcwd()
     load_owl_source_files(dinto_path, '.owl')

@@ -50,10 +50,7 @@
                             <td class="col-md-10"><font color="#FF0000">{{ file['process'] }}</font></td>
                         {% else %}
                             <td class="col-md-10">
-                                {%- for line in file['process'] %}
-                                    {{ line }}
-                                    <br/><br/>
-                                {%- endfor %}
+                                {{ file['process'] }}
                             </td>
                         {% endif %}
                     </tr>
