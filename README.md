@@ -56,12 +56,31 @@ Once the app has been started, open another terminal in the same directory and e
 ```bash
 tail -f info.log
 ```
+Ensure to activate the virtual environment (venv).
 
-# Feature List, and How to Test Them
-
+# In-Depth Testing
 Please note that all explanations are accompanied by images.
 <br/>
-See the `documentation/testing/` section of this repo for more information.
+See the `documentation/testing/testing-process` section of this repo for more information.
+
+- Navigate to the homepage (process described above).
+- Select "Begin Analysis".
+- Select a pml file of your choice.
+- "depression.pml" describes only one drug, and will list all interactions of that drug.
+- "irritable_bowel_syndrome.pml" describes multiple (2) drugs, and will list the interactions between these 2 drugs.
+- When a file has been selected, click "Check Validity of Selected File" to continue.
+- The next page displayed is the results of a pml file check.
+- The result will be either valid or invalid. An invalid result will not allow for progression.
+- If result is valid, click "Analyse File" to extract the drug information.
+- You will now be presented with a list containing drug information realting to the title of the pml. (ie - depression will yield a prescription of fluoxetine)
+- Click "Search DINTO for Interactions" to continue.
+- Next, select the DINTO knowledge base. For the purposes of this test, the only KB is "test_selection.owl".
+- Select the file, and click "Load Knowledge Base" to continue.
+- A list of drug-drug interactions will now be displayed on screen.
+- See the "Info" header for more information on how to test single-instance drug interactions.
+- Select "Finished" when analysis is complete. You will be redirected to the homepage.
+
+# Feature List, and Quick Testing
 
 ## (1) PML File Selection
 
@@ -70,14 +89,6 @@ Navigate to the home page. Click on the "PML Analysis" button.
 Select any number of files from the presented menu, and click "Load Selected Files" when ready.
 <br/><br/>
 To quickly try an example with two successful tests and one unsuccessful test, select the following files:
-<br/>
-`test.pml` - (PASS)
-<br/>
-`simple.pml` - (PASS)
-<br/>
-`lib_checkout.pml` - (PASS)
-<br/>
-`tc.pml` - (FAIL)
 
 ## (2) PML File Loading
 
