@@ -28,11 +28,9 @@ def get_toplayers():
     owl_files = request.form.getlist('checkowl')
     pml_info = db.analysis.find()
     pml_info_drug_list = []
-    print("HERE")
 
     for pmlinfo in pml_info:
         value = str(pmlinfo['process'])
-        print(value)
         value = value[1:]
         value = value[:-1]
         while "," in value:
@@ -40,14 +38,10 @@ def get_toplayers():
             sep_drug_name = ","
             value_current = value.split(sep_drug_name, 1)[0]
             value = value.split(sep_drug_name, 1)[1]
-            print(value_current)
-            print(value)
             if "(" not in value_current:
                 if ":" not in value_current:
                     if ")" not in value_current:
                         pml_info_drug_list.append(value_current)
-    print(pml_info_drug_list)
-    print("END")
 
     for file in owl_files:
         current_file = db.owlfiles.find_one({'name': file})
@@ -69,36 +63,67 @@ def get_toplayers():
         goc = get_owl_class(model, super_class_list)
         gop = get_owl_property(model, prop_list)
         gdl = get_drug_links(model, final_link)
-        rest_final = ""
+        actual_drug_name = ""
 
-        for x, y in goc:
-            class_to_string = str(x[39:])
-            class_to_string = class_to_string[:-2]
+        if len(pml_info_drug_list) == 1:
+            for x, y in goc:
+                class_to_string = str(x[39:])
+                class_to_string = class_to_string[:-2]
 
-            for i in gdl:
-                if class_to_string in str(i):
-                    drug_name = str(i)[53:]
-                    print(drug_name)
-                    sep_drug_name = "'),"
-                    rest_final = drug_name.split(sep_drug_name, 1)[0]
-                    break
+                for i in gdl:
+                    if class_to_string in str(i):
+                        drug_name = str(i)[53:]
+                        sep_drug_name = "'),"
+                        actual_drug_name = drug_name.split(sep_drug_name, 1)[0]
+                        break
 
-            for user_selected_elem in pml_info_drug_list:
-                if user_selected_elem in rest_final:
-                    for temp in y:
-                        sep = "obo2:"
-                        rest = temp.split(sep, 1)[1]
-                        rest_next = rest.split(sep, 1)[1]
-                        rest = rest[:12]
-                        rest_next = rest_next[:10]
+                for user_selected_elem in pml_info_drug_list:
+                    if user_selected_elem in actual_drug_name:
+                        for temp in y:
+                            sep = "obo2:"
+                            rest = temp.split(sep, 1)[1]
+                            rest_next = rest.split(sep, 1)[1]
+                            rest = rest[:12]
+                            rest_next = rest_next[:10]
 
-                        for j in gop:
-                            if str(rest) in str(j):
-                                interaction = str(j)[18:]
-                                interaction = interaction[:-2]
+                            for j in gop:
+                                if str(rest) in str(j):
+                                    interaction = str(j)[18:]
+                                    interaction = interaction[:-2]
 
-                        display = rest_final + " " + interaction + " " + rest_next
-                        data.append(display)
+                            display = actual_drug_name + " " + interaction + " " + rest_next
+                            data.append(display)
+
+        elif len(pml_info_drug_list) > 1:
+            drug_name_list = []
+            for x, y in goc:
+                class_to_string = str(x[39:])
+                class_to_string = class_to_string[:-2]
+
+                for i in gdl:
+                    if class_to_string in str(i):
+                        drug_name = str(i)[53:]
+                        print(drug_name)
+                        sep_drug_name = "'),"
+                        actual_drug_name = drug_name.split(sep_drug_name, 1)[0]
+                        for j in pml_info_drug_list:
+                            if j in actual_drug_name:
+                                drug_name_list.append((class_to_string, actual_drug_name))
+
+                for a,b in drug_name_list:
+                    for elem in pml_info_drug_list:
+                        if elem not in b:
+                            for el in y:
+                                sep = "obo2:"
+                                rest = el.split(sep, 1)[1]
+                                rest = rest[:12]
+                                if a in el:
+                                    for j in gop:
+                                        if rest in j:
+                                            interaction = str(j)[18:]
+                                            interaction = interaction[:-2]
+                                            display = b + " " + interaction + " " + elem
+                                            data.append(display)
 
         m = md5.new()
         m.update(name)
