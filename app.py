@@ -62,34 +62,64 @@ def get_toplayers():
     for file in top_layers:
         name = file['name']
         path = file['path']
-        model = ontospy.Ontospy(path)
-        a_header = model.toplayer
-        x = 0
-        for i in a_header:
-            data = str(a_header[x])
-            process = str(a_header[x].serialize())
-            m = md5.new()
-            m.update(name)
-            if (data != None):
-                db.toplayers.insert(
-                    {'name': name, 'path': path, 'header': data, 'process': process, 'id': m.hexdigest()})
-                rootLogger.info('\n')
-                rootLogger.info("Name = [ " + name + " ]")
-                rootLogger.info("Path = [ " + path + " ]")
-                rootLogger.info("Header = [ " + data + " ]")
-                rootLogger.info("Process = [ " + process + " ]")
-                rootLogger.info(data)
-            else:
-                db.toplayers.insert(
-                    {'name': name, 'path': path, 'header': "INFO: no data present",
-                     'process': "ERROR: no data present", 'id': m.hexdigest()})
-                rootLogger.info('\n')
-                rootLogger.info("Name = [ " + name + " ]")
-                rootLogger.info("Path = [ " + path + " ]")
-                rootLogger.info("Header = [ " + data + " ]")
-                rootLogger.info("Process = [ " + process + " ]")
-                rootLogger.info("INFO: no data present")
-            x += 1
+        model = ontospy.Ontospy(str(path))
+        super_class_list = []
+        prop_list = []
+        final_link = []
+        data = []
+        goc = get_owl_class(model, super_class_list)
+        gop = get_owl_property(model, prop_list)
+        gdl = get_drug_links(model, final_link)
+
+        for x, y in goc:
+            x = str(x[40:])
+            x = str(x[:-3])
+            # print(x)
+
+            for i in gdl:
+                if x in str(i):
+                    drug_name = str(i)[53:]
+                    sep_drug_name = "'),"
+                    rest_final = drug_name.split(sep_drug_name, 1)[0]
+                    # print(rest_final)
+
+            for temp in y:
+                # print(temp)
+                sep = "obo2:"
+                rest = temp.split(sep, 1)[1]
+                rest_next = rest.split(sep, 1)[1]
+                rest = rest[:12]
+                rest_next = rest_next[:10]
+                # print(rest)
+                # print(rest_next)
+
+                for j in gop:
+                    if str(rest) in str(j):
+                        interaction = str(j)[18:]
+                        interaction = interaction[:-2]
+                        # print(interaction)
+
+                display = rest_final + " " + interaction + " " + rest_next
+                data.append(display)
+                # print(display)
+                # break
+
+        m = md5.new()
+        m.update(name)
+        if (data != None):
+            db.toplayers.insert(
+                {'name': name, 'path': path, 'interactions': data, 'id': m.hexdigest()})
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(data)
+        else:
+            db.toplayers.insert(
+                {'name': name, 'path': path, 'interactions': "ERROR: no data present", 'id': m.hexdigest()})
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info("INFO: no data present")
     return render_template('getowlheaders.html', toplayer_owl_files=db.toplayers.find())
 
 
@@ -237,17 +267,61 @@ def load_pml_source_files(path, extension):
                 db.files.insert({'name': file, 'path': file_path, 'id': m.hexdigest()})
 
 
+def get_owl_class(model, super_class_list):
+    a_header = model.classes
+    x = 0
+    for i in a_header:
+        ser_data = a_header[x].serialize()
+        temp_sd = model.toplayer
+        str_set_data = str(ser_data)
+        str_set_data = str_set_data[995:]
+        class_list = str_set_data.split(",")
+        class_list.pop()
+        super_class_list.append((str(temp_sd), class_list))
+        x += 1
+    return super_class_list
+
+
+def get_owl_property(model, prop_list):
+    a_header = model.objectProperties
+    x = 0
+    for i in a_header:
+        prop = str(i)
+        prop = prop[42:]
+        prop = prop[:-2]
+        data = a_header[x]
+        data = data.serialize()
+        str_set_data = str(data)
+        str_set_data = str_set_data[833:]
+        str_set_data = str_set_data[:-55]
+        prop_list.append((prop, str_set_data))
+        x += 1
+    return prop_list
+
+
+def get_drug_links(model, final_link):
+    link = model.rdfgraph
+    for i in link:
+        if "NamedIndividual" and "DINTO" and "CHEBI" in str(i):
+            if "BNode" not in str(i):
+                if "XMLSchema" not in str(i):
+                    if "www.w3.org" not in str(i):
+                        final_link.append(i)
+    return final_link
+
+
 def setup():
     db = mongo.db.dist
     db.files.drop()
+    db.owlfiles.drop()
     db.selected.drop()
     db.check.drop()
     db.selectedowl.drop()
     db.toplayers.drop()
     db.analysisowl.drop()
-    path = os.getcwd() + "/peos/pml/drugfinder"
+    path = os.getcwd() + "/peos/pml/drugfinder/"
     load_pml_source_files(path, '.pml')
-    dinto_path = os.getcwd()
+    dinto_path = os.getcwd() + "/owl-test/"
     load_owl_source_files(dinto_path, '.owl')
 
 

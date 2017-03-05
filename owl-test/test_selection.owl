@@ -1,0 +1,2056 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+        <!ENTITY purl "http://purl.obolibrary.org#" >
+        <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+        <!ENTITY obo2 "http://purl.obolibrary.org/obo/" >
+        <!ENTITY obo "http://purl.obolibrary.org/obo#" >
+        <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+        <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
+        <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+        <!ENTITY skos "http://www.w3.org/2004/02/skos/core#" >
+        <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+        <!ENTITY ace_lexicon "http://attempto.ifi.uzh.ch/ace_lexicon#" >
+        <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+        <!ENTITY biositemap "http://bioontology.org/ontologies/biositemap.owl#" >
+        ]>
+
+
+<rdf:RDF xmlns="&obo2;DINTO_PKO_BRO.owl#"
+         xml:base="&obo2;DINTO_PKO_BRO.owl"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:obo="http://purl.obolibrary.org/obo#"
+         xmlns:obo2="http://purl.obolibrary.org/obo/"
+         xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+         xmlns:purl="http://purl.obolibrary.org#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:biositemap="http://bioontology.org/ontologies/biositemap.owl#"
+         xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+         xmlns:ace_lexicon="http://attempto.ifi.uzh.ch/ace_lexicon#">
+    <owl:Ontology rdf:about="&obo2;DINTO_inf_mech.owl">
+        <owl:versionInfo xml:lang="en">17/09/2014
+
+
+        </owl:versionInfo>
+        <rdfs:comment xml:lang="en">Before using the reasoner, it is necessary to select &apos;Make all individuals
+            distinct...&apos; in the Edit menu.
+        </rdfs:comment>
+        <rdfs:comment xml:lang="en">This version contains the 59 SWRL rules created to assign DDI types in basis of DDI
+            mechanisms inferred from drug-protein relationships represented in DINTO. It can be merge with DINTO or a
+            reduced version in order to infer this new information.
+        </rdfs:comment>
+        <rdfs:comment xml:lang="en">This version includes the 146 &apos;pharmacological entities&apos; that are involved
+            in any af the 92 DDIs selected to be included in an experiment to infer DDI mechanisms using SWRL rules.
+            This version includes the &apos;pharmacological entities&apos;, their related &apos;proteins&apos;, the
+            &apos;DDIs&apos; and the individuals and relationships for all of them. A total of 59 SWRL are included as
+            well.
+            This version can be used with a reasoner (preferably with HermiT 1.3.8) to obtain the desired inferences.
+        </rdfs:comment>
+        <owl:imports rdf:resource="&obo2;DINTO_inf_mechDDIs.owl"/>
+        <owl:imports rdf:resource="&obo2;DINTO_rules_inferenceDDI_type.owl"/>
+        <owl:versionIRI rdf:resource="&obo2;DINTO_inf_mech.owl/"/>
+        <owl:imports rdf:resource="&obo2;MF/external/ontology-metadata-slim.owl"/>
+    </owl:Ontology>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#CN_pl -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;CN_pl"/>
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#CN_sg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;CN_sg"/>
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_pl -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_pl"/>
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_sg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_sg"/>
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_vbg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_vbg"/>
+
+
+    <!-- http://bioontology.org/ontologies/biositemap.owl#replacedBy -->
+
+    <owl:AnnotationProperty rdf:about="&biositemap;replacedBy">
+        <rdfs:domain rdf:resource="&owl;DeprecatedClass"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org#Definition -->
+
+    <owl:AnnotationProperty rdf:about="&purl;Definition">
+        <rdfs:label xml:lang="en">Definition</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#AHFScode -->
+
+    <owl:AnnotationProperty rdf:about="&obo;AHFScode">
+        <rdfs:label xml:lang="en">AHFScode</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#ATCCode -->
+
+    <owl:AnnotationProperty rdf:about="&obo;ATCCode">
+        <rdfs:label xml:lang="en">ATCCode</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#CASRN -->
+
+    <owl:AnnotationProperty rdf:about="&obo;CASRN">
+        <rdfs:label xml:lang="en">CASRN</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#DBBrand -->
+
+    <owl:AnnotationProperty rdf:about="&obo;DBBrand">
+        <rdfs:label xml:lang="en">DBBrand</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#DBSalt -->
+
+    <owl:AnnotationProperty rdf:about="&obo;DBSalt">
+        <rdfs:label xml:lang="en">DBSalt</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#DBSynonym -->
+
+    <owl:AnnotationProperty rdf:about="&obo;DBSynonym">
+        <rdfs:label xml:lang="en">DBSynonym</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#DBname -->
+
+    <owl:AnnotationProperty rdf:about="&obo;DBname">
+        <rdfs:label xml:lang="en">DBname</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#Gene -->
+
+    <owl:AnnotationProperty rdf:about="&obo;Gene">
+        <rdfs:label xml:lang="en">Gene</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#InChI -->
+
+    <owl:AnnotationProperty rdf:about="&obo;InChI">
+        <rdfs:label xml:lang="en">InChI</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#InChIKey -->
+
+    <owl:AnnotationProperty rdf:about="&obo;InChIKey">
+        <rdfs:label xml:lang="en">InChIKey</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#OrganismClass -->
+
+    <owl:AnnotationProperty rdf:about="&obo;OrganismClass">
+        <rdfs:label xml:lang="en">OrganismClass</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#SMILES -->
+
+    <owl:AnnotationProperty rdf:about="&obo;SMILES">
+        <rdfs:label xml:lang="en">SMILES</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#Synonym -->
+
+    <owl:AnnotationProperty rdf:about="&obo;Synonym">
+        <rdfs:label xml:lang="en">Synonym</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#altId -->
+
+    <owl:AnnotationProperty rdf:about="&obo;altId">
+        <rdfs:label xml:lang="en">altId</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#mapsTo -->
+
+    <owl:AnnotationProperty rdf:about="&obo;mapsTo">
+        <rdfs:label xml:lang="en">maps to</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo#xref -->
+
+    <owl:AnnotationProperty rdf:about="&obo;xref">
+        <rdfs:label xml:lang="en">xref</rdfs:label>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000119 -->
+
+    <owl:AnnotationProperty rdf:about="&obo2;IAO_0000119"/>
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#comment -->
+
+    <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#label -->
+
+    <owl:AnnotationProperty rdf:about="&rdfs;label"/>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#altLabel -->
+
+    <owl:AnnotationProperty rdf:about="&skos;altLabel">
+        <rdfs:label xml:lang="en">alternative label</rdfs:label>
+        <skos:example xml:lang="en">Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may
+            be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden
+            labels (see skos:hiddenLabel).
+        </skos:example>
+        <skos:definition xml:lang="en">An alternative lexical label for a resource.</skos:definition>
+        <rdfs:comment xml:lang="en">The range of skos:altLabel is the class of RDF plain literals.</rdfs:comment>
+        <rdfs:comment xml:lang="en">skos:prefLabel, skos:altLabel and skos:hiddenLabel are pairwise disjoint
+            properties.
+        </rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&rdfs;label"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#changeNote -->
+
+    <owl:AnnotationProperty rdf:about="&skos;changeNote">
+        <rdfs:label xml:lang="en">change note</rdfs:label>
+        <skos:definition xml:lang="en">A note about a modification to a concept.</skos:definition>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <rdfs:subPropertyOf rdf:resource="&skos;note"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#definition -->
+
+    <owl:AnnotationProperty rdf:about="&skos;definition">
+        <rdfs:label xml:lang="en">definition</rdfs:label>
+        <skos:definition xml:lang="en">A statement or formal explanation of the meaning of a concept.</skos:definition>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <rdfs:subPropertyOf rdf:resource="&skos;note"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#editorialNote -->
+
+    <owl:AnnotationProperty rdf:about="&skos;editorialNote">
+        <rdfs:label xml:lang="en">editorial note</rdfs:label>
+        <skos:definition xml:lang="en">A note for an editor, translator or maintainer of the vocabulary.
+        </skos:definition>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <rdfs:subPropertyOf rdf:resource="&skos;note"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#example -->
+
+    <owl:AnnotationProperty rdf:about="&skos;example">
+        <rdfs:label xml:lang="en">example</rdfs:label>
+        <skos:definition xml:lang="en">An example of the use of a concept.</skos:definition>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <rdfs:subPropertyOf rdf:resource="&skos;note"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#hiddenLabel -->
+
+    <owl:AnnotationProperty rdf:about="&skos;hiddenLabel">
+        <rdfs:label xml:lang="en">hidden label</rdfs:label>
+        <skos:definition xml:lang="en">A lexical label for a resource that should be hidden when generating visual
+            displays of the resource, but should still be accessible to free text search operations.
+        </skos:definition>
+        <rdfs:comment xml:lang="en">The range of skos:hiddenLabel is the class of RDF plain literals.</rdfs:comment>
+        <rdfs:comment xml:lang="en">skos:prefLabel, skos:altLabel and skos:hiddenLabel are pairwise disjoint
+            properties.
+        </rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&rdfs;label"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#historyNote -->
+
+    <owl:AnnotationProperty rdf:about="&skos;historyNote">
+        <rdfs:label xml:lang="en">history note</rdfs:label>
+        <skos:definition xml:lang="en">A note about the past state/use/meaning of a concept.</skos:definition>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <rdfs:subPropertyOf rdf:resource="&skos;note"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#note -->
+
+    <owl:AnnotationProperty rdf:about="&skos;note">
+        <rdfs:label xml:lang="en">note</rdfs:label>
+        <skos:definition xml:lang="en">A general note, for any purpose.</skos:definition>
+        <skos:scopeNote xml:lang="en">This property may be used directly, or as a super-property for more specific note
+            types.
+        </skos:scopeNote>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#prefLabel -->
+
+    <owl:AnnotationProperty rdf:about="&skos;prefLabel">
+        <rdfs:label xml:lang="en">preferred label</rdfs:label>
+        <rdfs:comment xml:lang="en">A resource has no more than one value of skos:prefLabel per language tag, and no
+            more than one value of skos:prefLabel without language tag.
+        </rdfs:comment>
+        <skos:definition xml:lang="en">The preferred lexical label for a resource, in a given language.
+        </skos:definition>
+        <rdfs:comment xml:lang="en">The range of skos:prefLabel is the class of RDF plain literals.</rdfs:comment>
+        <rdfs:comment xml:lang="en">skos:prefLabel, skos:altLabel and skos:hiddenLabel are pairwise
+            disjoint properties.
+        </rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&rdfs;label"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+    </owl:AnnotationProperty>
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#scopeNote -->
+
+    <owl:AnnotationProperty rdf:about="&skos;scopeNote">
+        <rdfs:label xml:lang="en">scope note</rdfs:label>
+        <skos:definition xml:lang="en">A note that helps to clarify the meaning and/or the use of a concept.
+        </skos:definition>
+        <rdfs:isDefinedBy rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <rdfs:subPropertyOf rdf:resource="&skos;note"/>
+    </owl:AnnotationProperty>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000014 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000014">
+        <rdfs:label xml:lang="en">is carried by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000016 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000016">
+        <rdfs:label xml:lang="en">carries</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000136 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000136">
+        <rdfs:label xml:lang="en">has participant</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000139 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000139">
+        <rdfs:label xml:lang="en">is participant in</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000142 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000142">
+        <rdfs:label xml:lang="en">precedes</rdfs:label>
+        <purl:Definition xml:lang="en">A transitive, temporal relation in which one process precedes (has occurred
+            earlier than) another process
+        </purl:Definition>
+        <obo2:IAO_0000119 xml:lang="en">Semanticscience Integrated Ontology
+            http://semanticscience.org/resource/SIO_000248
+        </obo2:IAO_0000119>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000143 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000143">
+        <rdfs:label xml:lang="en">is preceded by</rdfs:label>
+        <purl:Definition xml:lang="en">A transitive, temporal relation in which one process is preceded (has occurred
+            later than) another process.
+        </purl:Definition>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000157 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000157">
+        <rdfs:label xml:lang="en">binds</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000158 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000158">
+        <rdfs:label xml:lang="en">is binded by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000282 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000282">
+        <rdfs:label xml:lang="en">is substrate of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000286 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000286">
+        <rdfs:label xml:lang="en">has substrate</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000298 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000298">
+        <rdfs:label xml:lang="en">modulates</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000302 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000302">
+        <rdfs:label xml:lang="en">is modulated by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000303 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000303">
+        <rdfs:label xml:lang="en">has pharmacological target</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000313 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000313">
+        <rdfs:label xml:lang="en">is pharmacological target of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000404 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000404">
+        <rdfs:label xml:lang="en">inhibits</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000405 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000405">
+        <rdfs:label xml:lang="en">is inhibited by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000406 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000406">
+        <rdfs:label xml:lang="en">induces</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000407 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000407">
+        <rdfs:label xml:lang="en">is induced by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000408 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000408">
+        <rdfs:label xml:lang="en">related with</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000423 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000423">
+        <rdfs:label xml:lang="en">is metabolised by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000424 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000424">
+        <rdfs:label xml:lang="en">metabolizes</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000426 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000426">
+        <rdfs:label xml:lang="en">is transported by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000427 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000427">
+        <rdfs:label xml:lang="en">transports</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000428 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000428">
+        <rdfs:label xml:lang="en">is blocked by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000429 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000429">
+        <rdfs:label xml:lang="en">blocks</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000430 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000430">
+        <rdfs:label xml:lang="en">activates</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000431 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000431">
+        <rdfs:label xml:lang="en">is activated by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000499 -->
+
+    <owl:ObjectProperty rdf:about="&obo2;DINTO_000499">
+        <rdfs:label xml:lang="en">may interact with</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000040 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000040">
+        <rdfs:label xml:lang="en">has drug selection recommendation</rdfs:label>
+        <purl:Definition xml:lang="en">A recommendation to avoid or decrease the effect of a DDI related with the
+            selection of the interacting drugs.
+        </purl:Definition>
+        <rdfs:comment xml:lang="en">This data property has been adapted and integrated in DINTO from the
+            pharmacogenomics knowledge semantic model described in:
+
+            &quot;Boyce, R. et al. Toward semantic modeling of pharmacogenomic knowledge for clinical and translational
+            decision support. Proceedings of the 2013 AMIA Summit on Translational Bioinformatics. San Francisco, US.&quot;</rdfs:comment>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>add medication</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>change administration route</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first>no change necessary</rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                <rdf:first>not-restart</rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="&rdf;List"/>
+                                                        <rdf:first>use alternative</rdf:first>
+                                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000041 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000041">
+        <rdfs:label xml:lang="en">has monitoring recommendation</rdfs:label>
+        <purl:Definition xml:lang="en">A recommendation to avoid or decrease the effect of a DDI related with monitoring
+            some aspect or parameter of patients.
+        </purl:Definition>
+        <rdfs:comment xml:lang="en">This data property has been adapted and integrated in DINTO from the
+            pharmacogenomics knowledge semantic model described in:
+
+            &quot;Boyce, R. et al. Toward semantic modeling of pharmacogenomic knowledge for clinical and translational
+            decision support. Proceedings of the 2013 AMIA Summit on Translational Bioinformatics. San Francisco, US.&quot;</rdfs:comment>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>change monitoring strategy</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>not-necessary</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first>recommended</rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                <rdf:first>required</rdf:first>
+                                                <rdf:rest rdf:resource="&rdf;nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000042 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000042">
+        <rdfs:label xml:lang="en">has test recommendation</rdfs:label>
+        <purl:Definition xml:lang="en">A recommendation to avoid or decrease the effect of a DDI related with testing
+            recommendations.
+        </purl:Definition>
+        <rdfs:comment xml:lang="en">This data property has been adapted and integrated in DINTO from the
+            pharmacogenomics knowledge semantic model described in:
+
+            &quot;Boyce, R. et al. Toward semantic modeling of pharmacogenomic knowledge for clinical and translational
+            decision support. Proceedings of the 2013 AMIA Summit on Translational Bioinformatics. San Francisco, US.&quot;</rdfs:comment>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>not-necesary</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>recommended</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first>required</rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                <rdf:first>take note it is available</rdf:first>
+                                                <rdf:rest rdf:resource="&rdf;nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000054 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000054">
+        <rdfs:label xml:lang="en">has dose recommendation</rdfs:label>
+        <purl:Definition xml:lang="en">A recommendation to avoid or decrease the effect of a DDI related with the dose
+            of the interacting drugs.
+        </purl:Definition>
+        <rdfs:comment xml:lang="en">This data property has been adapted and integrated in DINTO from the
+            pharmacogenomics knowledge semantic model described in:
+
+            &quot;Boyce, R. et al. Toward semantic modeling of pharmacogenomic knowledge for clinical and translational
+            decision support. Proceedings of the 2013 AMIA Summit on Translational Bioinformatics. San Francisco, US.&quot;</rdfs:comment>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>change dose schedule</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>decrease from baseline</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first>increase from baseline</rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                <rdf:first>no change necessary</rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="&rdf;List"/>
+                                                        <rdf:first>use specific dose</rdf:first>
+                                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000061 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000061">
+        <rdfs:label xml:lang="en">has age</rdfs:label>
+        <purl:Definition xml:lang="en">Age refers to how long something has existed; elapsed time since birth.
+        </purl:Definition>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000062 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000062">
+        <rdfs:label xml:lang="en">has gender</rdfs:label>
+        <purl:Definition xml:lang="en">Gender refers to the state of being male or female.</purl:Definition>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>female</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>male</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000063 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000063">
+        <rdfs:label xml:lang="en">has subject number</rdfs:label>
+        <purl:Definition xml:lang="en">The number of subjects participaiting in a study.</purl:Definition>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000064 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000064">
+        <rdfs:label xml:lang="en">has race or ethnic</rdfs:label>
+        <obo2:IAO_0000119 xml:lang="en">National Cancer Institute</obo2:IAO_0000119>
+        <purl:Definition xml:lang="en">Race is defined as &apos;an arbitrary classification of a taxonomic group that is
+            a division of a species. It usually arises as a consequence of geographical isolation within a species and
+            is characterized by shared heredity, physical attributes and behavior, and in the case of humans, by common
+            history, nationality, or geographic distribution.&apos;</purl:Definition>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000065 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000065">
+        <rdfs:label xml:lang="en">has dose</rdfs:label>
+        <purl:Definition xml:lang="en">A dose is the quantity of a chemical substance administered to a biological
+            system.
+        </purl:Definition>
+        <obo2:IAO_0000119 xml:lang="en">Semanticscience Integrated Ontology (SIO).</obo2:IAO_0000119>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000068 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000068">
+        <rdfs:label xml:lang="en">has pharmaceutical form</rdfs:label>
+        <obo2:IAO_0000119 xml:lang="en">National Cancer Institute</obo2:IAO_0000119>
+        <purl:Definition xml:lang="en">The form in which active and/or inert ingredient(s) are physically presented.
+        </purl:Definition>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000069 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000069">
+        <rdfs:label xml:lang="en">has administration route</rdfs:label>
+        <obo2:IAO_0000119 xml:lang="en">Medical Subject Headings (MeSH)</obo2:IAO_0000119>
+        <purl:Definition xml:lang="en">The various ways of administering a drug or other chemical to a site in a patient
+            or animal from where the chemical is absorbed into the blood and delivered to the target tissue.
+        </purl:Definition>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000084 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000084">
+        <rdfs:label xml:lang="en">has relevance</rdfs:label>
+        <purl:Definition xml:lang="en">The real importance that the DDI has in the clinical practice.</purl:Definition>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>clinical relevance</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>non-clinical relevance</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000085 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000085">
+        <rdfs:label xml:lang="en">has documentation level</rdfs:label>
+        <purl:Definition xml:lang="en">Documentation level determines the degree of confidence that an interaction can
+            cause an altered clinical response. It is established in a five levels scale representing the expert&apos;s
+            evaluatation of the quality and clinical relevance of the primary literature supporting the occurrence of an
+            interaction. Hoewever, multiple factors can influence whether even a well-documented interaction occurs in a
+            particular patient. The documentation does not address the incidence or frequency of the interaction; it is
+            also independent of the potential severity of the effect of the interaction. The five Documentation levels
+            are &apos;established&apos;, &apos;probable&apos;, &apos;suspected&apos;, &apos;possible&apos; and &apos;unlikely&apos;.
+        </purl:Definition>
+        <rdfs:comment xml:lang="en">This definition and the five levels scale have been adopted from &quot;Tatro, D.
+            (2010). Drug interaction facts 2010: The Authority on Drug Interactions. St. Loui, MO: Wolters Kluwer
+            Health.&quot;</rdfs:comment>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>established</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>possible</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first>probable</rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                <rdf:first>suspected</rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="&rdf;List"/>
+                                                        <rdf:first>unlikely</rdf:first>
+                                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000091 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000091">
+        <rdfs:label xml:lang="en">has incidence</rdfs:label>
+        <rdfs:comment xml:lang="en">Definition from NCIT.</rdfs:comment>
+        <purl:Definition xml:lang="en">The relative frequency of occurrence of something.</purl:Definition>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000092 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000092">
+        <rdfs:label xml:lang="en">has onset</rdfs:label>
+        <purl:Definition xml:lang="en">The onset is how rapidly the clinical effects of an interaction can occur and
+            determines the urgency with which preventive measures should be instituted to avoid the consequences of the
+            interaction. Two levels or onset are used: rapid and delayed.
+        </purl:Definition>
+        <rdfs:comment xml:lang="en">This definition and the has been adopted from &quot;Tatro, D. (2010). Drug
+            interaction facts 2010: The Authority on Drug Interactions. St. Loui, MO: Wolters Kluwer
+            Health.&quot;</rdfs:comment>
+        <rdfs:comment xml:lang="en">This definition and the has been adopted from &quot;Tatro, D. (2010). Drug
+            interaction facts 2010: The Authority on Drug Interactions. St. Louis, MO: Wolters Kluwer
+            Health.&quot;</rdfs:comment>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>delayed</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>rapid</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000095 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000095">
+        <rdfs:label xml:lang="en">has severity</rdfs:label>
+        <rdfs:comment xml:lang="en">Definition from NCIT and &quot;Tatro, D. (2010). Drug interaction facts 2010: The
+            Authority on Drug Interactions. St. Loui, MO: Wolters Kluwer Health.&quot;</rdfs:comment>
+        <rdfs:comment xml:lang="en">Definition from NCIT and &quot;Tatro, D. (2010). Drug interaction facts 2010: The
+            Authority on Drug Interactions. St. Louis, MO: Wolters Kluwer Health.&quot;</rdfs:comment>
+        <purl:Definition xml:lang="en">Used of the degree of something undesirable e.g. pain or weather; also,
+            strictness (NCIT). The potential severiyt of the interaction is particularly important in assessing the risk
+            vs benefit of therapeurtic alternatives. With appropiate dosage adjustments or modifications of the
+            administration schedule, the negative effects of most interactions can be avoided. There are three degrees
+            of severity: major, moderate and minor (Tatro).
+        </purl:Definition>
+        <rdfs:domain rdf:resource="&obo2;DINTO_000001"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>major</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>minor</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first>moderate</rdf:first>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+
+
+    <!-- http://purl.obolibrary.org/obo/DINTO_000161 -->
+
+    <owl:DatatypeProperty rdf:about="&obo2;DINTO_000161">
+        <rdfs:label xml:lang="en">has concentration</rdfs:label>
+        <purl:Definition xml:lang="en">Concentration is defined in the National Cancer Institute Thesaurus as: “the
+            quantity of a substance per unit volume or weight; a measure of the amount of substance present in a unit
+            amount of mixture, particularly, the amount of solute dissolved in a solvent. The amounts can be expressed
+            as moles, masses, volumes, or parts.”
+        </purl:Definition>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_5118 -->
+
+    <owl:Class rdf:about="&obo2;CHEBI_5118">
+        <rdfs:label rdf:datatype="&xsd;string">fluoxetine</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&obo2;CHEBI_24431"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00514"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_6780"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_8107"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0291"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000282"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0217"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_1368"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0465"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_10119"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2058"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2714"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0901"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2990"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB01037"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_1440"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_2896"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_9654"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_6128"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2651"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_3732"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2651"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0901"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_8499"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_9943"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_4031"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_3044"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_3441"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_3387"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB01142"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00540"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000303"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2714"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_4562"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_53766"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2993"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000282"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_3582"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_47499"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00199"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_195280"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB01171"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB06700"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00726"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_64318"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0291"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2058"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_9635"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_47781"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2993"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&obo2;CHEBI_100241_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_100246_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_10119_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_149226_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_15365_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_157175_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_15854_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_17303_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_195280_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_2379_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_24431_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_2618_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_28077_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_28593_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_2896_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3013_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3044_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3061_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_31413_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3213_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3387_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3437_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3441_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3558_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3647_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3650_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_367163_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3699_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3720_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3723_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3732_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_3764_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_37924_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_38545_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_39548_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_39867_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_40050_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4031_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_41879_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4317_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4392_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4474_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4495_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4514_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_45367_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4551_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4562_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4681_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_472657_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_47381_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_47499_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_47781_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_480999_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_4907_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_49575_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_50694_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_50749_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_50845_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_5118_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_5138_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_5296_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_53289_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_53766_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_5441_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_5855_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_6128_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_6343_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_63609_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_63621_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_64318_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_64355_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_66901_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_66903_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_6780_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_68595_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_68647_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_6933_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_70746_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_71253_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_7494_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_75045_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_7907_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8093_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8107_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8212_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8426_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8461_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8499_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8707_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_8772_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9123_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9352_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9605_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9635_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9654_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9943_IND"/>
+            <rdf:Description rdf:about="&obo2;CHEBI_9948_IND"/>
+            <rdf:Description rdf:about="&obo2;DB_01267_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0016_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0023_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0037_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0038_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0043_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0044_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0045_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0058_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0062_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0068_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0076_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0103_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0107_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0109_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0111_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0114_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0124_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0156_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0159_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0166_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0199_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0212_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0217_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0224_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0231_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0234_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0258_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0265_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0266_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0269_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0270_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0273_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0276_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0285_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0291_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0293_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0300_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0341_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0376_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0392_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0401_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0403_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0423_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0428_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0432_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0454_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0456_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0465_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0470_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0504_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0510_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0512_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0520_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0550_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0551_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0552_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0588_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0625_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0630_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0648_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0656_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0692_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0703_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0746_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0753_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0757_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0760_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0762_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0764_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0800_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0859_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0881_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0883_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0887_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0893_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0899_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0901_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0908_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0909_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0912_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0915_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0920_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0929_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0931_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0932_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0938_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0951_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0955_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_0990_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1005_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1007_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1008_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1014_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1016_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1017_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1021_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1027_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1028_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1050_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1051_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1071_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1073_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1075_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1110_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1123_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1135_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1136_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1147_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1154_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1155_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1166_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1175_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1221_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1246_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1322_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1368_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1371_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1400_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1425_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1437_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1440_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1446_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1453_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1457_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1534_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1538_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1540_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1559_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1562_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1568_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1573_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1576_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1577_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1581_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1621_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1645_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1670_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1675_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1681_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1694_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1697_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1701_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1711_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1754_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1761_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1765_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1766_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1774_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1780_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1790_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1792_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1805_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1807_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1810_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1812_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1815_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1822_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1824_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1833_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1843_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1847_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1848_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1850_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1858_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1874_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1878_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1890_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1891_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1892_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1941_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1948_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1956_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1959_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1970_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1972_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1973_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1974_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1975_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1977_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1979_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1981_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1987_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1988_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1992_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_1993_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2004_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2013_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2019_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2045_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2048_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2058_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2082_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2084_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2097_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2099_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2100_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2101_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2115_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2116_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2127_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2131_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2137_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2142_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2149_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2153_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2157_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2201_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2202_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2206_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2258_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2260_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2265_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2271_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2272_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2338_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2448_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2449_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2496_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2626_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2634_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2641_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2646_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2651_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2652_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2656_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2664_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2667_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2679_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2701_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2705_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2714_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2716_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2717_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2729_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2735_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2739_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2745_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2747_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2748_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2751_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2752_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2761_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2763_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2778_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2779_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2787_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2789_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2804_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2808_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2814_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2820_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2825_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2827_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2828_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2830_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2834_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2836_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2846_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2847_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2852_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2853_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2857_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2858_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2863_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2874_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2875_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2886_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2900_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2907_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2944_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2957_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2959_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2962_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2965_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2975_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2979_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2990_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2992_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2993_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_2998_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3000_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3003_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3056_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3062_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3078_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3079_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3084_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3102_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3103_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3104_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3105_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3106_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3107_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3109_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3111_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3112_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3113_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3115_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3136_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3154_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3156_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3161_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3162_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3165_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3170_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3182_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3185_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3187_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3203_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3214_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3240_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3321_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3325_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3326_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3332_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3338_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3340_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3343_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3364_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3400_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3461_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3464_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3466_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3471_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3475_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3489_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3490_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3504_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3507_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3531_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3535_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3550_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3568_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3582_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3584_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3607_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3611_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3613_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3622_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3628_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3643_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3682_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3704_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3709_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3844_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3877_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3879_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3887_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3952_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3960_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3964_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3967_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_3974_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4010_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4019_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4020_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4021_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4037_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4061_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4065_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4068_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4081_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4171_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4193_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4244_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4277_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4301_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_4311_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00054_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00196_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00199_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00209_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00220_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00224_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00364_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00365_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00373_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00514_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00540_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00541_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00683_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00710_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00726_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00757_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00762_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00893_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00904_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB00934_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01026_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01037_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01064_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01118_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01142_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01167_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01171_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01218_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01223_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01294_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01296_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01319_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01370_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01373_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01378_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01394_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01405_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01436_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01558_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01574_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01592_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01593_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB01601_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB04574_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB06210_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB06274_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB06700_IND"/>
+            <rdf:Description rdf:about="&obo2;DINTO_DB06702_IND"/>
+            <rdf:Description rdf:about="&obo2;abciximab_tirofiban"/>
+            <rdf:Description rdf:about="&obo2;acenocoumarol_fluoxetine"/>
+            <rdf:Description rdf:about="&obo2;alfacalcidol_calcipotriol"/>
+            <rdf:Description rdf:about="&obo2;aluminium_ciprofloxacin"/>
+            <rdf:Description rdf:about="&obo2;alvimopan_dezocine"/>
+            <rdf:Description rdf:about="&obo2;alvimopan_morphine"/>
+            <rdf:Description rdf:about="&obo2;amiodarone_cisapride"/>
+            <rdf:Description rdf:about="&obo2;amiodarone_phenytoin"/>
+            <rdf:Description rdf:about="&obo2;amprenavir_diazepam"/>
+            <rdf:Description rdf:about="&obo2;atorvastatin_eltrombopag"/>
+            <rdf:Description rdf:about="&obo2;attapulgite_doxycycline"/>
+            <rdf:Description rdf:about="&obo2;bepridil_astemizole"/>
+            <rdf:Description rdf:about="&obo2;bismuthSubsalicylate_minocycline"/>
+            <rdf:Description rdf:about="&obo2;bromazepam_itraconazole"/>
+            <rdf:Description rdf:about="&obo2;calcium_enoxacin"/>
+            <rdf:Description rdf:about="&obo2;calcium_ibandronate"/>
+            <rdf:Description rdf:about="&obo2;cerivastatin_rifampicin"/>
+            <rdf:Description rdf:about="&obo2;chlorpropamide_acetylsalicylic_acid"/>
+            <rdf:Description rdf:about="&obo2;colchicine_clotrimazole"/>
+            <rdf:Description rdf:about="&obo2;dabigatranEtexilate_verapamil"/>
+            <rdf:Description rdf:about="&obo2;dabrafenib_midazolam"/>
+            <rdf:Description rdf:about="&obo2;desipramine_ziprasidone"/>
+            <rdf:Description rdf:about="&obo2;desvenlafaxine_fluoxetine"/>
+            <rdf:Description rdf:about="&obo2;dextromethorphan_desvenlafaxine"/>
+            <rdf:Description rdf:about="&obo2;diazoxide_bendroflumethiazide"/>
+            <rdf:Description rdf:about="&obo2;diclofenac_cyclosporinA"/>
+            <rdf:Description rdf:about="&obo2;digoxin_quinidine"/>
+            <rdf:Description rdf:about="&obo2;dihydroergotamine_clarithromycin"/>
+            <rdf:Description rdf:about="&obo2;dofetilide_clarithromycin"/>
+            <rdf:Description rdf:about="&obo2;dolasetron_artemether"/>
+            <rdf:Description rdf:about="&obo2;dolasetron_ziprasidone"/>
+            <rdf:Description rdf:about="&obo2;donepezil_chlorpomazine"/>
+            <rdf:Description rdf:about="&obo2;doxepin_cimetidine"/>
+            <rdf:Description rdf:about="&obo2;doxepin_phenylephrine"/>
+            <rdf:Description rdf:about="&obo2;eltrombopag_cimetidine"/>
+            <rdf:Description rdf:about="&obo2;ergotamine_acebutolol"/>
+            <rdf:Description rdf:about="&obo2;ergotamine_carvedilol"/>
+            <rdf:Description rdf:about="&obo2;ergotamine_propranolol"/>
+            <rdf:Description rdf:about="&obo2;erythromycin_vinorelbine"/>
+            <rdf:Description rdf:about="&obo2;estropipate_raloxifeno"/>
+            <rdf:Description rdf:about="&obo2;fesoterodine_ketoconazole"/>
+            <rdf:Description rdf:about="&obo2;fluconazole_phenytoin"/>
+            <rdf:Description rdf:about="&obo2;fosamprenavir_cyclosporinA"/>
+            <rdf:Description rdf:about="&obo2;gemfibrozil_rosuvastatin"/>
+            <rdf:Description rdf:about="&obo2;glucosamine_glyburide"/>
+            <rdf:Description rdf:about="&obo2;grepafloxacin_chlorpromazine"/>
+            <rdf:Description rdf:about="&obo2;grepafloxacin_ironDextran"/>
+            <rdf:Description rdf:about="&obo2;halofantrine_trimipramine"/>
+            <rdf:Description rdf:about="&obo2;ibuprofen_carvedilol"/>
+            <rdf:Description rdf:about="&obo2;imipramine_fluvoxamine"/>
+            <rdf:Description rdf:about="&obo2;imipramine_ziprasidone"/>
+            <rdf:Description rdf:about="&obo2;indinavir_dantrolene"/>
+            <rdf:Description rdf:about="&obo2;iron_demeclocycline"/>
+            <rdf:Description rdf:about="&obo2;isoproterenol_acebutolol"/>
+            <rdf:Description rdf:about="&obo2;itraconazole_trazodone"/>
+            <rdf:Description rdf:about="&obo2;ketoprofen_acetylsalicylic_acid"/>
+            <rdf:Description rdf:about="&obo2;labetalol_fenoterol"/>
+            <rdf:Description rdf:about="&obo2;lopinavir_darunavir"/>
+            <rdf:Description rdf:about="&obo2;magnesium_temafloxacin"/>
+            <rdf:Description rdf:about="&obo2;maprotiline_ziprasidone"/>
+            <rdf:Description rdf:about="&obo2;mefloquine_halofantrine"/>
+            <rdf:Description rdf:about="&obo2;midazolam_clobazam"/>
+            <rdf:Description rdf:about="&obo2;midrodine_dexamethasone"/>
+            <rdf:Description rdf:about="&obo2;moclobemide_selegiline"/>
+            <rdf:Description rdf:about="&obo2;nelfinavir_cyclosporinA"/>
+            <rdf:Description rdf:about="&obo2;nortriptyline_cisapride"/>
+            <rdf:Description rdf:about="&obo2;ondansetron_asenapine"/>
+            <rdf:Description rdf:about="&obo2;paliperidone_amantadine"/>
+            <rdf:Description rdf:about="&obo2;pancuronium_quinine"/>
+            <rdf:Description rdf:about="&obo2;pimozide_mesoridazine"/>
+            <rdf:Description rdf:about="&obo2;posaconazole_vinorelbine"/>
+            <rdf:Description rdf:about="&obo2;probenecid_cefixime"/>
+            <rdf:Description rdf:about="&obo2;promethazine_benzphetamine"/>
+            <rdf:Description rdf:about="&obo2;quetiapine_donepezil"/>
+            <rdf:Description rdf:about="&obo2;regorafenib_irinotecan"/>
+            <rdf:Description rdf:about="&obo2;rifabutin_bromazepam"/>
+            <rdf:Description rdf:about="&obo2;saquinavir_diazepam"/>
+            <rdf:Description rdf:about="&obo2;sertraline_phenytoin"/>
+            <rdf:Description rdf:about="&obo2;sucralfate_etidronicAcid"/>
+            <rdf:Description rdf:about="&obo2;sulindac_bumetanide"/>
+            <rdf:Description rdf:about="&obo2;telaprevir_ketoconazole"/>
+            <rdf:Description rdf:about="&obo2;timolol_chlorpropamide"/>
+            <rdf:Description rdf:about="&obo2;toremifene_chlorpromazine"/>
+            <rdf:Description rdf:about="&obo2;trazodone_nefazodone"/>
+            <rdf:Description rdf:about="&obo2;trimipramine_venlafaxine"/>
+            <rdf:Description rdf:about="&obo2;trospium_dicyclomine"/>
+            <rdf:Description rdf:about="&obo2;valproicAcid_acetylsalicylicAcid"/>
+            <rdf:Description rdf:about="&obo2;verapamile_carbamezepine"/>
+            <rdf:Description rdf:about="&obo2;vincristine_ketoconzale"/>
+            <rdf:Description rdf:about="&obo2;vismodegib_ivacaftor"/>
+            <rdf:Description rdf:about="&obo2;zinc_norfloxacin"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+
+    <!-- http://purl.obolibrary.org/obo/abciximab_tirofiban
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/abciximab_tirofiban">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_09500"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_9605_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB00054_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/acenocoumarol_fluoxetine
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/acenocoumarol_fluoxetine">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_06870"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_5118_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_53766_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/alfacalcidol_calcipotriol
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/alfacalcidol_calcipotriol">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_06599"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_50749_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB01436_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/aluminium_ciprofloxacin
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/aluminium_ciprofloxacin">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_00636"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_100241_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB01370_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/alvimopan_dezocine
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/alvimopan_dezocine">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_05385"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4474_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB06274_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/alvimopan_morphine
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/alvimopan_morphine">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_01994"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_17303_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB06274_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/amiodarone_cisapride
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/amiodarone_cisapride">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_04533"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3720_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB01118_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/amiodarone_phenytoin
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/amiodarone_phenytoin">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_08749"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_8107_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/amiodarone_phenytoin"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/amprenavir_diazepam
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/amprenavir_diazepam">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_06375"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_40050_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_49575_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/atorvastatin_eltrombopag
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/atorvastatin_eltrombopag">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_09809"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_39548_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB06210_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/attapulgite_doxycycline
+-->
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/attapulgite_doxycycline">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/DINTO_06643"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/CHEBI_50845_IND"/>
+        <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB01574_IND"/>
+    </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/bepridil_astemizole
+-->
+
+</rdf:RDF>
