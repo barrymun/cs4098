@@ -1365,6 +1365,212 @@
         </rdfs:subClassOf>
     </owl:Class>
 
+    <!-- http://purl.obolibrary.org/obo/CHEBI_4514 -->
+
+    <owl:Class rdf:about="&obo2;CHEBI_4514">
+        <rdfs:label rdf:datatype="&xsd;string">dicyclomine</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&obo2;CHEBI_24431"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000429"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_3182"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00209"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000406"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0269"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_53289"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000303"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_3182"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000429"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_3887"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_53289 -->
+
+    <owl:Class rdf:about="&obo2;CHEBI_53289">
+        <rdfs:label rdf:datatype="&xsd;string">donepezil</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&obo2;CHEBI_24431"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00934"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_2618"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_47781"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_6780"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00209"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_47499"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_10119"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_3699"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_9123"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0901"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000404"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_1021"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_4514"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00726"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_8212"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_9654"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB01171"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2993"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000303"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_1021"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB01142"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_8707"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000423"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_2058"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_3647"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000408"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_0392"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;DINTO_DB00540"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_8461"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&obo2;DINTO_000499"/>
+                <owl:someValuesFrom rdf:resource="&obo2;CHEBI_28593"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -2052,5 +2258,21 @@
         <obo2:DINTO_000136 rdf:resource="http://purl.obolibrary.org/obo/DINTO_DB01574_IND"/>
     </owl:NamedIndividual><!-- http://purl.obolibrary.org/obo/bepridil_astemizole
 -->
+
+    <!-- http://purl.obolibrary.org/obo/trospium_dicyclomine -->
+
+    <owl:NamedIndividual rdf:about="&obo2;trospium_dicyclomine">
+        <rdf:type rdf:resource="&obo2;DINTO_05509"/>
+        <obo2:DINTO_000136 rdf:resource="&obo2;CHEBI_4514_IND"/>
+        <obo2:DINTO_000136 rdf:resource="&obo2;DINTO_DB00209_IND"/>
+    </owl:NamedIndividual>
+
+    <!-- http://purl.obolibrary.org/obo/donepezil_chlorpomazine -->
+
+    <owl:NamedIndividual rdf:about="&obo2;donepezil_chlorpomazine">
+        <rdf:type rdf:resource="&obo2;DINTO_04326"/>
+        <obo2:DINTO_000136 rdf:resource="&obo2;CHEBI_3647_IND"/>
+        <obo2:DINTO_000136 rdf:resource="&obo2;CHEBI_53289_IND"/>
+    </owl:NamedIndividual>
 
 </rdf:RDF>

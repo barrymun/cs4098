@@ -37,36 +37,43 @@
 
     <body>
     <div>
-        <ul style="padding-bottom: 50px;">
-            <table class="table table-striped table-bordered" style="width: 90%;">
-                <tr>
-                    <th class="col-md-2">&nbsp;Filename</th>
-                    <th class="col-md-10">&nbsp;Process</th>
-                </tr>
-                {%- for file in analyse_files %}
+        <form action="/dinto-index" method="get">
+            <ul style="padding-bottom: 50px;">
+                <table class="table table-striped table-bordered" style="width: 90%;">
                     <tr>
-                        <td class="col-md-2">&nbsp;{{ file['name'] }}</td>
-                        {% if "error" in file['process'] %}
-                            <td class="col-md-10"><font color="#FF0000">{{ file['process'] }}</font></td>
-                        {% else %}
-                            <td class="col-md-10">
-                                {{ file['process'] }}
-                            </td>
-                        {% endif %}
+                        <th class="col-md-2">&nbsp;Filename</th>
+                        <th class="col-md-10">&nbsp;Process</th>
                     </tr>
-                {%- endfor %}
-            </table>
-        </ul>
-        <div id="bottom">
-            <div class="row">
-                <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9"></div>
-                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                    <div class="load">
-                        <button class="btn btn-info btn-lg" onclick="goBack()">Go Back</button>
+                    {%- for file in analyse_files %}
+                        <tr>
+                            <td class="col-md-2">&nbsp;{{ file['name'] }}</td>
+                            {% if "error" in file['process'] %}
+                                <td class="col-md-10"><font color="#FF0000">{{ file['process'] }}</font></td>
+                            {% else %}
+                                <td class="col-md-10">
+                                    {{ file['process'] }}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {%- endfor %}
+                </table>
+            </ul>
+            <div id="bottom">
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="load">
+                            <input type="submit" class="btn btn-info btn-lg" value="Search DINTO For Interactions">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"></div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="load">
+                            <button class="btn btn-info btn-lg" onclick="goBack()">Go Back</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     </body>
 {% endblock %}

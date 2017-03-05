@@ -20,37 +20,36 @@ logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelnam
 rootLogger = logging.getLogger()
 
 
-@app.route('/analyse-owl-files', methods=['POST'])
-def analyse_owl_selected_files():
-    db = mongo.db.dist
-    db.analysisowl.drop()
-    files = request.form.getlist('checkheaders')
-    for file in files:
-        current_file = db.toplayers.find_one({'header': file})
-        if (current_file):
-            name = current_file['name']
-            path = current_file['path']
-            header = current_file['header']
-            process = current_file['process']
-            m = md5.new()
-            m.update(file)
-            db.analysisowl.insert(
-                {'name': name, 'path': path, 'header': header, 'process': process, 'id': m.hexdigest()})
-            rootLogger.info('\n')
-            rootLogger.info("Name = [ " + name + " ]")
-            rootLogger.info("Path = [ " + path + " ]")
-            rootLogger.info("Header = [ " + header + " ]")
-            rootLogger.info("Process = [ " + process + " ]")
-    return render_template('analyseowldinto.html', analyse_owl_files=db.analysisowl.find())
-
-
 @app.route('/get-toplayers', methods=['POST'])
 def get_toplayers():
     db = mongo.db.dist
     db.toplayers.drop()
     db.selectedowl.drop()
-    owlfiles = request.form.getlist('checkowl')
-    for file in owlfiles:
+    owl_files = request.form.getlist('checkowl')
+    pml_info = db.analysis.find()
+    pml_info_drug_list = []
+    print("HERE")
+
+    for pmlinfo in pml_info:
+        value = str(pmlinfo['process'])
+        print(value)
+        value = value[1:]
+        value = value[:-1]
+        while "," in value:
+            value = value[1:]
+            sep_drug_name = ","
+            value_current = value.split(sep_drug_name, 1)[0]
+            value = value.split(sep_drug_name, 1)[1]
+            print(value_current)
+            print(value)
+            if "(" not in value_current:
+                if ":" not in value_current:
+                    if ")" not in value_current:
+                        pml_info_drug_list.append(value_current)
+    print(pml_info_drug_list)
+    print("END")
+
+    for file in owl_files:
         current_file = db.owlfiles.find_one({'name': file})
         if (current_file):
             path = current_file['path']
@@ -70,42 +69,40 @@ def get_toplayers():
         goc = get_owl_class(model, super_class_list)
         gop = get_owl_property(model, prop_list)
         gdl = get_drug_links(model, final_link)
+        rest_final = ""
 
         for x, y in goc:
-            x = str(x[40:])
-            x = str(x[:-3])
-            # print(x)
+            class_to_string = str(x[39:])
+            class_to_string = class_to_string[:-2]
 
             for i in gdl:
-                if x in str(i):
+                if class_to_string in str(i):
                     drug_name = str(i)[53:]
+                    print(drug_name)
                     sep_drug_name = "'),"
                     rest_final = drug_name.split(sep_drug_name, 1)[0]
-                    # print(rest_final)
+                    break
 
-            for temp in y:
-                # print(temp)
-                sep = "obo2:"
-                rest = temp.split(sep, 1)[1]
-                rest_next = rest.split(sep, 1)[1]
-                rest = rest[:12]
-                rest_next = rest_next[:10]
-                # print(rest)
-                # print(rest_next)
+            for user_selected_elem in pml_info_drug_list:
+                if user_selected_elem in rest_final:
+                    for temp in y:
+                        sep = "obo2:"
+                        rest = temp.split(sep, 1)[1]
+                        rest_next = rest.split(sep, 1)[1]
+                        rest = rest[:12]
+                        rest_next = rest_next[:10]
 
-                for j in gop:
-                    if str(rest) in str(j):
-                        interaction = str(j)[18:]
-                        interaction = interaction[:-2]
-                        # print(interaction)
+                        for j in gop:
+                            if str(rest) in str(j):
+                                interaction = str(j)[18:]
+                                interaction = interaction[:-2]
 
-                display = rest_final + " " + interaction + " " + rest_next
-                data.append(display)
-                # print(display)
-                # break
+                        display = rest_final + " " + interaction + " " + rest_next
+                        data.append(display)
 
         m = md5.new()
         m.update(name)
+
         if (data != None):
             db.toplayers.insert(
                 {'name': name, 'path': path, 'interactions': data, 'id': m.hexdigest()})
@@ -154,10 +151,10 @@ def analyse_selected_files():
             output = process.communicate()[0]
             strip_first = output[1:]
             strip_last = strip_first[:-2]
-            print("OUTPUT")
-            print(output)
-            print(strip_last)
-            print("END")
+            # print("OUTPUT")
+            # print(output)
+            # print(strip_last)
+            # print("END")
             db.analysis.insert({'name': name, 'path': path, 'process': strip_last, 'id': m.hexdigest()})
             rootLogger.info('\n')
             rootLogger.info("Name = [ " + name + " ]")
@@ -270,13 +267,15 @@ def load_pml_source_files(path, extension):
 def get_owl_class(model, super_class_list):
     a_header = model.classes
     x = 0
+    temp_list = []
     for i in a_header:
         ser_data = a_header[x].serialize()
-        temp_sd = model.toplayer
+        temp_sd = model.toplayer[x]
         str_set_data = str(ser_data)
         str_set_data = str_set_data[995:]
         class_list = str_set_data.split(",")
         class_list.pop()
+        # temp_list.append(str(temp_sd))
         super_class_list.append((str(temp_sd), class_list))
         x += 1
     return super_class_list
