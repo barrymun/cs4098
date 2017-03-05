@@ -84,7 +84,7 @@ def get_toplayers():
                             rest = temp.split(sep, 1)[1]
                             rest_next = rest.split(sep, 1)[1]
                             rest = rest[:12]
-                            rest_next = rest_next[:10]
+                            rest_next = rest_next[:-1]
 
                             for j in gop:
                                 if str(rest) in str(j):
@@ -103,7 +103,6 @@ def get_toplayers():
                 for i in gdl:
                     if class_to_string in str(i):
                         drug_name = str(i)[53:]
-                        print(drug_name)
                         sep_drug_name = "'),"
                         actual_drug_name = drug_name.split(sep_drug_name, 1)[0]
                         for j in pml_info_drug_list:
@@ -176,10 +175,6 @@ def analyse_selected_files():
             output = process.communicate()[0]
             strip_first = output[1:]
             strip_last = strip_first[:-2]
-            # print("OUTPUT")
-            # print(output)
-            # print(strip_last)
-            # print("END")
             db.analysis.insert({'name': name, 'path': path, 'process': strip_last, 'id': m.hexdigest()})
             rootLogger.info('\n')
             rootLogger.info("Name = [ " + name + " ]")
@@ -292,7 +287,6 @@ def load_pml_source_files(path, extension):
 def get_owl_class(model, super_class_list):
     a_header = model.classes
     x = 0
-    temp_list = []
     for i in a_header:
         ser_data = a_header[x].serialize()
         temp_sd = model.toplayer[x]
@@ -300,7 +294,6 @@ def get_owl_class(model, super_class_list):
         str_set_data = str_set_data[995:]
         class_list = str_set_data.split(",")
         class_list.pop()
-        # temp_list.append(str(temp_sd))
         super_class_list.append((str(temp_sd), class_list))
         x += 1
     return super_class_list

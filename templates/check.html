@@ -30,8 +30,8 @@
         </nav>
 
         <div class="page-header" style="padding-bottom: 100px;">
-            <h1 class="col-md-11">&nbsp;Analysis Results</h1>
-            <h1 class="col-md-1"><a href="/">Home</a></h1>
+            <h1 class="col-md-10">&nbsp;Analysis Results</h1>
+            <h1 class="col-md-2"><a href="/">Home</a></h1>
         </div>
     </head>
 
@@ -42,15 +42,21 @@
                 <table class="table table-striped table-bordered" style="width: 90%;">
                     <tr>
                         <th class="col-md-2">&nbsp;Filename</th>
-                        <th class="col-md-10">&nbsp;Process</th>
+                        <th class="col-md-10">&nbsp;PML Error Check Results</th>
                     </tr>
                     {%- for file in check_files %}
                         <tr>
                             <td class="col-md-2">&nbsp;{{ file['name'] }}</td>
                             {% if "error" in file['process'] %}
-                                <td class="col-md-10"><font color="#FF0000">{{ file['process'] }}</font></td>
+                                <td class="col-md-10">
+                                    <font color="#FF0000">
+                                        RESULT INVALID<br/><br/>
+                                        {{ file['process'] }}
+                                    </font>
+                                </td>
                             {% else %}
                                 <td class="col-md-10">
+                                    RESULT VALID<br/><br/>
                                     {%- for line in file['process'] %}
                                         {{ line }}
                                         <br/><br/>
@@ -65,7 +71,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
                         <div class="load">
-                            <input type="submit" class="btn btn-info btn-lg" value="Analyse Selected Files">
+                            <input type="submit" class="btn btn-info btn-lg" value="Analyse File">
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"></div>

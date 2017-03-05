@@ -30,21 +30,21 @@
         </nav>
 
         <div class="page-header" style="padding-bottom: 100px;">
-            <h1 class="col-md-11">&nbsp;Select Required PML Documents</h1>
-            <h1 class="col-md-1"><a href="/">Home</a></h1>
+            <h1 class="col-md-10">&nbsp;Select Required PML Document</h1>
+            <h1 class="col-md-2"><a href="/">Home</a></h1>
         </div>
     </header>
 
     <body>
     <div>
         <form action="/check-files" method="post">
-            {#        <div class="row">#}
-            {#            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">#}
-            {#                <div class="alert alert-info" role="alert" style="text-align: center;">#}
-            {#                    <strong>Info:</strong> Select multiple files to compare analysis results.#}
-            {#                </div>#}
-            {#            </div>#}
-            {#        </div>#}
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="alert alert-info" role="alert" style="text-align: center;">
+                        <strong>Info:</strong> Please select a file (This will be used to extract data from DINTO).
+                    </div>
+                </div>
+            </div>
             <ul style="padding-bottom: 50px;">
                 <table class="table table-striped table-bordered" style="width: 50%;">
                     <tr>
@@ -64,7 +64,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
                         <div class="load">
-                            <input type="submit" class="btn btn-info btn-lg" value="Check Selected Files">
+                            <input type="submit" class="btn btn-info btn-lg" value="Check Validity Of Selected File">
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"></div>
