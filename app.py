@@ -60,6 +60,7 @@ def get_toplayers():
         prop_list = []
         final_link = []
         data = []
+        links_list = []
         goc = get_owl_class(model, super_class_list)
         gop = get_owl_property(model, prop_list)
         gdl = get_drug_links(model, final_link)
@@ -85,6 +86,7 @@ def get_toplayers():
                             rest_next = rest.split(sep, 1)[1]
                             rest = rest[:12]
                             rest_next = rest_next[:-1]
+                            interaction = ""
 
                             for j in gop:
                                 if str(rest) in str(j):
@@ -92,6 +94,8 @@ def get_toplayers():
                                     interaction = interaction[:-2]
 
                             display = actual_drug_name + " " + interaction + " " + rest_next
+                            if "CHEBI" in rest_next:
+                                links_list.append(rest_next)
                             data.append(display)
 
         elif len(pml_info_drug_list) > 1:
@@ -109,7 +113,7 @@ def get_toplayers():
                             if j in actual_drug_name:
                                 drug_name_list.append((class_to_string, actual_drug_name))
 
-                for a,b in drug_name_list:
+                for a, b in drug_name_list:
                     for elem in pml_info_drug_list:
                         if elem not in b:
                             for el in y:
@@ -129,14 +133,15 @@ def get_toplayers():
 
         if (data != None):
             db.toplayers.insert(
-                {'name': name, 'path': path, 'interactions': data, 'id': m.hexdigest()})
+                {'name': name, 'path': path, 'interactions': data, 'links': links_list, 'id': m.hexdigest()})
             rootLogger.info('\n')
             rootLogger.info("Name = [ " + name + " ]")
             rootLogger.info("Path = [ " + path + " ]")
             rootLogger.info(data)
         else:
             db.toplayers.insert(
-                {'name': name, 'path': path, 'interactions': "ERROR: no data present", 'id': m.hexdigest()})
+                {'name': name, 'path': path, 'interactions': "ERROR: no data present", 'links': links_list,
+                 'id': m.hexdigest()})
             rootLogger.info('\n')
             rootLogger.info("Name = [ " + name + " ]")
             rootLogger.info("Path = [ " + path + " ]")

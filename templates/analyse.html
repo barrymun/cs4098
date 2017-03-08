@@ -39,18 +39,24 @@
     <div>
         <form action="/dinto-index" method="get">
             <ul style="padding-bottom: 50px;">
-                <table class="table table-striped table-bordered" style="width: 90%;">
-                    <tr>
-                        <th class="col-md-2">&nbsp;Filename</th>
-                        <th class="col-md-10">&nbsp;Analysis Results</th>
-                    </tr>
+                <table class="table table-striped table-bordered" style="width: 95%;">
                     {%- for file in analyse_files %}
                         <tr>
-                            <td class="col-md-2">&nbsp;{{ file['name'] }}</td>
+                            <th class="col-sm-12 col-md-12 col-lg-12 col-xl-12">{{ file['name'] }}</th>
+                        </tr>
+                        <tr>
                             {% if "error" in file['process'] %}
-                                <td class="col-md-10"><font color="#FF0000">{{ file['process'] }}</font></td>
+                                <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="alert alert-danger" role="alert" style="text-align: center;">
+                                        <strong>Info: </strong>ERROR IN ANALYSIS
+                                    </div>
+                                    {{ file['process'] }}
+                                </td>
                             {% else %}
-                                <td class="col-md-10">
+                                <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="alert alert-success" role="alert" style="text-align: center;">
+                                        <strong>Info: </strong>ANALYSIS SUCCESSFUL
+                                    </div>
                                     {{ file['process'] }}
                                 </td>
                             {% endif %}
@@ -62,15 +68,17 @@
                 <div class="row">
                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
                         <div class="load">
+                            <button type="button" class="btn btn-info btn-lg" onclick="javascript:history.back()">Back
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="load">
                             <input type="submit" class="btn btn-info btn-lg" value="Search DINTO For Interactions">
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"></div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <div class="load">
-                            <button class="btn btn-info btn-lg" onclick="goBack()">Go Back</button>
-                        </div>
-                    </div>
+                    <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
                 </div>
             </div>
         </form>
