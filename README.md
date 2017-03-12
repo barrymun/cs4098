@@ -57,7 +57,7 @@ Activate the virtual environment:
 source venv/bin/activate
 ```
 
-Once the app has been started on the previous terminal:
+Once the app has been started on the previous terminal: - (PML and DINTO Log-file Generation)
 ```bash
 tail -f info.log
 ```
@@ -71,18 +71,18 @@ See the `documentation/testing/testing-process` section of this repo for more in
 
 - Navigate to the homepage (process described above).
 - Select "Begin Analysis".
-- Select a pml file (`depression.pml` or `irritable_bowel_syndrome.pml`).
+- Select a pml file (`depression.pml` or `irritable_bowel_syndrome.pml`). - (PML file selection)
 - `depression.pml` describes only one drug, and will list all interactions of that drug.
-- `irritable_bowel_syndrome.pml` describes multiple (2) drugs, and will list the interactions between these 2 drugs.
+- `irritable_bowel_syndrome.pml` describes multiple (2) drugs, and will list the interactions between these 2 drugs. - (PML File Loading)
 - When a file has been selected, click "Check Validity of Selected File" to continue.
-- The next page displayed is the results of a pml file check.
+- The next page displayed is the results of a pml file check. - (Running PML Analysis)
 - The result will be either valid or invalid. An invalid result will not allow for progression.
-- If result is valid, click "Analyse File" to extract the drug information.
+- If result is valid, click "Analyse File" to extract the drug information. - (On-Screen PML Reporting)
 - You will now be presented with a list containing drug information realting to the title of the pml. (ie - depression will yield a prescription of fluoxetine)
 - Click "Search DINTO for Interactions" to continue.
-- Next, select the DINTO knowledge base. For the purposes of this test, the only KB is "test_selection.owl".
-- Select the file, and click "Load Knowledge Base" to continue.
-- A list of drug-drug interactions will now be displayed on screen.
+- Next, select the DINTO knowledge base. For the purposes of this test, the only KB is "test_selection.owl". - (Select specific OWL Ontology)
+- Select the file, and click "Load Knowledge Base" to continue. - (Load Selected Ontology)
+- A list of drug-drug interactions will now be displayed on screen. - (On-Screen DINTO Reporting)
 - Click the available links to view drug references for single-instance drug interactions.
 - Select "Finished" when analysis is complete. You will be redirected to the homepage.
 
@@ -97,13 +97,13 @@ See the `documentation/testing/testing-process` section of this repo for more in
 - The following instructions are the same as above, but various descriptive error messages will be encountered.
 - When a file has been selected, click "Check Validity of Selected File" to continue.
 - The next page displayed is the results of a pml file check.
-- The result will be either valid or invalid. An invalid result will not allow for progression.
+- The result will be either valid or invalid. An invalid result will not allow for progression. - (PML Error and Warning highlights)
 - If result is valid, click "Analyse File" to extract the drug information.
-- You will now be presented with a list containing drug information realting to the title of the pml. (ie - depression will yield a prescription of fluoxetine)
+- You will now be presented with a list containing drug information relating to the title of the pml. (ie - depression will yield a prescription of fluoxetine)
 - Click "Search DINTO for Interactions" to continue.
 - Next, select the DINTO knowledge base. For the purposes of this test, the only KB is "test_selection.owl".
 - Select the file, and click "Load Knowledge Base" to continue.
-- A list of drug-drug interactions will now be displayed on screen.
+- If errors exist from any previous section, the relevant DINTO (or PML if previous) errors will be highlighted by the system. - (DINTO Error and Warning highlights)
 - Select "Finished" when analysis is complete. You will be redirected to the homepage.
 
 # Using the Mongo Database
