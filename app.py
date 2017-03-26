@@ -218,6 +218,8 @@ def check_selected_files():
         name = file['name']
         m = md5.new()
         m.update(name)
+        line_number = 1
+        construct_duplication_check = []
 
         # check for un-named construct here
         with open(path) as f:
@@ -225,15 +227,35 @@ def check_selected_files():
                 if "action" in line:
                     line = line.split("action", 1)[1]
                     line = line.split("{", 1)[0]
-                    if len(line) < 2:
+                    line = line.strip()
+                    if line not in construct_duplication_check:
+                        construct_duplication_check.append(line)
+                    else:
+                        duplication_error_string = "PML contains construct DUPLICATION (" + str(
+                            line_number) + ", " + line + ")"
                         db.check.insert(
-                            {'name': name, 'path': path, 'process': "PML contains un-named construct",
+                            {'name': name, 'path': path,
+                             'process': duplication_error_string,
                              'id': m.hexdigest()})
                         rootLogger.info('\n')
                         rootLogger.info("Name = [ " + name + " ]")
                         rootLogger.info("Path = [ " + path + " ]")
-                        rootLogger.info("PML contains un-named construct")
-                        return render_template('check.html', check_files=db.check.find())
+                        rootLogger.info(duplication_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=duplication_error_string)
+                    if len(line) < 1:
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(line_number) + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': unnamed_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(unnamed_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=unnamed_error_string)
+                line_number += 1
 
         executeCommand = bashCommand + path
         process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
@@ -255,6 +277,7 @@ def check_selected_files():
             rootLogger.info("Name = [ " + name + " ]")
             rootLogger.info("Path = [ " + path + " ]")
             rootLogger.info(log_process.communicate()[0])
+            return render_template('check.html', check_files=db.check.find(), msg_string="CLEAR")
         else:
             db.check.insert(
                 {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
@@ -262,7 +285,8 @@ def check_selected_files():
             rootLogger.info("Name = [ " + name + " ]")
             rootLogger.info("Path = [ " + path + " ]")
             rootLogger.info(log_error_process.communicate()[1])
-    return render_template('check.html', check_files=db.check.find())
+            return render_template('check.html', check_files=db.check.find(), msg_string="ERROR")
+
 
 
 @app.route('/index', methods=['GET'])

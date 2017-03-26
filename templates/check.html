@@ -52,10 +52,17 @@
                                     </div>
                                     {{ file['process'] }}
                                 </td>
-                            {% elif "construct" in file['process'] %}
+                            {% elif "UN-NAMED" in file['process'] %}
                                 <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="alert alert-danger" role="alert" style="text-align: center;">
                                         <strong>Info: </strong>UN-NAMED PML CONSTRUCT FOUND
+                                    </div>
+                                    {{ file['process'] }}
+                                </td>
+                            {% elif "DUPLICATION" in file['process'] %}
+                                <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="alert alert-danger" role="alert" style="text-align: center;">
+                                        <strong>Info: </strong>DUPLICATED PML CONSTRUCT FOUND
                                     </div>
                                     {{ file['process'] }}
                                 </td>
@@ -85,11 +92,9 @@
                     <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
                         <div class="load">
-                            {#                            {%- for file in check_files %}#}
-                            {#                                {% if "error" or "construct" not in file['process'] %}#}
-                            <input type="submit" class="btn btn-info btn-lg" value="Analyse File">
-                            {#                                {% endif %}#}
-                            {#                            {%- endfor %}#}
+                            {% if "CLEAR" in msg_string %}
+                                <input type="submit" class="btn btn-info btn-lg" value="Analyse File">
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
