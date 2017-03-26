@@ -166,6 +166,8 @@ def analyse_selected_files():
     for file in files:
         path = file['path']
         name = file['name']
+        m = md5.new()
+        m.update(name)
         execute_command = bash_command + path
         subprocess.Popen(execute_command.split(), stdout=subprocess.PIPE)
         process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
@@ -173,8 +175,6 @@ def analyse_selected_files():
         check_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
         error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
         log_error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
-        m = md5.new()
-        m.update(name)
 
         if check_process.communicate()[0] != "":
             output = process.communicate()[0]
@@ -211,17 +211,36 @@ def check_selected_files():
     bashCommand = "peos/pml/check/pmlcheck "
     files = db.selected.find()
 
+    # for loop no longer required here, but the functionality for
+    # multiple file selections can exist while this remains
     for file in files:
         path = file['path']
         name = file['name']
+        m = md5.new()
+        m.update(name)
+
+        # check for un-named construct here
+        with open(path) as f:
+            for line in f:
+                if "action" in line:
+                    line = line.split("action", 1)[1]
+                    line = line.split("{", 1)[0]
+                    if len(line) < 2:
+                        db.check.insert(
+                            {'name': name, 'path': path, 'process': "PML contains un-named construct",
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info("PML contains un-named construct")
+                        return render_template('check.html', check_files=db.check.find())
+
         executeCommand = bashCommand + path
         process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         log_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         check_process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
         error_process = subprocess.Popen(executeCommand.split(), stderr=subprocess.PIPE)
         log_error_process = subprocess.Popen(executeCommand.split(), stderr=subprocess.PIPE)
-        m = md5.new()
-        m.update(name)
 
         if (check_process.communicate()[0] != ""):
             output = process.communicate()[0]
