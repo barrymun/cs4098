@@ -267,6 +267,161 @@ def analyse_selected_files():
     return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
+def sequence_flatten(file):
+    count = 1
+    bracket_count = 0
+    reversed_bracket_count = 0
+    sequence_to_remove = []
+
+    f = open(file, "r")
+    lines = f.readlines()
+    print(lines)
+    print("")
+    f.close()
+
+    f = open(file, "w")
+    for line in lines:
+        if "{" in line:
+            bracket_count += 1
+        if "}" in line:
+            bracket_count -= 1
+        if "sequence" in line:
+            if count is 2:
+                sequence_to_remove.append(line)
+                for rev_line in reversed(lines):
+                    if "}" in rev_line:
+                        reversed_bracket_count += 1
+                    if "{" in rev_line:
+                        reversed_bracket_count -= 1
+                    if bracket_count is reversed_bracket_count:
+                        sequence_to_remove.append(rev_line)
+                        break
+            else:
+                count += 1
+        f.write(line)
+    f.close()
+
+    for str in sequence_to_remove:
+        print(str)
+
+    rev_count = 1
+
+    f = open(file, "r")
+    lines2 = f.readlines()
+    # print(lines2)
+    f.close()
+
+    f = open(file, "w")
+    for line2 in lines2:
+        if line2 not in sequence_to_remove:
+            f.write(line2)
+        else:
+            sequence_to_remove.remove(line2)
+    f.close()
+
+    # NEW
+    next_line_action = 0
+    previous_line_tab_count = 0
+    tabs = 0
+
+    f = open(file, "r")
+    lines2 = f.readlines()
+    # print(lines2)
+    f.close()
+
+    f = open(file, "w")
+    for line in lines2:
+        if "action" in line:
+            if previous_line_tab_count is 0:
+                previous_line_tab_count = line.count('\t')
+            if next_line_action is 1:
+                if previous_line_tab_count < line.count('\t'):
+                    tabs = line.count('\t')
+            next_line_action = 1
+        f.write(line)
+    print(tabs)
+    f.close()
+
+    # reducing tab count
+    f = open(file, "r")
+    lines2 = f.readlines()
+    # print(lines2)
+    f.close()
+
+    f = open(file, "w")
+    for line in lines2:
+        if line.count('\t') >= tabs:
+            if tabs is not 0:
+                line = line[1:]
+        f.write(line)
+    f.close()
+
+    # fix for no closing bracket
+    previous_line_tab_count = 0
+    next_bracket_action = 0
+    f = open(file, "r")
+    lines2 = f.readlines()
+    # print(lines2)
+    f.close()
+
+    f = open(file, "w")
+    for line in lines2:
+        if "action" in line:
+            if previous_line_tab_count is 0:
+                previous_line_tab_count = line.count('\t')
+            if next_line_action is 1:
+                if previous_line_tab_count is line.count('\t'):
+                    tab_string = ""
+                    for i in range(line.count('\t')):
+                        tab_string += "\t"
+                    tab_string += "}\n"
+                    f.write(tab_string)
+            next_line_action = 1
+        else:
+            previous_line_tab_count = 0
+            next_line_action = 0
+
+        f.write(line)
+    f.close()
+
+    # fix for no closing bracket
+    previous_line_tab_count = 0
+    next_bracket_action = 0
+    f = open(file, "r")
+    lines2 = f.readlines()
+    # print(lines2)
+    f.close()
+
+    f = open(file, "w")
+    for line in lines2:
+        if line.strip() is "}":
+            if previous_line_tab_count is 0:
+                previous_line_tab_count = line.count('\t')
+            if next_bracket_action is 1:
+                if previous_line_tab_count is line.count('\t'):
+                    line = ""
+                    next_bracket_action = 0
+            else:
+                next_bracket_action = 1
+        else:
+            previous_line_tab_count = 0
+            next_bracket_action = 0
+        f.write(line)
+    f.close()
+
+
+def remove_blank(file):
+    f = open(file, "r")
+    lines = f.readlines()
+    f.close()
+
+    f = open(file, "w")
+    for line in lines:
+        if line.rstrip() is not "":
+            f.write(line)
+    f.close()
+
+
 @app.route('/check-files', methods=['POST'])
 def check_selected_files():
     db = mongo.db.dist
@@ -287,6 +442,7 @@ def check_selected_files():
     # multiple file selections can exist while this remains
     for file in files:
         path = file['path']
+        remove_blank(path)
         name = file['name']
         m = md5.new()
         m.update(name)
