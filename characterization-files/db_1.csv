@@ -1,0 +1,8 @@
+Drug 1,Drug 2,DDI Type,Time,Unit
+coke,pepsi,bad,5,sec
+coke,7up,bad,2,min
+pepsi,flat7up,good,3,hr
+paracetamol,alcohol,good,1,day
+caffeine,alcohol,bad,1,week
+coke,alcohol,good,52,week
+statin,alcohol,bad,6,hr

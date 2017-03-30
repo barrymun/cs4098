@@ -2,11 +2,12 @@
 # Use "source venv/bin/activate"
 
 import logging
+import md5
 import os
+import re
 import subprocess
 from logging.handlers import RotatingFileHandler
 
-import md5
 import ontospy
 from flask import Flask, render_template
 from flask import request
@@ -155,6 +156,77 @@ def dinto_index():
     return render_template('dintoindex.html', owl_files=db.owlfiles.find())
 
 
+@app.route('/characterization-analysis-results', methods=['POST'])
+def get_characterization_analysis_results():
+    db = mongo.db.dist
+    db.selectedcharacterization.drop()
+    db.characterizationanalysisfiles.drop()
+    char_files = request.form.getlist('checkchar')
+    pml_info = db.analysis.find()
+    m = md5.new()
+    drug_list = ""
+    path = ""
+
+    # list
+    for pi in pml_info:
+        drug_list = pi['process']
+        break
+
+    print(drug_list)
+    drug_list = re.sub('[(]', '', drug_list)
+    drug_list = re.sub('[)]', '', drug_list)
+    drug_list = re.sub('[[]', '', drug_list)
+    drug_list = re.sub('[]]', '', drug_list)
+    # drug_list = drug_list.translate(None, '[()]')
+    print(drug_list)
+    drug_list_to_list = drug_list.split(",")
+
+    for file in char_files:
+        current_file = db.characterizationfiles.find_one({'name': file})
+        if (current_file):
+            path = current_file['path']
+            m.update(file)
+            db.selectedcharacterization.insert({'name': file, 'path': path, 'id': m.hexdigest()})
+
+    display = []
+    l = len(drug_list_to_list)
+    count = 1
+
+    with open(path) as f:
+        for line in f:
+            for drug in drug_list_to_list:
+                if drug in line:
+                    if count is l:
+                        print("HELLO")
+                        print(line)
+                        line_to_list = line.split(",")
+                        # line = re.sub('[[]', '', line)
+                        # line = re.sub('[\n]', '', line)
+                        # print(line)
+                        display.append(line_to_list)
+                    count += 1
+            count = 1
+
+    print(display)
+    db.characterizationanalysisfiles.insert({'result': display, 'id': m.hexdigest()})
+    rootLogger.info('\n')
+    rootLogger.info("Result = [ " + str(display) + " ]")
+    return render_template('charanalysisresults.html',
+                           char_analysis_files=db.characterizationanalysisfiles.find())
+
+
+@app.route('/ddi-characterization-index', methods=['GET'])
+def characterization_index():
+    db = mongo.db.dist
+    return render_template('characterizationindex.html',
+                           characterizationfiles_files=db.characterizationfiles.find())
+
+
+@app.route('/kb-system-selection', methods=['GET'])
+def kb_system_selection():
+    return render_template('kbsystemselection.html')
+
+
 @app.route('/analyse-files', methods=['POST'])
 def analyse_selected_files():
     db = mongo.db.dist
@@ -225,14 +297,15 @@ def check_selected_files():
         with open(path) as f:
             for line in f:
                 if "action" in line:
-                    line = line.split("action", 1)[1]
+                    keyword = "action"
+                    line = line.split(keyword, 1)[1]
                     line = line.split("{", 1)[0]
                     line = line.strip()
                     if line not in construct_duplication_check:
                         construct_duplication_check.append(line)
                     else:
                         duplication_error_string = "PML contains construct DUPLICATION (" + str(
-                            line_number) + ", " + line + ")"
+                            line_number) + ", " + line + ", " + keyword + ")"
                         db.check.insert(
                             {'name': name, 'path': path,
                              'process': duplication_error_string,
@@ -244,7 +317,173 @@ def check_selected_files():
                         return render_template('check.html', check_files=db.check.find(),
                                                msg_string=duplication_error_string)
                     if len(line) < 1:
-                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(line_number) + ")"
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(
+                            line_number) + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': unnamed_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(unnamed_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=unnamed_error_string)
+                elif "task" in line:
+                    keyword = "task"
+                    line = line.split(keyword, 1)[1]
+                    line = line.split("{", 1)[0]
+                    line = line.strip()
+                    if line not in construct_duplication_check:
+                        construct_duplication_check.append(line)
+                    else:
+                        duplication_error_string = "PML contains construct DUPLICATION (" + str(
+                            line_number) + ", " + line + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': duplication_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(duplication_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=duplication_error_string)
+                    if len(line) < 1:
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(
+                            line_number) + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': unnamed_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(unnamed_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=unnamed_error_string)
+                elif "sequence" in line:
+                    keyword = "sequence"
+                    line = line.split(keyword, 1)[1]
+                    line = line.split("{", 1)[0]
+                    line = line.strip()
+                    if line not in construct_duplication_check:
+                        construct_duplication_check.append(line)
+                    else:
+                        duplication_error_string = "PML contains construct DUPLICATION (" + str(
+                            line_number) + ", " + line + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': duplication_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(duplication_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=duplication_error_string)
+                    if len(line) < 1:
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(
+                            line_number) + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': unnamed_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(unnamed_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=unnamed_error_string)
+                elif "branch" in line:
+                    keyword = "branch"
+                    line = line.split(keyword, 1)[1]
+                    line = line.split("{", 1)[0]
+                    line = line.strip()
+                    if line not in construct_duplication_check:
+                        construct_duplication_check.append(line)
+                    else:
+                        duplication_error_string = "PML contains construct DUPLICATION (" + str(
+                            line_number) + ", " + line + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': duplication_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(duplication_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=duplication_error_string)
+                    if len(line) < 1:
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(
+                            line_number) + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': unnamed_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(unnamed_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=unnamed_error_string)
+                elif "selection" in line:
+                    keyword = "selection"
+                    line = line.split(keyword, 1)[1]
+                    line = line.split("{", 1)[0]
+                    line = line.strip()
+                    if line not in construct_duplication_check:
+                        construct_duplication_check.append(line)
+                    else:
+                        duplication_error_string = "PML contains construct DUPLICATION (" + str(
+                            line_number) + ", " + line + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': duplication_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(duplication_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=duplication_error_string)
+                    if len(line) < 1:
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(
+                            line_number) + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': unnamed_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(unnamed_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=unnamed_error_string)
+                elif "iteration" in line:
+                    keyword = "iteration"
+                    line = line.split(keyword, 1)[1]
+                    line = line.split("{", 1)[0]
+                    line = line.strip()
+                    if line not in construct_duplication_check:
+                        construct_duplication_check.append(line)
+                    else:
+                        duplication_error_string = "PML contains construct DUPLICATION (" + str(
+                            line_number) + ", " + line + ", " + keyword + ")"
+                        db.check.insert(
+                            {'name': name, 'path': path,
+                             'process': duplication_error_string,
+                             'id': m.hexdigest()})
+                        rootLogger.info('\n')
+                        rootLogger.info("Name = [ " + name + " ]")
+                        rootLogger.info("Path = [ " + path + " ]")
+                        rootLogger.info(duplication_error_string)
+                        return render_template('check.html', check_files=db.check.find(),
+                                               msg_string=duplication_error_string)
+                    if len(line) < 1:
+                        unnamed_error_string = "PML contains UN-NAMED construct (" + str(
+                            line_number) + ", " + keyword + ")"
                         db.check.insert(
                             {'name': name, 'path': path,
                              'process': unnamed_error_string,
@@ -288,7 +527,6 @@ def check_selected_files():
             return render_template('check.html', check_files=db.check.find(), msg_string="ERROR")
 
 
-
 @app.route('/index', methods=['GET'])
 def index():
     db = mongo.db.dist
@@ -330,6 +568,22 @@ def load_pml_source_files(path, extension):
                 m = md5.new()
                 m.update(file)
                 db.files.insert({'name': file, 'path': file_path, 'id': m.hexdigest()})
+
+
+# @param extension = ".csv"
+def load_characterization_source_files(path, extension):
+    db = mongo.db.dist
+    ext = extension
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if (file.endswith(ext)):
+                if (db.characterizationfiles.find_one({'name': file})):
+                    continue
+                # search Mongo. If in Mongo, ignore. Otherwise, add.
+                file_path = os.path.join(root, file)
+                m = md5.new()
+                m.update(file)
+                db.characterizationfiles.insert({'name': file, 'path': file_path, 'id': m.hexdigest()})
 
 
 def get_owl_class(model, super_class_list):
@@ -384,10 +638,15 @@ def setup():
     db.selectedowl.drop()
     db.toplayers.drop()
     db.analysisowl.drop()
-    path = os.getcwd() + "/peos/pml/drugfinder/"
+    db.characterizationfiles.drop()
+    db.selectedcharacterization.drop()
+    db.characterizationanalysisfiles.drop()
+    path = os.getcwd() + "/peos/pml/drugfinder/pml-test-files"
     load_pml_source_files(path, '.pml')
     dinto_path = os.getcwd() + "/owl-test/"
     load_owl_source_files(dinto_path, '.owl')
+    characterization_path = os.getcwd() + "/characterization-files"
+    load_characterization_source_files(characterization_path, '.csv')
 
 
 if __name__ == '__main__':

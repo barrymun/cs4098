@@ -6,7 +6,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 {% extends "bootstrap/base.html" %}
-{% block title %}Overwatch - PML Analysis{% endblock %}
+{% block title %}Overwatch - PML File Selection{% endblock %}
 
 {% block navbar %}
     <div class="navbar navbar-fixed-top">
@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content %}
-    <head>
+    <header>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,40 +30,32 @@
         </nav>
 
         <div class="page-header" style="padding-bottom: 100px;">
-            <h1 class="col-md-10">&nbsp;Analysis Results</h1>
+            <h1 class="col-md-10">&nbsp;Select Required DDI Knowledge Base</h1>
             <h1 class="col-md-2"><a href="/">Home</a></h1>
         </div>
-    </head>
+    </header>
 
     <body>
     <div>
-        <form action="/kb-system-selection" method="get">
+        <form action="/characterization-analysis-results" method="post">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="alert alert-info" role="alert" style="text-align: center;">
+                        <strong>Info:</strong> Please select a file
+                    </div>
+                </div>
+            </div>
             <ul style="padding-bottom: 120px;">
                 <table class="table table-striped table-bordered" style="width: 95%;">
-                    {%- for file in analyse_files %}
+                    <tr>
+                        <th class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></th>
+                        <th class="col-sm-11 col-md-11 col-lg-11 col-xl-11">&nbsp;Filename</th>
+                    </tr>
+                    {%- for file in characterizationfiles_files %}
                         <tr>
-                            <th class="col-sm-12 col-md-12 col-lg-12 col-xl-12">{{ file['name'] }}</th>
-                        </tr>
-                        <tr>
-                            {% if "error" in file['process'] %}
-                                <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="alert alert-danger" role="alert" style="text-align: center;">
-                                        <strong>Info: </strong>ERROR IN ANALYSIS
-                                    </div>
-                                    {{ file['process'] }}
-                                </td>
-                            {% elif file['process'] == "" %}
-                                <div class="alert alert-danger" role="alert" style="text-align: center;">
-                                    <strong>Info: </strong>NO DRUGS FOUND
-                                </div>
-                            {% else %}
-                                <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="alert alert-success" role="alert" style="text-align: center;">
-                                        <strong>Info: </strong>ANALYSIS SUCCESSFUL
-                                    </div>
-                                    {{ file['process'] }}
-                                </td>
-                            {% endif %}
+                            <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1"><input type="radio" name="checkchar"
+                                                                                   value="{{ file['name'] }}"></td>
+                            <td class="col-sm-11 col-md-11 col-lg-11 col-xl-11">&nbsp;{{ file['name'] }}</td>
                         </tr>
                     {%- endfor %}
                 </table>
@@ -79,7 +71,7 @@
                     <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
                         <div class="load">
-                            <input type="submit" class="btn btn-info btn-lg" value="Select Knowledge Base System">
+                            <input type="submit" class="btn btn-info btn-lg" value="View Interactions">
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
