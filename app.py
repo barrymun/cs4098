@@ -402,6 +402,7 @@ def tx_serialize_branch_naive():
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Action = [ pml_tx_serialize_branch_naive ]")
     rootLogger.info("Process = [ " + str(output) + " ]")
     return render_template('serializebrnaive.html', s_b_naive=db.serializebranchnaive.find())
 
@@ -431,6 +432,7 @@ def tx_serialize_branch_2_way():
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Action = [ pml_tx_serialize_branch_2_way ]")
     rootLogger.info("Process = [ " + str(output) + " ]")
     return render_template('serializebrtwoway.html', s_b_two_way=db.serializebranchtwoway.find())
 
@@ -463,6 +465,7 @@ def tx_sequence_flatten():
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Action = [ sequence_flatten ]")
     rootLogger.info("Process = [ " + str(output) + " ]")
     return render_template('sequenceflatten.html', seq_flatten=db.sequenceflatten.find())
 
@@ -477,15 +480,28 @@ def analyse_selected_files():
     db = mongo.db.dist
     db.analysis.drop()
     files = db.check.find()
-    bash_command = "./peos/pml/drugfinder/drugFind "
+    m = md5.new()
+    BASH_COMMAND = "./peos/pml/drugfinder/drugFind "
     bash_output = "cat drug_list.txt"
 
     for file in files:
         path = file['path']
+        file_path = path
         name = file['name']
-        m = md5.new()
+
+        # f = open(file_path, "r")
+        # lines = f.readlines()
+        # f.close()
+        #
+        # f = open(file_path, "w")
+        # for line in lines:
+        #     if "branch" in line:
+        #         line
+        #         # add branch name to variable and export for use as name with parallel ddi
+        # f.close()
+
         m.update(name)
-        execute_command = bash_command + path
+        execute_command = BASH_COMMAND + path
         subprocess.Popen(execute_command.split(), stdout=subprocess.PIPE)
         process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
         log_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
@@ -495,6 +511,29 @@ def analyse_selected_files():
 
         if check_process.communicate()[0] != "":
             output = process.communicate()[0]
+
+            # identify the parallel DDIs here
+            parallel_count = output.count("[")
+            if parallel_count > 1:
+                sep_1 = "]"
+                output_sep_1 = output.split(sep_1, 1)[0]
+                output_sep_final = output_sep_1 + ","
+                output_sep_1 += sep_1
+                output_remainder = (output[output.index(output_sep_1) + len(output_sep_1):]).strip()
+                output_remainder = output_remainder.replace('\n', '')
+                output_remainder = output_remainder.replace('"', '')
+                output_remainder = output_remainder.replace('[', '')
+                final_string = output_sep_final + output_remainder
+                final_string = final_string.replace('"', '')
+                db.analysis.insert(
+                    {'name': name, 'path': path, 'process': final_string, 'id': m.hexdigest()})
+                rootLogger.info('\n')
+                rootLogger.info("Name = [ " + name + " ]")
+                rootLogger.info("Path = [ " + path + " ]")
+                rootLogger.info(log_process.communicate()[0])
+                return render_template('analyse.html', analyse_files=db.analysis.find())
+
+            # continue here if no parallel DDIs exist
             strip_first = output[1:]
             strip_last = strip_first[:-2]
             db.analysis.insert({'name': name, 'path': path, 'process': strip_last, 'id': m.hexdigest()})

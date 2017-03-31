@@ -50,7 +50,9 @@
                     <table class="table table-striped table-bordered" style="width: 95%;">
                         {%- for file in analyse_files %}
                             <tr>
-                                <th class="col-sm-12 col-md-12 col-lg-12 col-xl-12">{{ file['name'] }}</th>
+                                <th class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    {{ file['name'] }}
+                                </th>
                             </tr>
                             <tr>
                                 {% if "error" in file['process'] %}
