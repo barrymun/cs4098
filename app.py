@@ -227,46 +227,6 @@ def kb_system_selection():
     return render_template('kbsystemselection.html')
 
 
-@app.route('/analyse-files', methods=['POST'])
-def analyse_selected_files():
-    db = mongo.db.dist
-    db.analysis.drop()
-    files = db.check.find()
-    bash_command = "./peos/pml/drugfinder/drugFind "
-    bash_output = "cat drug_list.txt"
-
-    for file in files:
-        path = file['path']
-        name = file['name']
-        m = md5.new()
-        m.update(name)
-        execute_command = bash_command + path
-        subprocess.Popen(execute_command.split(), stdout=subprocess.PIPE)
-        process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
-        log_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
-        check_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
-        error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
-        log_error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
-
-        if check_process.communicate()[0] != "":
-            output = process.communicate()[0]
-            strip_first = output[1:]
-            strip_last = strip_first[:-2]
-            db.analysis.insert({'name': name, 'path': path, 'process': strip_last, 'id': m.hexdigest()})
-            rootLogger.info('\n')
-            rootLogger.info("Name = [ " + name + " ]")
-            rootLogger.info("Path = [ " + path + " ]")
-            rootLogger.info(log_process.communicate()[0])
-        else:
-            db.analysis.insert(
-                {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
-            rootLogger.info('\n')
-            rootLogger.info("Name = [ " + name + " ]")
-            rootLogger.info("Path = [ " + path + " ]")
-            rootLogger.info(log_error_process.communicate()[1])
-    return render_template('analyse.html', analyse_files=db.analysis.find())
-
-
 def sequence_flatten(file):
     count = 1
     bracket_count = 0
@@ -420,6 +380,74 @@ def remove_blank(file):
         if line.rstrip() is not "":
             f.write(line)
     f.close()
+
+
+@app.route('/tx-sequence-flatten', methods=['GET'])
+def tx_sequence_flatten():
+    db = mongo.db.dist
+    db.sequenceflatten.drop()
+    bashCommand = "cat "
+    name = ""
+    path = ""
+    m = md5.new()
+
+    for file in db.selected.find():
+        name = file['name']
+        m.update(name)
+        path = file['path']
+        sequence_flatten(path)
+
+    executeCommand = bashCommand + path
+    process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    db.sequenceflatten.insert(
+                {'name': name, 'path': path, 'process': output, 'id': m.hexdigest()})
+    return render_template('sequenceflatten.html', seq_flatten=db.sequenceflatten.find())
+
+
+@app.route('/select-transformation-type', methods=['GET'])
+def select_tx_type():
+    return render_template('transformationselection.html')
+
+
+@app.route('/analyse-files', methods=['POST'])
+def analyse_selected_files():
+    db = mongo.db.dist
+    db.analysis.drop()
+    files = db.check.find()
+    bash_command = "./peos/pml/drugfinder/drugFind "
+    bash_output = "cat drug_list.txt"
+
+    for file in files:
+        path = file['path']
+        name = file['name']
+        m = md5.new()
+        m.update(name)
+        execute_command = bash_command + path
+        subprocess.Popen(execute_command.split(), stdout=subprocess.PIPE)
+        process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
+        log_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
+        check_process = subprocess.Popen(bash_output.split(), stdout=subprocess.PIPE)
+        error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
+        log_error_process = subprocess.Popen(bash_output.split(), stderr=subprocess.PIPE)
+
+        if check_process.communicate()[0] != "":
+            output = process.communicate()[0]
+            strip_first = output[1:]
+            strip_last = strip_first[:-2]
+            db.analysis.insert({'name': name, 'path': path, 'process': strip_last, 'id': m.hexdigest()})
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(log_process.communicate()[0])
+        else:
+            db.analysis.insert(
+                {'name': name, 'path': path, 'process': error_process.communicate()[1], 'id': m.hexdigest()})
+            rootLogger.info('\n')
+            rootLogger.info("Name = [ " + name + " ]")
+            rootLogger.info("Path = [ " + path + " ]")
+            rootLogger.info(log_error_process.communicate()[1])
+    return render_template('analyse.html', analyse_files=db.analysis.find())
 
 
 @app.route('/check-files', methods=['POST'])
@@ -797,6 +825,7 @@ def setup():
     db.characterizationfiles.drop()
     db.selectedcharacterization.drop()
     db.characterizationanalysisfiles.drop()
+    db.sequenceflatten.drop()
     path = os.getcwd() + "/peos/pml/drugfinder/pml-test-files"
     load_pml_source_files(path, '.pml')
     dinto_path = os.getcwd() + "/owl-test/"

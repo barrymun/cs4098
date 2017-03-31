@@ -30,48 +30,32 @@
         </nav>
 
         <div class="page-header" style="padding-bottom: 100px;">
-            <h1 class="col-md-10">&nbsp;Analysis Results</h1>
+            <h1 class="col-md-10">&nbsp;Sequence Flatten Results</h1>
             <h1 class="col-md-2"><a href="/">Home</a></h1>
         </div>
     </head>
 
     <body>
     <div>
-        <div class="modal-body row" style="text-align: center;">
-            <form action="/select-transformation-type" method="get">
-                <div class="load">
-                    <input type="submit" class="btn btn-info btn-lg" value="Select Transformation Type">
-                </div>
-            </form>
-        </div>
         <div class="modal-body row">
-            <form action="/kb-system-selection" method="get">
+            <form action="/check-files" method="post">
                 <ul style="padding-bottom: 120px;">
                     <table class="table table-striped table-bordered" style="width: 95%;">
-                        {%- for file in analyse_files %}
+                        <tr>
+                            <th class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></th>
+                            <th class="col-sm-2 col-md-2 col-lg-2 col-xl-2">&nbsp;Filename</th>
+                            <th class="col-sm-9 col-md-9 col-lg-9 col-xl-9">&nbsp;Result of Transformation</th>
+                        </tr>
+                        {%- for file in seq_flatten %}
                             <tr>
-                                <th class="col-sm-12 col-md-12 col-lg-12 col-xl-12">{{ file['name'] }}</th>
-                            </tr>
-                            <tr>
-                                {% if "error" in file['process'] %}
-                                    <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                        <div class="alert alert-danger" role="alert" style="text-align: center;">
-                                            <strong>Info: </strong>ERROR IN ANALYSIS
-                                        </div>
-                                        {{ file['process'] }}
-                                    </td>
-                                {% elif file['process'] == "" %}
-                                    <div class="alert alert-danger" role="alert" style="text-align: center;">
-                                        <strong>Info: </strong>NO DRUGS FOUND
-                                    </div>
-                                {% else %}
-                                    <td class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                        <div class="alert alert-success" role="alert" style="text-align: center;">
-                                            <strong>Info: </strong>ANALYSIS SUCCESSFUL
-                                        </div>
-                                        {{ file['process'] }}
-                                    </td>
-                                {% endif %}
+                                <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1"><input type="radio" name="check"
+                                                                                       value="{{ file['name'] }}"></td>
+                                <td class="col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                    &nbsp;{{ file['name'] }}
+                                </td>
+                                <td class="col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                                    &nbsp;{{ file['process'] }}
+                                </td>
                             </tr>
                         {%- endfor %}
                     </table>
@@ -88,7 +72,8 @@
                         <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
                         <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
                             <div class="load">
-                                <input type="submit" class="btn btn-info btn-lg" value="Select Knowledge Base System">
+                                <input type="submit" class="btn btn-info btn-lg"
+                                       value="Check Validity of Transformation">
                             </div>
                         </div>
                         <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
