@@ -227,6 +227,101 @@ def kb_system_selection():
     return render_template('kbsystemselection.html')
 
 
+def pml_tx_serialize_branch_naive(origin_filename):
+    with open(origin_filename) as f:
+        content = f.readlines()
+
+    queue = []
+    for i, line in enumerate(content):
+        queue.append(line)
+
+    SEQUENCE_IDENTIFIER = "sequence"
+    BRANCH_IDENTIFIER = "branch"
+
+    destination_file = open(origin_filename, 'w')
+
+    for i in range(len(queue)):
+        line = queue[i]
+
+        if BRANCH_IDENTIFIER in line:
+            start_index = line.index(BRANCH_IDENTIFIER)
+            destination_file.write(
+                line[:start_index] + SEQUENCE_IDENTIFIER + line[(start_index + len(BRANCH_IDENTIFIER)):])
+        else:
+            destination_file.write(line)
+
+    f.close()
+
+
+def pml_tx_serialize_branch_2_way(origin_filename):
+    with open(origin_filename) as f:
+        content = f.readlines()
+
+    queue = []
+    for i, line in enumerate(content):
+        queue.append(line)
+
+    SEQUENCE_IDENTIFIER = "sequence"
+    BRANCH_IDENTIFIER = "branch"
+    ACTION_IDENTIFIER = "action"
+    PROCESS_IDENTIFIER = "process"
+    SELECTION_IDENTIFIER = "selection"
+    OPENING_BRACKET = "{"
+    CLOSING_BRACKET = "}"
+
+    action_structure_prefix = ""
+
+    meta_opening_body = []
+    meta_closing_body = []
+    action_identifier_open = False
+
+    units = []
+
+    origin_filename = open(origin_filename, 'w')
+
+    unit = ""
+    for i in range(len(queue)):
+        line = queue[i]
+        line_stripped = "".join(line.split())
+
+        # now, we want to obtain branches
+        if BRANCH_IDENTIFIER in line:
+            sequence_identifier_open = True
+            start_index = line.index(BRANCH_IDENTIFIER)
+            meta_opening_body.append(
+                line[:start_index] + SELECTION_IDENTIFIER + line[(start_index + len(BRANCH_IDENTIFIER)):])
+        elif ACTION_IDENTIFIER in line:
+            action_identifier_open = True
+            action_structure_prefix = line[:line.index(ACTION_IDENTIFIER)]
+            unit += action_structure_prefix + "\t" + line
+        elif line_stripped == CLOSING_BRACKET and action_identifier_open:
+            action_identifier_open = False
+            unit += action_structure_prefix + "\t" + line
+            units.append(unit)
+            unit = ""
+        elif action_identifier_open:
+            unit += action_structure_prefix + "\t" + line
+        elif PROCESS_IDENTIFIER in line:
+            meta_opening_body.append(line)
+        elif line_stripped == CLOSING_BRACKET:
+            meta_closing_body.append(line)
+
+    number_of_ways = 2
+
+    for i, line in enumerate(meta_opening_body):
+        origin_filename.write(line)
+
+    for i in range(number_of_ways):
+        origin_filename.write(action_structure_prefix + ('sequence s%s {\n' % (i)))
+        for i, unit in enumerate(units):
+            origin_filename.write(unit)
+        origin_filename.write(action_structure_prefix + '}\n')
+        units = units[::-1]
+    for i, line in enumerate(meta_closing_body):
+        origin_filename.write(line)
+    f.close()
+
+
 def sequence_flatten(origin_filename):
     with open(origin_filename) as f:
         content = f.readlines()
@@ -267,6 +362,7 @@ def sequence_flatten(origin_filename):
             outstanding_action = False
         else:
             destination_file.write(line)
+    f.close()
 
 
 def remove_blank(file):
@@ -281,11 +377,69 @@ def remove_blank(file):
     f.close()
 
 
+@app.route('/tx-serialize-branch-naive', methods=['GET'])
+def tx_serialize_branch_naive():
+    db = mongo.db.dist
+    db.serializebranchnaive.drop()
+    BASH_COMMAND = "cat "
+    name = ""
+    path = ""
+    m = md5.new()
+
+    for file in db.selected.find():
+        name = file['name']
+        m.update(name)
+        path = file['path']
+        pml_tx_serialize_branch_naive(path)
+
+    executeCommand = BASH_COMMAND + path
+    process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    sep = "\n"
+    line_list = output.split(sep)
+    db.serializebranchnaive.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+
+    rootLogger.info('\n')
+    rootLogger.info("Name = [ " + name + " ]")
+    rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Process = [ " + str(output) + " ]")
+    return render_template('serializebrnaive.html', s_b_naive=db.serializebranchnaive.find())
+
+
+@app.route('/tx-serialize-branch-2-way', methods=['GET'])
+def tx_serialize_branch_2_way():
+    db = mongo.db.dist
+    db.serializebranchtwoway.drop()
+    BASH_COMMAND = "cat "
+    name = ""
+    path = ""
+    m = md5.new()
+
+    for file in db.selected.find():
+        name = file['name']
+        m.update(name)
+        path = file['path']
+        pml_tx_serialize_branch_2_way(path)
+
+    executeCommand = BASH_COMMAND + path
+    process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    sep = "\n"
+    line_list = output.split(sep)
+    db.serializebranchtwoway.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+
+    rootLogger.info('\n')
+    rootLogger.info("Name = [ " + name + " ]")
+    rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Process = [ " + str(output) + " ]")
+    return render_template('serializebrtwoway.html', s_b_two_way=db.serializebranchtwoway.find())
+
+
 @app.route('/tx-sequence-flatten', methods=['GET'])
 def tx_sequence_flatten():
     db = mongo.db.dist
     db.sequenceflatten.drop()
-    bashCommand = "cat "
+    BASH_COMMAND = "cat "
     name = ""
     path = ""
     m = md5.new()
@@ -296,7 +450,7 @@ def tx_sequence_flatten():
         path = file['path']
         sequence_flatten(path)
 
-    executeCommand = bashCommand + path
+    executeCommand = BASH_COMMAND + path
     process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
     sep = "\n"
@@ -305,8 +459,11 @@ def tx_sequence_flatten():
     #     print(l)
     #     if "process" or "task" or "sequence" or "branch" or "selection" or "iteration" in l:
     #         print(l.count(' '))
-    db.sequenceflatten.insert(
-        {'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+    db.sequenceflatten.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+    rootLogger.info('\n')
+    rootLogger.info("Name = [ " + name + " ]")
+    rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Process = [ " + str(output) + " ]")
     return render_template('sequenceflatten.html', seq_flatten=db.sequenceflatten.find())
 
 
@@ -731,6 +888,9 @@ def setup():
     db.selectedcharacterization.drop()
     db.characterizationanalysisfiles.drop()
     db.sequenceflatten.drop()
+    db.serializebranchnaive.drop()
+    db.serializebranchtwoway.drop()
+
     path = os.getcwd() + "/peos/pml/drugfinder/pml-test-files"
     load_pml_source_files(path, '.pml')
     dinto_path = os.getcwd() + "/owl-test/"
