@@ -227,147 +227,46 @@ def kb_system_selection():
     return render_template('kbsystemselection.html')
 
 
-def sequence_flatten(file):
-    count = 1
-    bracket_count = 0
-    reversed_bracket_count = 0
-    sequence_to_remove = []
+def sequence_flatten(origin_filename):
+    with open(origin_filename) as f:
+        content = f.readlines()
 
-    f = open(file, "r")
-    lines = f.readlines()
-    print(lines)
-    print("")
-    f.close()
+    queue = []
+    for i, line in enumerate(content):
+        queue.append(line)
 
-    f = open(file, "w")
-    for line in lines:
-        if "{" in line:
-            bracket_count += 1
-        if "}" in line:
-            bracket_count -= 1
-        if "sequence" in line:
-            if count is 2:
-                sequence_to_remove.append(line)
-                for rev_line in reversed(lines):
-                    if "}" in rev_line:
-                        reversed_bracket_count += 1
-                    if "{" in rev_line:
-                        reversed_bracket_count -= 1
-                    if bracket_count is reversed_bracket_count:
-                        sequence_to_remove.append(rev_line)
-                        break
-            else:
-                count += 1
-        f.write(line)
-    f.close()
+    PROCESS_IDENTIFIER = "process"
+    SEQUENCE_IDENTIFIER = "sequence"
+    ACTION_IDENTIFIER = "action"
+    CLOSING_BRACKET = "}"
 
-    for str in sequence_to_remove:
-        print(str)
+    inner_sequence_found = False
+    outer_sequence_found = False
+    outstanding_action = False
 
-    rev_count = 1
+    destination_file = open(origin_filename, 'w')
 
-    f = open(file, "r")
-    lines2 = f.readlines()
-    # print(lines2)
-    f.close()
+    for i in range(len(queue)):
+        line = queue[i]
+        line_stripped = "".join(line.split())
 
-    f = open(file, "w")
-    for line2 in lines2:
-        if line2 not in sequence_to_remove:
-            f.write(line2)
+        if PROCESS_IDENTIFIER in line:
+            destination_file.write(line)
+        elif SEQUENCE_IDENTIFIER in line and not (outer_sequence_found):
+            destination_file.write(line)
+            outer_sequence_found = True
+        elif SEQUENCE_IDENTIFIER in line and outer_sequence_found:
+            inner_sequence_found = True
+        elif ACTION_IDENTIFIER in line:
+            destination_file.write(line)
+            outstanding_action = True
+        elif inner_sequence_found and not (outstanding_action) and line_stripped == CLOSING_BRACKET:
+            inner_sequence_found = False
+        elif outstanding_action and line_stripped == CLOSING_BRACKET:
+            destination_file.write(line)
+            outstanding_action = False
         else:
-            sequence_to_remove.remove(line2)
-    f.close()
-
-    # NEW
-    next_line_action = 0
-    previous_line_tab_count = 0
-    tabs = 0
-
-    f = open(file, "r")
-    lines2 = f.readlines()
-    # print(lines2)
-    f.close()
-
-    f = open(file, "w")
-    for line in lines2:
-        if "action" in line:
-            if previous_line_tab_count is 0:
-                previous_line_tab_count = line.count('\t')
-            if next_line_action is 1:
-                if previous_line_tab_count < line.count('\t'):
-                    tabs = line.count('\t')
-            next_line_action = 1
-        f.write(line)
-    print(tabs)
-    f.close()
-
-    # reducing tab count
-    f = open(file, "r")
-    lines2 = f.readlines()
-    # print(lines2)
-    f.close()
-
-    f = open(file, "w")
-    for line in lines2:
-        if line.count('\t') >= tabs:
-            if tabs is not 0:
-                line = line[1:]
-        f.write(line)
-    f.close()
-
-    # fix for no closing bracket
-    previous_line_tab_count = 0
-    next_bracket_action = 0
-    f = open(file, "r")
-    lines2 = f.readlines()
-    # print(lines2)
-    f.close()
-
-    f = open(file, "w")
-    for line in lines2:
-        if "action" in line:
-            if previous_line_tab_count is 0:
-                previous_line_tab_count = line.count('\t')
-            if next_line_action is 1:
-                if previous_line_tab_count is line.count('\t'):
-                    tab_string = ""
-                    for i in range(line.count('\t')):
-                        tab_string += "\t"
-                    tab_string += "}\n"
-                    f.write(tab_string)
-            next_line_action = 1
-        else:
-            previous_line_tab_count = 0
-            next_line_action = 0
-
-        f.write(line)
-    f.close()
-
-    # fix for no closing bracket
-    previous_line_tab_count = 0
-    next_bracket_action = 0
-    f = open(file, "r")
-    lines2 = f.readlines()
-    # print(lines2)
-    f.close()
-
-    f = open(file, "w")
-    for line in lines2:
-        if line.strip() is "}":
-            if previous_line_tab_count is 0:
-                previous_line_tab_count = line.count('\t')
-            if next_bracket_action is 1:
-                if previous_line_tab_count is line.count('\t'):
-                    line = ""
-                    next_bracket_action = 0
-            else:
-                next_bracket_action = 1
-        else:
-            previous_line_tab_count = 0
-            next_bracket_action = 0
-        f.write(line)
-    f.close()
+            destination_file.write(line)
 
 
 def remove_blank(file):
@@ -400,8 +299,14 @@ def tx_sequence_flatten():
     executeCommand = bashCommand + path
     process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
+    sep = "\n"
+    line_list = output.split(sep)
+    # for l in line_list:
+    #     print(l)
+    #     if "process" or "task" or "sequence" or "branch" or "selection" or "iteration" in l:
+    #         print(l.count(' '))
     db.sequenceflatten.insert(
-                {'name': name, 'path': path, 'process': output, 'id': m.hexdigest()})
+        {'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
     return render_template('sequenceflatten.html', seq_flatten=db.sequenceflatten.find())
 
 
