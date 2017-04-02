@@ -574,33 +574,40 @@ def pml_tx_serialize_branch_2_way(origin_filename):
     m = hashlib.md5()
     with open(origin_filename) as f:
         content = f.readlines()
-    queue = []
-    for i, line in enumerate(content):
-        queue.append(line)
+
     SEQUENCE_IDENTIFIER = "sequence"
     BRANCH_IDENTIFIER = "branch"
     ACTION_IDENTIFIER = "action"
     PROCESS_IDENTIFIER = "process"
     SELECTION_IDENTIFIER = "selection"
+
     OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
+
+    with open(origin_filename) as f:
+        string_content = f.read()
+        if BRANCH_IDENTIFIER not in string_content:
+            return False
+
     action_structure_prefix = ""
     meta_opening_body = []
     meta_closing_body = []
     action_identifier_open = False
+    contains_branch_identifier = False
+
     units = []
     origin_filename = open(origin_filename, 'w')
     unit = ""
-    for i in range(len(queue)):
-        line = queue[i]
+    for i, line in enumerate(content):
         line_stripped = "".join(line.split())
         # now, we want to obtain branches
         if BRANCH_IDENTIFIER in line:
             sequence_identifier_open = True
+            contains_branch_identifier = True
             start_index = line.index(BRANCH_IDENTIFIER)
             meta_opening_body.append(
                 line[:start_index] + SELECTION_IDENTIFIER + line[(start_index + len(BRANCH_IDENTIFIER)):])
-        elif ACTION_IDENTIFIER in line:
+        elif ACTION_IDENTIFIER in line and contains_branch_identifier:
             action_identifier_open = True
             action_structure_prefix = line[:line.index(ACTION_IDENTIFIER)]
             m.update(str(time.time()))
@@ -615,7 +622,7 @@ def pml_tx_serialize_branch_2_way(origin_filename):
             unit += action_structure_prefix + "\t" + line
         elif PROCESS_IDENTIFIER in line:
             meta_opening_body.append(line)
-        elif line_stripped == CLOSING_BRACKET:
+        elif line_stripped == CLOSING_BRACKET and contains_branch_identifier:
             meta_closing_body.append(line)
     number_of_ways = 2
     for i, line in enumerate(meta_opening_body):
