@@ -66,8 +66,10 @@ tail -f info.log
 ```
 
 
+<br/><br/><br/>
 
-# New DDI System
+
+# New DDI System Testing Instructions
 
 ## In-Depth Testing
 (Testing methods for all new required features outlined below)
@@ -262,6 +264,8 @@ git checkout sequence_parallelisation.pml
 ```
 
 
+<br/><br/><br/>
+
 
 ## Deactivating the Virtual Environment
 
@@ -271,6 +275,8 @@ deactivate
 ```
 This will disable the virtual environment.
 
+
+<br/><br/><br/>
 
 
 # DINTO system (No longer part of the testing branch)
@@ -318,6 +324,10 @@ See the `documentation/testing/testing-process` section of this repo for more in
 - Select the file, and click "Load Knowledge Base" to continue.
 - If errors exist from any previous section, the relevant DINTO (or PML if previous) errors will be highlighted by the system. - (DINTO Error and Warning highlights)
 - Select "Finished" when analysis is complete. You will be redirected to the homepage.
+
+
+<br/><br/><br/>
+
 
 # Additional System Analysis
 

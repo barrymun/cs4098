@@ -539,9 +539,12 @@ def pml_tx_remove_selections(origin_filename):
             filtered_units.append(source_unit)
 
     origin_filename = open(origin_filename, 'w')
+    origin_filename.write("process pro0 {\n")
     origin_filename.write("selection seq0 {\n")
     for i, unit in enumerate(filtered_units):
         origin_filename.write(unit)
+    origin_filename.write("}\n")
+    origin_filename.write("}")
 
 
 def pml_tx_serialize_branch_naive(origin_filename):
