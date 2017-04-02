@@ -631,7 +631,8 @@ def pml_tx_serialize_branch_2_way(origin_filename):
         origin_filename.write(action_structure_prefix + ('sequence s%s {\n' % (i)))
         for i, unit in enumerate(units):
             m.update(str(time.time()))
-            unit = unit.replace("PLACEHOLDER", m.hexdigest())
+            temp = "a" + m.hexdigest()
+            unit = unit.replace("PLACEHOLDER", temp)
             origin_filename.write(unit)
         origin_filename.write(action_structure_prefix + '}\n')
         units = units[::-1]
