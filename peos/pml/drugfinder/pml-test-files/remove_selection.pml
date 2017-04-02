@@ -17,4 +17,4 @@ process test_removal {
 			provides{"symptoms.status==reduced"}
 		}
 	}
-} less [a2,a3]
+} /*less [a2,a3]

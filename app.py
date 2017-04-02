@@ -454,7 +454,7 @@ def pml_tx_remove_selections(origin_filename):
     ACTION_IDENTIFIER = "action"
     PROCESS_IDENTIFIER = "process"
     SELECTION_IDENTIFIER = "selection"
-    LESS_IDENTIFIER = "less"
+    LESS_IDENTIFIER = "/*less"
 
     IDENTIFIERS = [
         SELECTION_IDENTIFIER,
