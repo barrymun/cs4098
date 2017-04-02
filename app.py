@@ -229,10 +229,116 @@ def kb_system_selection():
     return render_template('kbsystemselection.html')
 
 
-def pml_tx_unroll_iteration(origin_filename):
+def pml_tx_parallelize_sequence(origin_filename):
+    destination_filename = "temp_parallelize.pml"
+
+    destination_resource = open(destination_filename, 'w')
+
     with open(origin_filename) as f:
         content = f.readlines()
 
+    BASH_COMMAND = "rm temp_parallelize.pml"
+    SEQUENCE_IDENTIFIER = "sequence"
+    ITERATION_IDENTIFIER = "iteration"
+    BRANCH_IDENTIFIER = "branch"
+    ACTION_IDENTIFIER = "action"
+    PROCESS_IDENTIFIER = "process"
+    SELECTION_IDENTIFIER = "selection"
+
+    IDENTIFIERS = [
+        SELECTION_IDENTIFIER,
+        SEQUENCE_IDENTIFIER,
+        BRANCH_IDENTIFIER,
+        ACTION_IDENTIFIER,
+        PROCESS_IDENTIFIER,
+        ITERATION_IDENTIFIER
+    ]
+
+    OPENING_BRACKET = "{"
+    CLOSING_BRACKET = "}"
+
+    m = hashlib.md5()
+
+    def get_units(content):
+        units = []
+        non_meta_structure_open = False
+        unit = ""
+        for i, line in enumerate(content):
+            line_stripped = "".join(line.split())
+            if (non_meta_structure_open and line_stripped == CLOSING_BRACKET):
+                unit += line
+                units.append(unit)
+                non_meta_structure_open = False
+                unit = ""
+            elif (SELECTION_IDENTIFIER in line and not non_meta_structure_open):
+                identifier_start_index = line.index(SELECTION_IDENTIFIER)
+                identifier_end_index = identifier_start_index + len(SELECTION_IDENTIFIER)
+                line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+                unit += line
+                non_meta_structure_open = True
+            elif (BRANCH_IDENTIFIER in line and not non_meta_structure_open):
+                identifier_start_index = line.index(BRANCH_IDENTIFIER)
+                identifier_end_index = identifier_start_index + len(BRANCH_IDENTIFIER)
+                line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+                unit += line
+                non_meta_structure_open = True
+            elif (ACTION_IDENTIFIER in line and not non_meta_structure_open):
+                identifier_start_index = line.index(ACTION_IDENTIFIER)
+                identifier_end_index = identifier_start_index + len(ACTION_IDENTIFIER)
+                line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+                unit += line
+                non_meta_structure_open = True
+            elif non_meta_structure_open:
+                unit += line
+            m.update(str(time.time()))
+        return units
+
+    units = get_units(content)
+
+    process_line = ""
+
+    for i, line in enumerate(content):
+        if PROCESS_IDENTIFIER in line:
+            process_line = line
+            break
+
+    m.update(str(time.time()))
+    destination_resource.write(process_line)
+    temp = "b" + m.hexdigest()
+    destination_resource.write("\tbranch %s {\n" % temp)
+
+    for i, j in enumerate(units):
+        destination_resource.write(j)
+
+    destination_resource.write("\t}\n")
+    destination_resource.write("}")
+    destination_resource.close()
+
+    open(origin_filename, 'w').close()
+    origin_filename = open(origin_filename, 'w')
+    branch_check = 0
+
+    with open(destination_filename) as f:
+        for line in f:
+            if branch_check is 0:
+                origin_filename.write(line)
+                if "branch" in line:
+                    branch_check = 1
+            else:
+                if "branch" not in line:
+                    branch_check = 0
+                    origin_filename.write(line)
+    origin_filename.close()
+    process = subprocess.Popen(BASH_COMMAND.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+
+
+def pml_tx_unroll_iteration(origin_filename):
+    destination_filename = "temp_unroll.pml"
+    with open(origin_filename) as f:
+        content = f.readlines()
+
+    BASH_COMMAND = "rm temp_unroll.pml"
     SEQUENCE_IDENTIFIER = "sequence"
     ITERATION_IDENTIFIER = "iteration"
     BRANCH_IDENTIFIER = "branch"
@@ -262,7 +368,7 @@ def pml_tx_unroll_iteration(origin_filename):
     m = hashlib.md5()
     units = []
 
-    unit = "";
+    unit = ""
     for i, line in enumerate(content):
         line_stripped = "".join(line.split())
         if (non_meta_structure_open and line_stripped == CLOSING_BRACKET):
@@ -273,19 +379,19 @@ def pml_tx_unroll_iteration(origin_filename):
         elif (SELECTION_IDENTIFIER in line and not non_meta_structure_open):
             identifier_start_index = line.index(SELECTION_IDENTIFIER)
             identifier_end_index = identifier_start_index + len(SELECTION_IDENTIFIER)
-            line = line[:identifier_end_index] + " " + m.hexdigest() + " " + "{\n"
+            line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif (BRANCH_IDENTIFIER in line and not non_meta_structure_open):
             identifier_start_index = line.index(BRANCH_IDENTIFIER)
             identifier_end_index = identifier_start_index + len(BRANCH_IDENTIFIER)
-            line = line[:identifier_end_index] + " " + m.hexdigest() + " " + "{\n"
+            line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif (ACTION_IDENTIFIER in line and not non_meta_structure_open):
             identifier_start_index = line.index(ACTION_IDENTIFIER)
             identifier_end_index = identifier_start_index + len(ACTION_IDENTIFIER)
-            line = line[:identifier_end_index] + " " + m.hexdigest() + " " + "{\n"
+            line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif non_meta_structure_open:
@@ -307,7 +413,7 @@ def pml_tx_unroll_iteration(origin_filename):
                 m.update(str(i))
                 unit_body = unit[opening_bracket_index + len(OPENING_BRACKET) + 1:]
                 unit = "\t" + unit[:identifier_index + len(
-                    identifier)] + " " + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
+                    identifier)] + " " + "a" + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
                                                                                                             "\n\t",
                                                                                                             unit_body.count(
                                                                                                                 "\n") - 1)
@@ -317,6 +423,25 @@ def pml_tx_unroll_iteration(origin_filename):
     destination_file.write("\t\t}\n")
     destination_file.write("\t}\n")
     destination_file.write("}")
+    destination_file.close()
+
+    open(origin_filename, 'w').close()
+    origin_filename = open(origin_filename, 'w')
+    branch_check = 0
+
+    with open(destination_filename) as f:
+        for line in f:
+            if branch_check is 0:
+                origin_filename.write(line)
+                if "branch" in line:
+                    branch_check = 1
+            else:
+                if "branch" not in line:
+                    branch_check = 0
+                    origin_filename.write(line)
+    origin_filename.close()
+    process = subprocess.Popen(BASH_COMMAND.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
 
 
 def pml_tx_remove_selections(origin_filename):
@@ -563,6 +688,36 @@ def remove_blank(file):
     f.close()
 
 
+@app.route('/tx-parallelize-sequence', methods=['GET'])
+def tx_parallelize_sequence():
+    db = mongo.db.dist
+    db.parsequence.drop()
+    BASH_COMMAND = "cat "
+    name = ""
+    path = ""
+    m = md5.new()
+
+    for file in db.selected.find():
+        name = file['name']
+        m.update(name)
+        path = file['path']
+        pml_tx_parallelize_sequence(path)
+
+    executeCommand = BASH_COMMAND + path
+    process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    sep = "\n"
+    line_list = output.split(sep)
+    db.parsequence.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+
+    rootLogger.info('\n')
+    rootLogger.info("Name = [ " + name + " ]")
+    rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Action = [ pml_tx_parallelize_sequence ]")
+    rootLogger.info("Process = [ " + str(output) + " ]")
+    return render_template('parallelizesequence.html', par_sequence=db.parsequence.find())
+
+
 @app.route('/tx-remove-selections', methods=['GET'])
 def tx_remove_selections():
     db = mongo.db.dist
@@ -588,7 +743,7 @@ def tx_remove_selections():
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
-    rootLogger.info("Action = [ pml_tx_serialize_branch_naive ]")
+    rootLogger.info("Action = [ pml_tx_remove_selections ]")
     rootLogger.info("Process = [ " + str(output) + " ]")
     return render_template('removeselections.html', remove_selections=db.removeselections.find())
 
@@ -618,7 +773,7 @@ def tx_unroll_iteration():
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
-    rootLogger.info("Action = [ pml_tx_serialize_branch_naive ]")
+    rootLogger.info("Action = [ pml_tx_unroll_iteration ]")
     rootLogger.info("Process = [ " + str(output) + " ]")
     return render_template('unrolliteration.html', unroll_iteration=db.unrolliteration.find())
 
@@ -1177,6 +1332,7 @@ def setup():
     db.serializebranchtwoway.drop()
     db.unrolliteration.drop()
     db.removeselections.drop()
+    db.parsequence.drop()
 
     path = os.getcwd() + "/peos/pml/drugfinder/pml-test-files"
     load_pml_source_files(path, '.pml')
