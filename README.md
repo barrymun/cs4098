@@ -1,6 +1,6 @@
 # Overwatch
 
-## Status: [![build passing](https://raw.githubusercontent.com/barrymun/cs4098/master/static/images/build-passing.png?token=AO6TcBFFUG34gMm9XNBm1_se-_N3YqXgks5Y6qSCwA%3D%3D)]
+## Status: ![build passing](https://raw.githubusercontent.com/barrymun/cs4098/master/static/images/build-passing.png?token=AO6TcBFFUG34gMm9XNBm1_se-_N3YqXgks5Y6qSCwA%3D%3D)
 
 ## Group Members:
 Aaron Joyce
