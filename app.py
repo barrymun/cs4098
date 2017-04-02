@@ -1,11 +1,13 @@
 # Python 2.7 required
 # Use "source venv/bin/activate"
 
+import hashlib
 import logging
 import md5
 import os
 import re
 import subprocess
+import time
 from logging.handlers import RotatingFileHandler
 
 import ontospy
@@ -227,6 +229,182 @@ def kb_system_selection():
     return render_template('kbsystemselection.html')
 
 
+def pml_tx_unroll_iteration(origin_filename):
+    with open(origin_filename) as f:
+        content = f.readlines()
+
+    SEQUENCE_IDENTIFIER = "sequence"
+    ITERATION_IDENTIFIER = "iteration"
+    BRANCH_IDENTIFIER = "branch"
+    ACTION_IDENTIFIER = "action"
+    PROCESS_IDENTIFIER = "process"
+    SELECTION_IDENTIFIER = "selection"
+
+    IDENTIFIERS = [
+        SELECTION_IDENTIFIER,
+        SEQUENCE_IDENTIFIER,
+        BRANCH_IDENTIFIER,
+        ACTION_IDENTIFIER,
+        PROCESS_IDENTIFIER,
+    ]
+
+    OPENING_BRACKET = "{"
+    CLOSING_BRACKET = "}"
+
+    def get_process_line(content):
+        for i, line in enumerate(content):
+            if PROCESS_IDENTIFIER in line:
+                break
+        return line
+
+    non_meta_structure_open = False
+
+    units = []
+
+    unit = ""
+    for i, line in enumerate(content):
+        line_stripped = "".join(line.split())
+        if (non_meta_structure_open and line_stripped == CLOSING_BRACKET):
+            unit += line
+            units.append(unit)
+            non_meta_structure_open = False
+            unit = ""
+        elif ((
+                          SELECTION_IDENTIFIER in line or BRANCH_IDENTIFIER in line or ACTION_IDENTIFIER in line) and not non_meta_structure_open):
+            unit += line
+            non_meta_structure_open = True
+        elif non_meta_structure_open:
+            unit += line
+
+    destination_file = open(origin_filename, 'w')
+    destination_file.write(get_process_line(content))
+    destination_file.write("\tsequence seq0 {\n")
+    for i, unit in enumerate(units):
+        destination_file.write(unit)
+
+    m = hashlib.md5()
+
+    destination_file.write("\t\titeration iter0 {\n")
+    for i, unit in enumerate(units):
+        for j, identifier in enumerate(IDENTIFIERS):
+            if identifier in unit:
+                identifier_index = unit.index(identifier)
+                opening_bracket_index = unit.index(OPENING_BRACKET)
+                m.update(str(i))
+                unit_body = unit[opening_bracket_index + len(OPENING_BRACKET) + 1:]
+                unit = "\t" + unit[:identifier_index + len(
+                    identifier)] + " " + "a" + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
+                                                                                                                  "\n\t",
+                                                                                                                  unit_body.count(
+                                                                                                                      "\n") - 1)
+                break
+        destination_file.write(unit)
+
+    destination_file.write("\t\t}\n")
+    destination_file.write("\t}\n")
+    destination_file.write("}")
+
+
+def pml_tx_remove_selections(origin_filename):
+    with open(origin_filename) as f:
+        content = f.readlines()
+
+    SEQUENCE_IDENTIFIER = "sequence"
+    ITERATION_IDENTIFIER = "iteration"
+    BRANCH_IDENTIFIER = "branch"
+    ACTION_IDENTIFIER = "action"
+    PROCESS_IDENTIFIER = "process"
+    SELECTION_IDENTIFIER = "selection"
+    LESS_IDENTIFIER = "less"
+
+    IDENTIFIERS = [
+        SELECTION_IDENTIFIER,
+        SEQUENCE_IDENTIFIER,
+        BRANCH_IDENTIFIER,
+        ACTION_IDENTIFIER,
+        PROCESS_IDENTIFIER,
+    ]
+
+    OPENING_BRACKET = "{"
+    CLOSING_BRACKET = "}"
+
+    OPENING_SQUARE_BRACKET = "["
+
+    units = []
+    removal_units = []
+
+    def get_components(components):
+        units = []
+        unit = ""
+        non_selection_structure_open = False
+        for i, line in enumerate(components):
+            line_stripped = "".join(line.split())
+            if non_selection_structure_open and line_stripped == CLOSING_BRACKET:
+                unit += line
+                units.append(unit)
+                non_selection_structure_open = False
+                unit = ""
+            elif ((SELECTION_IDENTIFIER not in line) and (
+                        LESS_IDENTIFIER not in line) and not non_selection_structure_open):
+                unit += line
+                non_selection_structure_open = True
+            elif LESS_IDENTIFIER not in line and non_selection_structure_open:
+                unit += line
+
+            if LESS_IDENTIFIER in line:
+                break
+        return units
+
+    filtered_lines = []
+    selection_identifier_open = False
+    for i, line in enumerate(content):
+        if SELECTION_IDENTIFIER in line:
+            selection_identifier_open = True
+        if selection_identifier_open and OPENING_BRACKET in line:
+            filtered_lines = content[i + 1:]
+            break
+
+    source_units = get_components(filtered_lines)
+
+    less_identifier_open = False
+    less_lines = []
+    for i, line in enumerate(content):
+        if LESS_IDENTIFIER in line:
+            less_identifier_open = True
+        if less_identifier_open and OPENING_SQUARE_BRACKET in line:
+            index_after_opening_square_bracket = line.index(OPENING_SQUARE_BRACKET)
+            line = line[index_after_opening_square_bracket + len(OPENING_SQUARE_BRACKET):]
+            content[i] = line
+            less_lines = content[i:]
+            break
+
+    less_units = get_components(less_lines)
+    removal_identifiers = []
+
+    for i in range(len(less_units)):
+        less_unit = less_units[i]
+        for j, identifier in enumerate(IDENTIFIERS):
+            if identifier in less_unit:
+                action_and_id = less_unit[:less_unit.index(OPENING_BRACKET)].strip()
+                removal_identifiers.append(action_and_id)
+
+    filtered_units = []
+
+    for i, source_unit in enumerate(source_units):
+        skip = False
+        for j, removal_identifier in enumerate(removal_identifiers):
+            if removal_identifier in source_unit:
+                skip = True
+                break
+        if not skip:
+            filtered_units.append(source_unit)
+
+    origin_filename = open(origin_filename, 'w')
+    origin_filename.write("selection seq0 {\n")
+    for i, unit in enumerate(filtered_units):
+        origin_filename.write(unit)
+
+
 def pml_tx_serialize_branch_naive(origin_filename):
     with open(origin_filename) as f:
         content = f.readlines()
@@ -238,29 +416,28 @@ def pml_tx_serialize_branch_naive(origin_filename):
     SEQUENCE_IDENTIFIER = "sequence"
     BRANCH_IDENTIFIER = "branch"
 
-    destination_file = open(origin_filename, 'w')
+    origin_filename = open(origin_filename, 'w')
 
     for i in range(len(queue)):
         line = queue[i]
 
         if BRANCH_IDENTIFIER in line:
             start_index = line.index(BRANCH_IDENTIFIER)
-            destination_file.write(
+            origin_filename.write(
                 line[:start_index] + SEQUENCE_IDENTIFIER + line[(start_index + len(BRANCH_IDENTIFIER)):])
         else:
-            destination_file.write(line)
+            origin_filename.write(line)
 
     f.close()
 
 
 def pml_tx_serialize_branch_2_way(origin_filename):
+    m = hashlib.md5()
     with open(origin_filename) as f:
         content = f.readlines()
-
     queue = []
     for i, line in enumerate(content):
         queue.append(line)
-
     SEQUENCE_IDENTIFIER = "sequence"
     BRANCH_IDENTIFIER = "branch"
     ACTION_IDENTIFIER = "action"
@@ -268,22 +445,16 @@ def pml_tx_serialize_branch_2_way(origin_filename):
     SELECTION_IDENTIFIER = "selection"
     OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
-
     action_structure_prefix = ""
-
     meta_opening_body = []
     meta_closing_body = []
     action_identifier_open = False
-
     units = []
-
     origin_filename = open(origin_filename, 'w')
-
     unit = ""
     for i in range(len(queue)):
         line = queue[i]
         line_stripped = "".join(line.split())
-
         # now, we want to obtain branches
         if BRANCH_IDENTIFIER in line:
             sequence_identifier_open = True
@@ -293,6 +464,8 @@ def pml_tx_serialize_branch_2_way(origin_filename):
         elif ACTION_IDENTIFIER in line:
             action_identifier_open = True
             action_structure_prefix = line[:line.index(ACTION_IDENTIFIER)]
+            m.update(str(time.time()))
+            line = ACTION_IDENTIFIER + " " + "PLACEHOLDER" + " " + OPENING_BRACKET + "\n"
             unit += action_structure_prefix + "\t" + line
         elif line_stripped == CLOSING_BRACKET and action_identifier_open:
             action_identifier_open = False
@@ -305,15 +478,14 @@ def pml_tx_serialize_branch_2_way(origin_filename):
             meta_opening_body.append(line)
         elif line_stripped == CLOSING_BRACKET:
             meta_closing_body.append(line)
-
     number_of_ways = 2
-
     for i, line in enumerate(meta_opening_body):
         origin_filename.write(line)
-
     for i in range(number_of_ways):
         origin_filename.write(action_structure_prefix + ('sequence s%s {\n' % (i)))
         for i, unit in enumerate(units):
+            m.update(str(time.time()))
+            unit = unit.replace("PLACEHOLDER", m.hexdigest())
             origin_filename.write(unit)
         origin_filename.write(action_structure_prefix + '}\n')
         units = units[::-1]
@@ -339,29 +511,29 @@ def sequence_flatten(origin_filename):
     outer_sequence_found = False
     outstanding_action = False
 
-    destination_file = open(origin_filename, 'w')
+    origin_filename = open(origin_filename, 'w')
 
     for i in range(len(queue)):
         line = queue[i]
         line_stripped = "".join(line.split())
 
         if PROCESS_IDENTIFIER in line:
-            destination_file.write(line)
+            origin_filename.write(line)
         elif SEQUENCE_IDENTIFIER in line and not (outer_sequence_found):
-            destination_file.write(line)
+            origin_filename.write(line)
             outer_sequence_found = True
         elif SEQUENCE_IDENTIFIER in line and outer_sequence_found:
             inner_sequence_found = True
         elif ACTION_IDENTIFIER in line:
-            destination_file.write(line)
+            origin_filename.write(line)
             outstanding_action = True
         elif inner_sequence_found and not (outstanding_action) and line_stripped == CLOSING_BRACKET:
             inner_sequence_found = False
         elif outstanding_action and line_stripped == CLOSING_BRACKET:
-            destination_file.write(line)
+            origin_filename.write(line)
             outstanding_action = False
         else:
-            destination_file.write(line)
+            origin_filename.write(line)
     f.close()
 
 
@@ -375,6 +547,66 @@ def remove_blank(file):
         if line.rstrip() is not "":
             f.write(line)
     f.close()
+
+
+@app.route('/tx-remove-selections', methods=['GET'])
+def tx_remove_selections():
+    db = mongo.db.dist
+    db.removeselections.drop()
+    BASH_COMMAND = "cat "
+    name = ""
+    path = ""
+    m = md5.new()
+
+    for file in db.selected.find():
+        name = file['name']
+        m.update(name)
+        path = file['path']
+        pml_tx_remove_selections(path)
+
+    executeCommand = BASH_COMMAND + path
+    process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    sep = "\n"
+    line_list = output.split(sep)
+    db.removeselections.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+
+    rootLogger.info('\n')
+    rootLogger.info("Name = [ " + name + " ]")
+    rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Action = [ pml_tx_serialize_branch_naive ]")
+    rootLogger.info("Process = [ " + str(output) + " ]")
+    return render_template('removeselections.html', remove_selections=db.removeselections.find())
+
+
+@app.route('/tx-unroll-iteration', methods=['GET'])
+def tx_unroll_iteration():
+    db = mongo.db.dist
+    db.unrolliteration.drop()
+    BASH_COMMAND = "cat "
+    name = ""
+    path = ""
+    m = md5.new()
+
+    for file in db.selected.find():
+        name = file['name']
+        m.update(name)
+        path = file['path']
+        pml_tx_unroll_iteration(path)
+
+    executeCommand = BASH_COMMAND + path
+    process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    sep = "\n"
+    line_list = output.split(sep)
+    db.unrolliteration.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+
+    rootLogger.info('\n')
+    rootLogger.info("Name = [ " + name + " ]")
+    rootLogger.info("Path = [ " + path + " ]")
+    rootLogger.info("Action = [ pml_tx_serialize_branch_naive ]")
+    rootLogger.info("Process = [ " + str(output) + " ]")
+    return render_template('unrolliteration.html', unroll_iteration=db.unrolliteration.find())
 
 
 @app.route('/tx-serialize-branch-naive', methods=['GET'])
@@ -929,6 +1161,8 @@ def setup():
     db.sequenceflatten.drop()
     db.serializebranchnaive.drop()
     db.serializebranchtwoway.drop()
+    db.unrolliteration.drop()
+    db.removeselections.drop()
 
     path = os.getcwd() + "/peos/pml/drugfinder/pml-test-files"
     load_pml_source_files(path, '.pml')
