@@ -1,8 +1,8 @@
 # Overwatch
 
-# Setup Guide
+## Status: [![build passing]()]
 
-### Group Members:
+## Group Members:
 Aaron Joyce
 <br/>
 Bryan Quirke
@@ -13,7 +13,11 @@ Jessa Pajarito
 <br/>
 Neil Barry-Murphy
 
-# Using the Flask Application
+
+
+# Setup Guide
+
+## Using the Flask Application
 
 Activate the virtual environment (Python 2.7 required):
 ```bash
@@ -44,11 +48,10 @@ Now, re-start the application:
 python app.py
 ```
 Navigate to the homepage:
-```bash
-http://127.0.0.1:5000/
-```
+[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
-# Logging
+
+## Logging
 
 Open another terminal in the same directory and execute the following:
 <br/>
@@ -61,6 +64,216 @@ Once the app has been started on the previous terminal: - (PML and DINTO Log-fil
 ```bash
 tail -f info.log
 ```
+
+
+
+# New DDI System
+
+## In-Depth Testing
+(Testing methods for all new required features outlined below)
+
+### Mock DDI Characterisation Data
+
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `coke_and_pepsi.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- If successful, click `Select Knowledge Base System`.
+- Click `Search DDI Characterization Data`.
+- Select `db_1.csv`. Click `View Interactions`.
+- View interaction results.
+- When complete, click `Finished - Return to Homepage`.
+
+### Identify drugs in PML
+
+- Integrated with above step.
+
+### Report un-named PML construct 
+
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `duplicated_construct.pml`. Click `Check Validity of Selected File`.
+- View Results.
+- Error will be explained by system, highlighted in red.
+- The line number, and type of construct causing the issue will be highlighted by the system.
+- The system will not allow progression beyond this point.
+
+### Report PML construct name-clash 
+
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `unnamed_construct.pml`. Click `Check Validity of Selected File`.
+- View Results.
+- Error will be explained by system, highlighted in red.
+- The line number, name and type of construct causing the issue will be highlighted by the system.
+- The system will not allow progression beyond this point.
+
+### Identify Parallel DDIs
+
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `iden_parallel_ddi_2.pml`. Click `Check Validity of Selected File`.
+- Refer to `peos/pml/drugfinder/pml-test-files/iden_parallel_ddi_2.pml`.
+- Two different action constructs refer to two drugs that interact with each other.
+- Return to system.
+- View verification results. Click `Analyse File`.
+- If successful, click `Select Knowledge Base System`.
+- Click `Search DDI Characterization Data`.
+- Select `db_1.csv`. Click `View Interactions`.
+- View interaction results.
+- When complete, click `Finished - Return to Homepage`.
+
+### PML-TX Save PML to File
+
+- This feature cannot be demonstrated as an isolated article.
+- The following transformations highlight the actions of this feature.
+- In short, all changes made to files that are transformed are saved by the system, a new file is not created.
+
+### PML-TX Reorder Sequence
+
+- Refer to `peos/pml/drugfinder/pml-test-files/sequence_flatten.pml` in any file editor.
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `sequence_flatten.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- Click `Select Transformation Type`.
+- Click `Perform Sequence Flatten`.
+- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
+- View results.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/sequence_flatten.pml`.
+- Click `Reload` or equivalent. View changes.
+- To redo the test, open a new terminal (in the same directory) and execute:
+```bash
+cd peos/pml/drugfinder/pml-test-files
+```
+- From here, revert any changes in git.
+```bash
+git checkout sequence_flatten.pml
+```
+
+### PML-TX Serialise Branch (Naive)
+
+- Refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_naive.pml` in any file editor.
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `pml_tx_serialize_branch_naive.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- Click `Select Transformation Type`.
+- Click `Perform Naive Branch Transformation`.
+- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
+- View results.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_naive.pml`.
+- Click `Reload` or equivalent. View changes.
+- To redo the test, open a new terminal (in the same directory) and execute:
+```bash
+cd peos/pml/drugfinder/pml-test-files
+```
+- From here, revert any changes in git.
+```bash
+git checkout pml_tx_serialize_branch_naive.pml
+```
+
+### PML-TX Serialize Branch (Two-Way)
+
+- Refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_2_way.pml` in any file editor.
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `pml_tx_serialize_branch_2_way.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- Click `Select Transformation Type`.
+- Click `Perform Two-Way Branch Transformation`.
+- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
+- View results.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_2_way.pml`.
+- Click `Reload` or equivalent. View changes.
+- To redo the test, open a new terminal (in the same directory) and execute:
+```bash
+cd peos/pml/drugfinder/pml-test-files
+```
+- From here, revert any changes in git.
+```bash
+git checkout pml_tx_serialize_branch_2_way.pml
+```
+
+### PML-TX Remove Selections (NOT WORKING)
+
+- Refer to `peos/pml/drugfinder/pml-test-files/remove_selection.pml` in any file editor.
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `remove_selection.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- Click `Select Transformation Type`.
+- Click `Perform Remove Selections Transformation`.
+- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
+- View results.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/remove_selection.pml`.
+- Click `Reload` or equivalent. View changes.
+- To redo the test, open a new terminal (in the same directory) and execute:
+```bash
+cd peos/pml/drugfinder/pml-test-files
+```
+- From here, revert any changes in git.
+```bash
+git checkout remove_selection.pml
+```
+
+### PML-TX Unroll Iteration
+
+- Refer to `peos/pml/drugfinder/pml-test-files/unroll_iteration.pml` in any file editor.
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `unroll_iteration.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- Click `Select Transformation Type`.
+- Click `Perform Unroll Iteration Transformation`.
+- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
+- View results.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/unroll_iteration.pml`.
+- Click `Reload` or equivalent. View changes.
+- To redo the test, open a new terminal (in the same directory) and execute:
+```bash
+cd peos/pml/drugfinder/pml-test-files
+```
+- From here, revert any changes in git.
+```bash
+git checkout unroll_iteration.pml
+```
+
+### PML-TX Parallelise Sequence
+
+- Refer to `peos/pml/drugfinder/pml-test-files/sequence_parallelisation.pml` in any file editor.
+- Navigate to the homepage.
+- Select `Begin Analysis`.
+- Select `sequence_parallelisation.pml`. Click `Check Validity of Selected File`.
+- View verification results. Click `Analyse File`.
+- Click `Select Transformation Type`.
+- Click `Perform Parallelize Sequence Transformation`.
+- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
+- View results.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/sequence_parallelisation.pml`.
+- Click `Reload` or equivalent. View changes.
+- To redo the test, open a new terminal (in the same directory) and execute:
+```bash
+cd peos/pml/drugfinder/pml-test-files
+```
+- From here, revert any changes in git.
+```bash
+git checkout sequence_parallelisation.pml
+```
+
+
+
+## Deactivating the Virtual Environment
+
+When finished with analysis of the system, execute:
+```bash
+deactivate
+```
+This will disable the virtual environment.
+
+
+
+# DINTO system (No longer part of the testing branch)
 
 # In-Depth Testing
 Please note that all explanations are accompanied by images.
@@ -86,7 +299,7 @@ See the `documentation/testing/testing-process` section of this repo for more in
 - Click the available links to view drug references for single-instance drug interactions.
 - Select "Finished" when analysis is complete. You will be redirected to the homepage.
 
-## Unsuccessful Tests
+## Tests To Handle Incorrect Input
 
 - Navigate to the homepage (process described above).
 - Select "Begin Analysis".
@@ -106,7 +319,10 @@ See the `documentation/testing/testing-process` section of this repo for more in
 - If errors exist from any previous section, the relevant DINTO (or PML if previous) errors will be highlighted by the system. - (DINTO Error and Warning highlights)
 - Select "Finished" when analysis is complete. You will be redirected to the homepage.
 
-# Using the Mongo Database
+# Additional System Analysis
+
+## Using the Mongo Database
+
 Installation for Ubuntu 16.04 will be handled by the setup script.
 <br/>
 Open a new terminal and execute the following:
@@ -137,11 +353,3 @@ List all pml files that have been analysed:
 ```mongo
 db.dist.analysis.find()
 ```
-
-## Deactivating the Virtual Environment
-
-When finished with analysis of the system, execute:
-```bash
-deactivate
-```
-This will disable the virtual environment.
