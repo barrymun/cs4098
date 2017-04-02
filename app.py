@@ -259,9 +259,10 @@ def pml_tx_unroll_iteration(origin_filename):
 
     non_meta_structure_open = False
 
+    m = hashlib.md5()
     units = []
 
-    unit = ""
+    unit = "";
     for i, line in enumerate(content):
         line_stripped = "".join(line.split())
         if (non_meta_structure_open and line_stripped == CLOSING_BRACKET):
@@ -269,20 +270,33 @@ def pml_tx_unroll_iteration(origin_filename):
             units.append(unit)
             non_meta_structure_open = False
             unit = ""
-        elif ((
-                          SELECTION_IDENTIFIER in line or BRANCH_IDENTIFIER in line or ACTION_IDENTIFIER in line) and not non_meta_structure_open):
+        elif (SELECTION_IDENTIFIER in line and not non_meta_structure_open):
+            identifier_start_index = line.index(SELECTION_IDENTIFIER)
+            identifier_end_index = identifier_start_index + len(SELECTION_IDENTIFIER)
+            line = line[:identifier_end_index] + " " + m.hexdigest() + " " + "{\n"
+            unit += line
+            non_meta_structure_open = True
+        elif (BRANCH_IDENTIFIER in line and not non_meta_structure_open):
+            identifier_start_index = line.index(BRANCH_IDENTIFIER)
+            identifier_end_index = identifier_start_index + len(BRANCH_IDENTIFIER)
+            line = line[:identifier_end_index] + " " + m.hexdigest() + " " + "{\n"
+            unit += line
+            non_meta_structure_open = True
+        elif (ACTION_IDENTIFIER in line and not non_meta_structure_open):
+            identifier_start_index = line.index(ACTION_IDENTIFIER)
+            identifier_end_index = identifier_start_index + len(ACTION_IDENTIFIER)
+            line = line[:identifier_end_index] + " " + m.hexdigest() + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif non_meta_structure_open:
             unit += line
+        m.update(str(time.time()))
 
-    destination_file = open(origin_filename, 'w')
+    destination_file = open(destination_filename, 'w')
     destination_file.write(get_process_line(content))
     destination_file.write("\tsequence seq0 {\n")
     for i, unit in enumerate(units):
         destination_file.write(unit)
-
-    m = hashlib.md5()
 
     destination_file.write("\t\titeration iter0 {\n")
     for i, unit in enumerate(units):
@@ -293,10 +307,10 @@ def pml_tx_unroll_iteration(origin_filename):
                 m.update(str(i))
                 unit_body = unit[opening_bracket_index + len(OPENING_BRACKET) + 1:]
                 unit = "\t" + unit[:identifier_index + len(
-                    identifier)] + " " + "a" + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
-                                                                                                                  "\n\t",
-                                                                                                                  unit_body.count(
-                                                                                                                      "\n") - 1)
+                    identifier)] + " " + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
+                                                                                                            "\n\t",
+                                                                                                            unit_body.count(
+                                                                                                                "\n") - 1)
                 break
         destination_file.write(unit)
 
