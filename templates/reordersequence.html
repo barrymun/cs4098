@@ -30,7 +30,7 @@
         </nav>
 
         <div class="page-header" style="padding-bottom: 100px;">
-            <h1 class="col-md-10">&nbsp;Sequence Flatten Results</h1>
+            <h1 class="col-md-10">&nbsp;Reorder Sequence Results</h1>
             <h1 class="col-md-2"><a href="/">Home</a></h1>
         </div>
     </head>
@@ -46,7 +46,7 @@
                             <th class="col-sm-2 col-md-2 col-lg-2 col-xl-2">&nbsp;Filename</th>
                             <th class="col-sm-9 col-md-9 col-lg-9 col-xl-9">&nbsp;Result of Transformation</th>
                         </tr>
-                        {%- for file in seq_flatten %}
+                        {%- for file in reorder_seq %}
                             <tr>
                                 <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1"><input type="radio" name="check"
                                                                                        value="{{ file['name'] }}"></td>

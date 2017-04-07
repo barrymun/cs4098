@@ -445,8 +445,14 @@ def pml_tx_unroll_iteration(origin_filename):
 
 
 def pml_tx_remove_selections(origin_filename):
+    BASH_COMMAND = "rm less_destination.pml"
+    destination_filename = "less_destination.pml"
+
     with open(origin_filename) as f:
-        content = f.readlines()
+        content_lines = f.readlines()
+
+    with open(origin_filename) as f:
+        content_string = f.read()
 
     SEQUENCE_IDENTIFIER = "sequence"
     ITERATION_IDENTIFIER = "iteration"
@@ -454,6 +460,7 @@ def pml_tx_remove_selections(origin_filename):
     ACTION_IDENTIFIER = "action"
     PROCESS_IDENTIFIER = "process"
     SELECTION_IDENTIFIER = "selection"
+
     LESS_IDENTIFIER = "/*less"
 
     IDENTIFIERS = [
@@ -468,83 +475,96 @@ def pml_tx_remove_selections(origin_filename):
     CLOSING_BRACKET = "}"
 
     OPENING_SQUARE_BRACKET = "["
+    CLOSING_SQUARE_BRACKET = "]"
 
-    units = []
-    removal_units = []
+    WHITESPACE = " "
+    EMPTY_SPACE = ""
+    less_sequence_args = ""
 
-    def get_components(components):
-        units = []
-        unit = ""
-        non_selection_structure_open = False
-        for i, line in enumerate(components):
-            line_stripped = "".join(line.split())
-            if non_selection_structure_open and line_stripped == CLOSING_BRACKET:
-                unit += line
-                units.append(unit)
-                non_selection_structure_open = False
-                unit = ""
-            elif ((SELECTION_IDENTIFIER not in line) and (
-                        LESS_IDENTIFIER not in line) and not non_selection_structure_open):
-                unit += line
-                non_selection_structure_open = True
-            elif LESS_IDENTIFIER not in line and non_selection_structure_open:
-                unit += line
+    less_identifier_index_start = -1
+    if LESS_IDENTIFIER in content_string:
+        less_identifier_index_start = content_string.index(LESS_IDENTIFIER)
+        less_args_start_index = content_string.index(OPENING_SQUARE_BRACKET, less_identifier_index_start)
+        less_args_end_index = content_string.index(CLOSING_SQUARE_BRACKET, less_args_start_index)
 
-            if LESS_IDENTIFIER in line:
+        less_sequence_args = content_string[less_args_start_index + 1:less_args_end_index]
+        less_sequence_args = less_sequence_args.replace(WHITESPACE, EMPTY_SPACE)
+        less_sequence_args = less_sequence_args.split(",")
+
+    process_identifier_open = False
+    sequence_identifier_open = False
+    non_process_identifier_open = False
+    line_identifier_match = False
+
+    sequence_body_groups = []
+    current_sequence_group = ""
+    for i, line in enumerate(content_lines):
+        if PROCESS_IDENTIFIER in line:
+            process_identifier_open = True
+            continue
+        if SEQUENCE_IDENTIFIER in line:
+            sequence_identifier_open = True
+        else:
+            line_identifier_match = False
+            for j, identifier in enumerate(IDENTIFIERS):
+                if identifier in line:
+                    non_process_identifier_open = True
+                    line_identifier_match = True
+                    current_sequence_group += line
+
+            if non_process_identifier_open and (CLOSING_BRACKET in line) and (OPENING_BRACKET not in line):
+                current_sequence_group += line
+                non_process_identifier_open = False
+                sequence_body_groups.append(current_sequence_group)
+                current_sequence_group = ""
+            elif not (line_identifier_match):
+                current_sequence_group += line
+
+    less_sequences = []
+    for k, sequence_body in enumerate(sequence_body_groups):
+        match = False
+        for i, less_sequence in enumerate(less_sequence_args):
+            if less_sequence in sequence_body:
+                match = True
                 break
-        return units
+        if not (match):
+            less_sequences.append(sequence_body)
 
-    filtered_lines = []
-    selection_identifier_open = False
-    for i, line in enumerate(content):
-        if SELECTION_IDENTIFIER in line:
-            selection_identifier_open = True
-        if selection_identifier_open and OPENING_BRACKET in line:
-            filtered_lines = content[i + 1:]
-            break
-
-    source_units = get_components(filtered_lines)
-
-    less_identifier_open = False
-    less_lines = []
-    for i, line in enumerate(content):
-        if LESS_IDENTIFIER in line:
-            less_identifier_open = True
-        if less_identifier_open and OPENING_SQUARE_BRACKET in line:
-            index_after_opening_square_bracket = line.index(OPENING_SQUARE_BRACKET)
-            line = line[index_after_opening_square_bracket + len(OPENING_SQUARE_BRACKET):]
-            content[i] = line
-            less_lines = content[i:]
-            break
-
-    less_units = get_components(less_lines)
-    removal_identifiers = []
-
-    for i in range(len(less_units)):
-        less_unit = less_units[i]
-        for j, identifier in enumerate(IDENTIFIERS):
-            if identifier in less_unit:
-                action_and_id = less_unit[:less_unit.index(OPENING_BRACKET)].strip()
-                removal_identifiers.append(action_and_id)
-
-    filtered_units = []
-
-    for i, source_unit in enumerate(source_units):
-        skip = False
-        for j, removal_identifier in enumerate(removal_identifiers):
-            if removal_identifier in source_unit:
-                skip = True
+    def get_process_line(content):
+        for i, line in enumerate(content):
+            if PROCESS_IDENTIFIER in line:
                 break
-        if not skip:
-            filtered_units.append(source_unit)
+        return line
 
+    def get_sequenece_line(content):
+        for i, line in enumerate(content):
+            if SEQUENCE_IDENTIFIER in line:
+                break
+        return line
+
+    destination_file = open(destination_filename, 'w')
+    destination_file.write(get_process_line(content_lines))
+    destination_file.write(get_sequenece_line(content_lines))
+    for i, unit in enumerate(less_sequences):
+        destination_file.write(unit)
+
+    get_sequence_ident = get_sequenece_line(content_lines)[
+                         0:get_sequenece_line(content_lines).index(SEQUENCE_IDENTIFIER)]
+
+    destination_file.write(get_sequence_ident + CLOSING_BRACKET + "\n")
+    destination_file.write("}")
+    destination_file.close()
+
+    open(origin_filename, 'w').close()
     origin_filename = open(origin_filename, 'w')
-    origin_filename.write("process pro0 {\n")
-    origin_filename.write("selection seq0 {\n")
-    for i, unit in enumerate(filtered_units):
-        origin_filename.write(unit)
-    origin_filename.write("}\n")
-    origin_filename.write("}")
+
+    with open(destination_filename) as f:
+        for line in f:
+            origin_filename.write(line)
+    origin_filename.close()
+
+    process = subprocess.Popen(BASH_COMMAND.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
 
 
 def pml_tx_serialize_branch_naive(origin_filename):
@@ -644,47 +664,121 @@ def pml_tx_serialize_branch_2_way(origin_filename):
     f.close()
 
 
-def sequence_flatten(origin_filename):
+def reorder_sequence(origin_filename):
+    BASH_COMMAND = "rm reorder_destination.pml"
+    destination_filename = "reorder_destination.pml"
+
     with open(origin_filename) as f:
-        content = f.readlines()
+        content_lines = f.readlines()
 
-    queue = []
-    for i, line in enumerate(content):
-        queue.append(line)
+    with open(origin_filename) as f:
+        content_string = f.read()
 
-    PROCESS_IDENTIFIER = "process"
     SEQUENCE_IDENTIFIER = "sequence"
+    ITERATION_IDENTIFIER = "iteration"
+    BRANCH_IDENTIFIER = "branch"
     ACTION_IDENTIFIER = "action"
+    PROCESS_IDENTIFIER = "process"
+    SELECTION_IDENTIFIER = "selection"
+
+    REORDER_IDENTIFIER = "/*reorder"
+
+    IDENTIFIERS = [
+        SELECTION_IDENTIFIER,
+        SEQUENCE_IDENTIFIER,
+        BRANCH_IDENTIFIER,
+        ACTION_IDENTIFIER,
+        PROCESS_IDENTIFIER,
+    ]
+
+    OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
 
-    inner_sequence_found = False
-    outer_sequence_found = False
-    outstanding_action = False
+    OPENING_SQUARE_BRACKET = "["
+    CLOSING_SQUARE_BRACKET = "]"
 
+    WHITESPACE = " "
+    EMPTY_SPACE = ""
+
+    reorder_identifier_index_start = -1
+    if REORDER_IDENTIFIER in content_string:
+        reorder_identifier_index_start = content_string.index(REORDER_IDENTIFIER)
+        reorder_args_start_index = content_string.index(OPENING_SQUARE_BRACKET, reorder_identifier_index_start)
+        reorder_args_end_index = content_string.index(CLOSING_SQUARE_BRACKET, reorder_args_start_index)
+
+        reorder_sequence_args = content_string[reorder_args_start_index + 1:reorder_args_end_index]
+        reorder_sequence_args = reorder_sequence_args.replace(WHITESPACE, EMPTY_SPACE)
+        reorder_sequence_args = reorder_sequence_args.split(",")
+
+    reorder_sequence_args = map(int, reorder_sequence_args)
+
+    process_identifier_open = False
+    sequence_identifier_open = False
+    non_process_identifier_open = False
+    line_identifier_match = False
+
+    sequence_body_groups = []
+    current_sequence_group = ""
+    for i, line in enumerate(content_lines):
+        if PROCESS_IDENTIFIER in line:
+            process_identifier_open = True
+            continue
+        if SEQUENCE_IDENTIFIER in line:
+            sequence_identifier_open = True
+        else:
+            line_identifier_match = False
+            for j, identifier in enumerate(IDENTIFIERS):
+                if identifier in line:
+                    non_process_identifier_open = True
+                    line_identifier_match = True
+                    current_sequence_group += line
+
+            if non_process_identifier_open and (CLOSING_BRACKET in line) and (OPENING_BRACKET not in line):
+                current_sequence_group += line
+                non_process_identifier_open = False
+                sequence_body_groups.append(current_sequence_group)
+                current_sequence_group = ""
+            elif not (line_identifier_match):
+                current_sequence_group += line
+
+    reordered_sequences = []
+    for i, j in enumerate(reorder_sequence_args):
+        reordered_sequences.append(sequence_body_groups[j])
+
+    def get_process_line(content):
+        for i, line in enumerate(content):
+            if PROCESS_IDENTIFIER in line:
+                break
+        return line
+
+    def get_sequenece_line(content):
+        for i, line in enumerate(content):
+            if SEQUENCE_IDENTIFIER in line:
+                break
+        return line
+
+    destination_file = open(destination_filename, 'w')
+    destination_file.write(get_process_line(content_lines))
+    destination_file.write(get_sequenece_line(content_lines))
+    for i, unit in enumerate(sequence_body_groups):
+        destination_file.write(unit)
+
+    get_sequence_ident = get_sequenece_line(content_lines)[
+                         0:get_sequenece_line(content_lines).index(SEQUENCE_IDENTIFIER)]
+
+    destination_file.write(get_sequence_ident + CLOSING_BRACKET + "\n")
+    destination_file.write("}")
+    destination_file.close()
+    
+    open(origin_filename, 'w').close()
     origin_filename = open(origin_filename, 'w')
 
-    for i in range(len(queue)):
-        line = queue[i]
-        line_stripped = "".join(line.split())
-
-        if PROCESS_IDENTIFIER in line:
+    with open(destination_filename) as f:
+        for line in f:
             origin_filename.write(line)
-        elif SEQUENCE_IDENTIFIER in line and not (outer_sequence_found):
-            origin_filename.write(line)
-            outer_sequence_found = True
-        elif SEQUENCE_IDENTIFIER in line and outer_sequence_found:
-            inner_sequence_found = True
-        elif ACTION_IDENTIFIER in line:
-            origin_filename.write(line)
-            outstanding_action = True
-        elif inner_sequence_found and not (outstanding_action) and line_stripped == CLOSING_BRACKET:
-            inner_sequence_found = False
-        elif outstanding_action and line_stripped == CLOSING_BRACKET:
-            origin_filename.write(line)
-            outstanding_action = False
-        else:
-            origin_filename.write(line)
-    f.close()
+    origin_filename.close()
+    process = subprocess.Popen(BASH_COMMAND.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
 
 
 def remove_blank(file):
@@ -849,10 +943,10 @@ def tx_serialize_branch_2_way():
     return render_template('serializebrtwoway.html', s_b_two_way=db.serializebranchtwoway.find())
 
 
-@app.route('/tx-sequence-flatten', methods=['GET'])
-def tx_sequence_flatten():
+@app.route('/tx-reorder-sequence', methods=['GET'])
+def tx_reorder_sequence():
     db = mongo.db.dist
-    db.sequenceflatten.drop()
+    db.reordersequence.drop()
     BASH_COMMAND = "cat "
     name = ""
     path = ""
@@ -862,7 +956,7 @@ def tx_sequence_flatten():
         name = file['name']
         m.update(name)
         path = file['path']
-        sequence_flatten(path)
+        reorder_sequence(path)
 
     executeCommand = BASH_COMMAND + path
     process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
@@ -873,13 +967,13 @@ def tx_sequence_flatten():
     #     print(l)
     #     if "process" or "task" or "sequence" or "branch" or "selection" or "iteration" in l:
     #         print(l.count(' '))
-    db.sequenceflatten.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
+    db.reordersequence.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
-    rootLogger.info("Action = [ sequence_flatten ]")
+    rootLogger.info("Action = [ reorder sequence ]")
     rootLogger.info("Process = [ " + str(output) + " ]")
-    return render_template('sequenceflatten.html', seq_flatten=db.sequenceflatten.find())
+    return render_template('reordersequence.html', reorder_seq=db.reordersequence.find())
 
 
 @app.route('/select-transformation-type', methods=['GET'])
@@ -1338,7 +1432,7 @@ def setup():
     db.characterizationfiles.drop()
     db.selectedcharacterization.drop()
     db.characterizationanalysisfiles.drop()
-    db.sequenceflatten.drop()
+    db.reordersequence.drop()
     db.serializebranchnaive.drop()
     db.serializebranchtwoway.drop()
     db.unrolliteration.drop()
