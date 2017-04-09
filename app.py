@@ -888,7 +888,8 @@ def reorder_sequence(origin_filename):
         reorder_sequence_args = content_string[reorder_args_start_index + 1:reorder_args_end_index]
         reorder_sequence_args = reorder_sequence_args.replace(WHITESPACE, EMPTY_SPACE)
         reorder_sequence_args = reorder_sequence_args.split(",")
-
+    else:
+        return False
     reorder_sequence_args = map(int, reorder_sequence_args)
 
     process_identifier_open = False
@@ -958,6 +959,7 @@ def reorder_sequence(origin_filename):
     origin_filename.close()
     process = subprocess.Popen(BASH_COMMAND.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
+    return True
 
 
 def remove_blank(file):
@@ -1131,11 +1133,15 @@ def tx_reorder_sequence():
     path = ""
     m = md5.new()
 
+    action_response = False
     for file in db.selected.find():
         name = file['name']
         m.update(name)
         path = file['path']
-        reorder_sequence(path)
+        action_response = reorder_sequence(path)
+
+    if not(action_response):
+        return render_template('cannot-perform-action.html')
 
     executeCommand = BASH_COMMAND + path
     process = subprocess.Popen(executeCommand.split(), stdout=subprocess.PIPE)
