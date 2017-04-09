@@ -736,7 +736,7 @@ def pml_tx_serialize_branch_naive(origin_filename):
 def pml_tx_serialize_branch_2_way(origin_filename):
     m = hashlib.md5()
     with open(origin_filename) as f:
-        content = f.readlines()
+        content_lines = f.readlines()
 
     SEQUENCE_IDENTIFIER = "sequence"
     BRANCH_IDENTIFIER = "branch"
@@ -782,7 +782,7 @@ def pml_tx_serialize_branch_2_way(origin_filename):
     units = []
     origin_filename = open(origin_filename, 'w')
     unit = ""
-    for i, line in enumerate(content):
+    for i, line in enumerate(content_lines):
         line_stripped = "".join(line.split())
         # now, we want to obtain branches
         if BRANCH_IDENTIFIER in line:
