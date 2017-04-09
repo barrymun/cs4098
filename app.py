@@ -334,6 +334,10 @@ def pml_tx_parallelize_sequence(origin_filename):
                 identifier_start_index = line.index(SELECTION_IDENTIFIER)
                 identifier_end_index = identifier_start_index + len(SELECTION_IDENTIFIER)
                 selection_identifier_name = generate_unique_name(SELECTION_IDENTIFIER, existing_names)
+
+                if not(SELECTION_IDENTIFIER in existing_names):
+                    existing_names[SELECTION_IDENTIFIER] = []
+
                 existing_names[SELECTION_IDENTIFIER].append(selection_identifier_name)
                 line = line[:identifier_end_index] + " " + "a" + selection_identifier_name + " " + "{\n"
                 unit += line
@@ -344,6 +348,9 @@ def pml_tx_parallelize_sequence(origin_filename):
                 branch_identifier_name = generate_unique_name(BRANCH_IDENTIFIER, existing_names)
                 existing_names[BRANCH_IDENTIFIER].append(branch_identifier_name)
 
+                if not(BRANCH_IDENTIFIER in existing_names):
+                    existing_names[BRANCH_IDENTIFIER] = []
+
                 line = line[:identifier_end_index] + " " + "a" + branch_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
@@ -351,7 +358,10 @@ def pml_tx_parallelize_sequence(origin_filename):
                 identifier_start_index = line.index(ACTION_IDENTIFIER)
                 identifier_end_index = identifier_start_index + len(ACTION_IDENTIFIER)
                 action_identifier_name = generate_unique_name(ACTION_IDENTIFIER, existing_names)
-                existing_names[BRANCH_IDENTIFIER].append(action_identifier_name)
+                existing_names[ACTION_IDENTIFIER].append(action_identifier_name)
+
+                if not(ACTION_IDENTIFIER in existing_names):
+                    existing_names[ACTION_IDENTIFIER] = []
 
                 line = line[:identifier_end_index] + " " + "a" + action_identifier_name + " " + "{\n"
                 unit += line
