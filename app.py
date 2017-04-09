@@ -436,6 +436,7 @@ def pml_tx_unroll_iteration(origin_filename):
         BRANCH_IDENTIFIER,
         ACTION_IDENTIFIER,
         PROCESS_IDENTIFIER,
+        ITERATION_IDENTIFIER,
     ]
 
     existing_names = {}
@@ -595,7 +596,20 @@ def pml_tx_remove_selections(origin_filename):
         BRANCH_IDENTIFIER,
         ACTION_IDENTIFIER,
         PROCESS_IDENTIFIER,
+        ITERATION_IDENTIFIER,
     ]
+
+    existing_names = {}
+    for i, identifier in enumerate(IDENTIFIERS):
+        for j, line in enumerate(content_lines):
+            name = get_names_for_identifier_in_line(identifier, line)
+            if not name:
+                continue
+            if identifier not in existing_names:
+                existing_names[identifier] = []
+
+            existing_names[identifier].append(name)
+
 
     OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
@@ -729,6 +743,27 @@ def pml_tx_serialize_branch_2_way(origin_filename):
     ACTION_IDENTIFIER = "action"
     PROCESS_IDENTIFIER = "process"
     SELECTION_IDENTIFIER = "selection"
+    ITERATION_IDENTIFIER = "iteration"
+
+    IDENTIFIERS = [
+        SELECTION_IDENTIFIER,
+        SEQUENCE_IDENTIFIER,
+        BRANCH_IDENTIFIER,
+        ACTION_IDENTIFIER,
+        PROCESS_IDENTIFIER,
+        ITERATION_IDENTIFIER
+    ]
+
+    existing_names = {}
+    for i, identifier in enumerate(IDENTIFIERS):
+        for j, line in enumerate(content_lines):
+            name = get_names_for_identifier_in_line(identifier, line)
+            if not name:
+                continue
+            if identifier not in existing_names:
+                existing_names[identifier] = []
+
+            existing_names[identifier].append(name)
 
     OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
@@ -779,9 +814,15 @@ def pml_tx_serialize_branch_2_way(origin_filename):
     for i in range(number_of_ways):
         origin_filename.write(action_structure_prefix + ('sequence s%s {\n' % (i)))
         for i, unit in enumerate(units):
-            m.update(str(time.time()))
-            temp = "a" + m.hexdigest()
-            unit = unit.replace("PLACEHOLDER", temp)
+            action_identifier_name = generate_unique_name(ACTION_IDENTIFIER, existing_names)
+
+            if not (ACTION_IDENTIFIER in existing_names):
+                existing_names[ACTION_IDENTIFIER] = []
+
+            existing_names[ACTION_IDENTIFIER].append(action_identifier_name)
+
+
+            unit = unit.replace("PLACEHOLDER", action_identifier_name)
             origin_filename.write(unit)
         origin_filename.write(action_structure_prefix + '}\n')
         units = units[::-1]
@@ -815,7 +856,19 @@ def reorder_sequence(origin_filename):
         BRANCH_IDENTIFIER,
         ACTION_IDENTIFIER,
         PROCESS_IDENTIFIER,
+        ITERATION_IDENTIFIER
     ]
+
+    existing_names = {}
+    for i, identifier in enumerate(IDENTIFIERS):
+        for j, line in enumerate(content_lines):
+            name = get_names_for_identifier_in_line(identifier, line)
+            if not name:
+                continue
+            if identifier not in existing_names:
+                existing_names[identifier] = []
+
+            existing_names[identifier].append(name)
 
     OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
