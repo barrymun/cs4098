@@ -14,6 +14,8 @@ Jessa Pajarito
 Neil Barry-Murphy
 
 
+<br/><br/><br/>
+
 
 # Setup Guide
 
@@ -69,7 +71,7 @@ tail -f info.log
 <br/><br/><br/>
 
 
-# New DDI System Testing Instructions
+# DDI System Testing Instructions
 
 ## In-Depth Testing
 (Testing methods for all new required features outlined below)
@@ -79,23 +81,21 @@ tail -f info.log
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `coke_and_pepsi.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - If successful, click `Select Knowledge Base System`.
 - Click `Search DDI Characterization Data`.
 - Select `db_1.csv`. Click `View Interactions`.
-- View interaction results.
 - When complete, click `Finished - Return to Homepage`.
 
 ### Identify drugs in PML
 
-- Integrated with above step.
+- Integrated with previous step.
 
 ### Report un-named PML construct 
 
 - Navigate to the homepage.
 - Select `Begin Analysis`.
-- Select `duplicated_construct.pml`. Click `Check Validity of Selected File`.
-- View Results.
+- Select `unnamed_construct.pml`. Click `Check Validity of Selected File`.
 - Error will be explained by system, highlighted in red.
 - The line number, and type of construct causing the issue will be highlighted by the system.
 - The system will not allow progression beyond this point.
@@ -104,7 +104,7 @@ tail -f info.log
 
 - Navigate to the homepage.
 - Select `Begin Analysis`.
-- Select `unnamed_construct.pml`. Click `Check Validity of Selected File`.
+- Select `duplicated_construct.pml`. Click `Check Validity of Selected File`.
 - View Results.
 - Error will be explained by system, highlighted in red.
 - The line number, name and type of construct causing the issue will be highlighted by the system.
@@ -115,14 +115,13 @@ tail -f info.log
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `iden_parallel_ddi_2.pml`. Click `Check Validity of Selected File`.
-- Refer to `peos/pml/drugfinder/pml-test-files/iden_parallel_ddi_2.pml`.
+- Refer to `peos/pml/drugfinder/pml-test-files/iden_parallel_ddi_2.pml` in any editor (such as gedit).
 - Two different action constructs refer to two drugs that interact with each other.
 - Return to system.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - If successful, click `Select Knowledge Base System`.
 - Click `Search DDI Characterization Data`.
 - Select `db_1.csv`. Click `View Interactions`.
-- View interaction results.
 - When complete, click `Finished - Return to Homepage`.
 
 ### PML-TX Save PML to File
@@ -133,39 +132,41 @@ tail -f info.log
 
 ### PML-TX Reorder Sequence
 
-- Refer to `peos/pml/drugfinder/pml-test-files/sequence_flatten.pml` in any file editor.
+- Refer to `peos/pml/drugfinder/pml-test-files/reorder_sequence.pml` in any editor (such as gedit).
 - Navigate to the homepage.
 - Select `Begin Analysis`.
-- Select `sequence_flatten.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Select `reorder_sequence.pml`. Click `Check Validity of Selected File`.
+- Click `Analyse File`.
 - Click `Select Transformation Type`.
-- Click `Perform Sequence Flatten`.
-- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
-- View results.
-- Again, refer to `peos/pml/drugfinder/pml-test-files/sequence_flatten.pml`.
+- Click `Perform Reorder Sequence`.
+- Ensure to select the radio button, and click `Check Validity of Transformation`.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/reorder_sequence.pml`.
 - Click `Reload` or equivalent. View changes.
+- To view side by side changes, find the file of the same name in `peos/pml/drugfinder/duplicate-pml-test-files/`.
+- This file is an original copy of the file that was just transformed.
 - To redo the test, open a new terminal (in the same directory) and execute:
 ```bash
 cd peos/pml/drugfinder/pml-test-files
 ```
 - From here, revert any changes in git.
 ```bash
-git checkout sequence_flatten.pml
+git checkout reorder_sequence.pml
 ```
 
 ### PML-TX Serialise Branch (Naive)
 
-- Refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_naive.pml` in any file editor.
+- Refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_naive.pml` in any editor (such as gedit).
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `pml_tx_serialize_branch_naive.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - Click `Select Transformation Type`.
 - Click `Perform Naive Branch Transformation`.
-- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
-- View results.
+- Ensure to select the radio button, and click `Check Validity of Transformation`.
 - Again, refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_naive.pml`.
 - Click `Reload` or equivalent. View changes.
+- To view side by side changes, find the file of the same name in `peos/pml/drugfinder/duplicate-pml-test-files/`.
+- This file is an original copy of the file that was just transformed.
 - To redo the test, open a new terminal (in the same directory) and execute:
 ```bash
 cd peos/pml/drugfinder/pml-test-files
@@ -177,17 +178,18 @@ git checkout pml_tx_serialize_branch_naive.pml
 
 ### PML-TX Serialize Branch (Two-Way)
 
-- Refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_2_way.pml` in any file editor.
+- Refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_2_way.pml` in any editor (such as gedit).
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `pml_tx_serialize_branch_2_way.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - Click `Select Transformation Type`.
 - Click `Perform Two-Way Branch Transformation`.
-- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
-- View results.
+- Ensure to select the radio button, and click `Check Validity of Transformation`.
 - Again, refer to `peos/pml/drugfinder/pml-test-files/pml_tx_serialize_branch_2_way.pml`.
 - Click `Reload` or equivalent. View changes.
+- To view side by side changes, find the file of the same name in `peos/pml/drugfinder/duplicate-pml-test-files/`.
+- This file is an original copy of the file that was just transformed.
 - To redo the test, open a new terminal (in the same directory) and execute:
 ```bash
 cd peos/pml/drugfinder/pml-test-files
@@ -199,17 +201,18 @@ git checkout pml_tx_serialize_branch_2_way.pml
 
 ### PML-TX Remove Selections (NOT WORKING)
 
-- Refer to `peos/pml/drugfinder/pml-test-files/remove_selection.pml` in any file editor.
+- Refer to `peos/pml/drugfinder/pml-test-files/remove_selection.pml` in any editor (such as gedit).
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `remove_selection.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - Click `Select Transformation Type`.
 - Click `Perform Remove Selections Transformation`.
-- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
-- View results.
+- Ensure to select the radio button, and click `Check Validity of Transformation`.
 - Again, refer to `peos/pml/drugfinder/pml-test-files/remove_selection.pml`.
 - Click `Reload` or equivalent. View changes.
+- To view side by side changes, find the file of the same name in `peos/pml/drugfinder/duplicate-pml-test-files/`.
+- This file is an original copy of the file that was just transformed.
 - To redo the test, open a new terminal (in the same directory) and execute:
 ```bash
 cd peos/pml/drugfinder/pml-test-files
@@ -221,17 +224,18 @@ git checkout remove_selection.pml
 
 ### PML-TX Unroll Iteration
 
-- Refer to `peos/pml/drugfinder/pml-test-files/unroll_iteration.pml` in any file editor.
+- Refer to `peos/pml/drugfinder/pml-test-files/unroll_iteration.pml` in any editor (such as gedit).
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `unroll_iteration.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - Click `Select Transformation Type`.
 - Click `Perform Unroll Iteration Transformation`.
-- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
-- View results.
+- Ensure to select the radio button, and click `Check Validity of Transformation`.
 - Again, refer to `peos/pml/drugfinder/pml-test-files/unroll_iteration.pml`.
 - Click `Reload` or equivalent. View changes.
+- To view side by side changes, find the file of the same name in `peos/pml/drugfinder/duplicate-pml-test-files/`.
+- This file is an original copy of the file that was just transformed.
 - To redo the test, open a new terminal (in the same directory) and execute:
 ```bash
 cd peos/pml/drugfinder/pml-test-files
@@ -243,17 +247,18 @@ git checkout unroll_iteration.pml
 
 ### PML-TX Parallelise Sequence
 
-- Refer to `peos/pml/drugfinder/pml-test-files/sequence_parallelisation.pml` in any file editor.
+- Refer to `peos/pml/drugfinder/pml-test-files/sequence_parallelisation.pml` in any editor (such as gedit).
 - Navigate to the homepage.
 - Select `Begin Analysis`.
 - Select `sequence_parallelisation.pml`. Click `Check Validity of Selected File`.
-- View verification results. Click `Analyse File`.
+- Click `Analyse File`.
 - Click `Select Transformation Type`.
 - Click `Perform Parallelize Sequence Transformation`.
-- View results. Ensure to select the radio button, and click `Check Validity of Transformation`.
-- View results.
-- Again, refer to `peos/pml/drugfinder/pml-test-files/sequence_parallelisation.pml`.
+- Ensure to select the radio button, and click `Check Validity of Transformation`.
+- Again, refer to `peos/pml/drugfinder/pml-test-files/sequence_parallelisation.pml` in your editor.
 - Click `Reload` or equivalent. View changes.
+- To view side by side changes, find the file of the same name in `peos/pml/drugfinder/duplicate-pml-test-files/`.
+- This file is an original copy of the file that was just transformed.
 - To redo the test, open a new terminal (in the same directory) and execute:
 ```bash
 cd peos/pml/drugfinder/pml-test-files
