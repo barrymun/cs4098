@@ -339,7 +339,7 @@ def pml_tx_parallelize_sequence(origin_filename):
                     existing_names[SELECTION_IDENTIFIER] = []
 
                 existing_names[SELECTION_IDENTIFIER].append(selection_identifier_name)
-                line = line[:identifier_end_index] + " " + "a" + selection_identifier_name + " " + "{\n"
+                line = line[:identifier_end_index] + " " + selection_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
             elif (BRANCH_IDENTIFIER in line and not non_meta_structure_open):
@@ -351,7 +351,7 @@ def pml_tx_parallelize_sequence(origin_filename):
                 if not(BRANCH_IDENTIFIER in existing_names):
                     existing_names[BRANCH_IDENTIFIER] = []
 
-                line = line[:identifier_end_index] + " " + "a" + branch_identifier_name + " " + "{\n"
+                line = line[:identifier_end_index] + " " + branch_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
             elif (ACTION_IDENTIFIER in line and not non_meta_structure_open):
@@ -363,7 +363,7 @@ def pml_tx_parallelize_sequence(origin_filename):
                 if not(ACTION_IDENTIFIER in existing_names):
                     existing_names[ACTION_IDENTIFIER] = []
 
-                line = line[:identifier_end_index] + " " + "a" + action_identifier_name + " " + "{\n"
+                line = line[:identifier_end_index] + " " + action_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
             elif non_meta_structure_open:
@@ -476,24 +476,40 @@ def pml_tx_unroll_iteration(origin_filename):
             identifier_end_index = identifier_start_index + len(SELECTION_IDENTIFIER)
 
             selection_identifier_name = generate_unique_name(SELECTION_IDENTIFIER, existing_names)
-            existing_names[SELECTION_IDENTIFIER].append(selection_identifier_name)
 
             if not (SELECTION_IDENTIFIER in existing_names):
                 existing_names[SELECTION_IDENTIFIER] = []
 
-            line = line[:identifier_end_index] + " " + "a" + selection_identifier_name + " " + "{\n"
+            existing_names[SELECTION_IDENTIFIER].append(selection_identifier_name)
+
+            line = line[:identifier_end_index] + " " + selection_identifier_name + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif (BRANCH_IDENTIFIER in line and not non_meta_structure_open):
             identifier_start_index = line.index(BRANCH_IDENTIFIER)
             identifier_end_index = identifier_start_index + len(BRANCH_IDENTIFIER)
-            line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+            branch_identifier_name = generate_unique_name(BRANCH_IDENTIFIER, existing_names)
+
+            if not (BRANCH_IDENTIFIER in existing_names):
+                existing_names[BRANCH_IDENTIFIER] = []
+
+            existing_names[BRANCH_IDENTIFIER].append(branch_identifier_name)
+
+            line = line[:identifier_end_index] + " " + branch_identifier_name + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif (ACTION_IDENTIFIER in line and not non_meta_structure_open):
             identifier_start_index = line.index(ACTION_IDENTIFIER)
             identifier_end_index = identifier_start_index + len(ACTION_IDENTIFIER)
-            line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+
+            action_identifier_name = generate_unique_name(ACTION_IDENTIFIER, existing_names)
+
+            if not (ACTION_IDENTIFIER in existing_names):
+                existing_names[ACTION_IDENTIFIER] = []
+
+            existing_names[ACTION_IDENTIFIER].append(action_identifier_name)
+
+            line = line[:identifier_end_index] + " " + action_identifier_name + " " + "{\n"
             unit += line
             non_meta_structure_open = True
         elif non_meta_structure_open:
@@ -502,11 +518,15 @@ def pml_tx_unroll_iteration(origin_filename):
 
     destination_file = open(destination_filename, 'w')
     destination_file.write(get_process_line(content))
+
+
     destination_file.write("\tsequence seq0 {\n")
     for i, unit in enumerate(units):
         destination_file.write(unit)
 
-    destination_file.write("\t\titeration iter0 {\n")
+    iteration_name = existing_names[ITERATION_IDENTIFIER][0]
+
+    destination_file.write("\t\titeration " + iteration_name + " {\n")
     for i, unit in enumerate(units):
         for j, identifier in enumerate(IDENTIFIERS):
             if identifier in unit:
@@ -514,8 +534,12 @@ def pml_tx_unroll_iteration(origin_filename):
                 opening_bracket_index = unit.index(OPENING_BRACKET)
                 m.update(str(i))
                 unit_body = unit[opening_bracket_index + len(OPENING_BRACKET) + 1:]
+                generated_name = generate_unique_name(identifier, existing_names)
+                if not(identifier in existing_names):
+                    existing_names[identifier] = []
+                existing_names[identifier].append(generated_name)
                 unit = "\t" + unit[:identifier_index + len(
-                    identifier)] + " " + "a" + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
+                    identifier)] + " " + "a" + generated_name + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
                                                                                                                   "\n\t",
                                                                                                                   unit_body.count(
                                                                                                                       "\n") - 1)
