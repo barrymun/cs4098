@@ -174,13 +174,10 @@ def get_characterization_analysis_results():
         drug_list = pi['process']
         break
 
-    print(drug_list)
     drug_list = re.sub('[(]', '', drug_list)
     drug_list = re.sub('[)]', '', drug_list)
     drug_list = re.sub('[[]', '', drug_list)
     drug_list = re.sub('[]]', '', drug_list)
-    # drug_list = drug_list.translate(None, '[()]')
-    print(drug_list)
     drug_list_to_list = drug_list.split(",")
 
     for file in char_files:
@@ -199,17 +196,34 @@ def get_characterization_analysis_results():
             for drug in drug_list_to_list:
                 if drug in line:
                     if count is l:
-                        print("HELLO")
                         print(line)
                         line_to_list = line.split(",")
-                        # line = re.sub('[[]', '', line)
-                        # line = re.sub('[\n]', '', line)
-                        # print(line)
                         display.append(line_to_list)
                     count += 1
             count = 1
 
-    print(display)
+    display_count = 0
+    for d_list in display:
+        for val in d_list:
+            if display_count > 4:
+                break
+            if display_count is 0:
+                val = "Drug 1 = [ " + val + " ]"
+                d_list[display_count] = val
+            if display_count is 1:
+                val = "Drug 2 = [ " + val + " ]"
+                d_list[display_count] = val
+            if display_count is 2:
+                val = "Interaction type between these drugs = [ " + val + " ]"
+                d_list[display_count] = val
+            if display_count is 3:
+                val = "Timing between ingestion = [ " + val + " ]"
+                d_list[display_count] = val
+            if display_count is 4:
+                val = "Unit of timing measurement = [ " + val + " ]"
+                d_list[display_count] = val
+            display_count += 1
+
     db.characterizationanalysisfiles.insert({'result': display, 'id': m.hexdigest()})
     rootLogger.info('\n')
     rootLogger.info("Result = [ " + str(display) + " ]")
