@@ -385,7 +385,7 @@ def pml_tx_parallelize_sequence(origin_filename):
 
     branch_identifier_name = generate_unique_name(BRANCH_IDENTIFIER, existing_names)
     if not (BRANCH_IDENTIFIER in existing_names):
-        existing_names[ACTION_IDENTIFIER] = []
+        existing_names[BRANCH_IDENTIFIER] = []
     existing_names[BRANCH_IDENTIFIER].append(branch_identifier_name)
 
 
