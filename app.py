@@ -7,6 +7,7 @@ import md5
 import os
 import re
 import subprocess
+import random
 import time
 from logging.handlers import RotatingFileHandler
 
@@ -242,6 +243,40 @@ def characterization_index():
 def kb_system_selection():
     return render_template('kbsystemselection.html')
 
+def get_names_for_identifier_in_line(identifier, line):
+    """
+    branch branch_name {
+    """
+    if (identifier not in line):
+        return None
+
+    identifier_start_index = line.index(identifier)
+    identifier_end_index = identifier_start_index + len(identifier)
+
+    if "{" not in line:
+        return None
+    opening_curly_brace_index = line.index("{", identifier_end_index)
+
+    identifier_name = line[identifier_end_index:opening_curly_brace_index].strip()
+    return identifier_name
+
+def generate_unique_name(identifier, existing_names):
+    random_number = str(random.randint(0,100000))
+    if identifier not in existing_names:
+        return identifier + "_" + random_number
+
+    identifier_names = existing_names[identifier]
+    is_name_generated = False
+    return_identifier_name = None
+    while not(is_name_generated):
+        for i, identifier_name in enumerate(identifier_names):
+            return_identifier_name = identifier_name + "_" + random_number
+            if not(return_identifier_name in identifier_names):
+                is_name_generated = True
+                break
+
+    return return_identifier_name
+
 
 def pml_tx_parallelize_sequence(origin_filename):
     destination_filename = "temp_parallelize.pml"
@@ -268,6 +303,17 @@ def pml_tx_parallelize_sequence(origin_filename):
         ITERATION_IDENTIFIER
     ]
 
+    existing_names = {}
+    for i, identifier in enumerate(IDENTIFIERS):
+        for j, line in enumerate(content):
+            name = get_names_for_identifier_in_line(identifier, line)
+            if not name:
+                continue
+            if identifier not in existing_names:
+                existing_names[identifier] = []
+
+            existing_names[identifier].append(name)
+
     OPENING_BRACKET = "{"
     CLOSING_BRACKET = "}"
 
@@ -287,19 +333,27 @@ def pml_tx_parallelize_sequence(origin_filename):
             elif (SELECTION_IDENTIFIER in line and not non_meta_structure_open):
                 identifier_start_index = line.index(SELECTION_IDENTIFIER)
                 identifier_end_index = identifier_start_index + len(SELECTION_IDENTIFIER)
-                line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+                selection_identifier_name = generate_unique_name(SELECTION_IDENTIFIER, existing_names)
+                existing_names[SELECTION_IDENTIFIER].append(selection_identifier_name)
+                line = line[:identifier_end_index] + " " + "a" + selection_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
             elif (BRANCH_IDENTIFIER in line and not non_meta_structure_open):
                 identifier_start_index = line.index(BRANCH_IDENTIFIER)
                 identifier_end_index = identifier_start_index + len(BRANCH_IDENTIFIER)
-                line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+                branch_identifier_name = generate_unique_name(BRANCH_IDENTIFIER, existing_names)
+                existing_names[BRANCH_IDENTIFIER].append(branch_identifier_name)
+
+                line = line[:identifier_end_index] + " " + "a" + branch_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
             elif (ACTION_IDENTIFIER in line and not non_meta_structure_open):
                 identifier_start_index = line.index(ACTION_IDENTIFIER)
                 identifier_end_index = identifier_start_index + len(ACTION_IDENTIFIER)
-                line = line[:identifier_end_index] + " " + "a" + m.hexdigest() + " " + "{\n"
+                action_identifier_name = generate_unique_name(ACTION_IDENTIFIER, existing_names)
+                existing_names[BRANCH_IDENTIFIER].append(action_identifier_name)
+
+                line = line[:identifier_end_index] + " " + "a" + action_identifier_name + " " + "{\n"
                 unit += line
                 non_meta_structure_open = True
             elif non_meta_structure_open:
@@ -318,8 +372,12 @@ def pml_tx_parallelize_sequence(origin_filename):
 
     m.update(str(time.time()))
     destination_resource.write(process_line)
-    temp = "b" + m.hexdigest()
-    destination_resource.write("\tbranch %s {\n" % temp)
+
+    branch_identifier_name = generate_unique_name(BRANCH_IDENTIFIER, existing_names)
+    existing_names[BRANCH_IDENTIFIER].append(branch_identifier_name)
+
+
+    destination_resource.write("\tbranch %s {\n" % branch_identifier_name)
 
     for i, j in enumerate(units):
         destination_resource.write(j)
