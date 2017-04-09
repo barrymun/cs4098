@@ -1362,17 +1362,22 @@ def load_owl_source_files(path, extension):
 # @param extension = ".pml"
 def load_pml_source_files(path, extension):
     db = mongo.db.dist
-    ext = (extension)
+    ext = extension
+    alphabetical_list = []
     for root, dirs, files in os.walk(path):
         for file in files:
             if (file.endswith(ext)):
-                if (db.files.find_one({'name': file})):
+                file_path = os.path.join(root, file)
+                if ((file, file_path) in alphabetical_list):
                     continue
                 # search Mongo. If in Mongo, ignore. Otherwise, add.
-                file_path = os.path.join(root, file)
-                m = md5.new()
-                m.update(file)
-                db.files.insert({'name': file, 'path': file_path, 'id': m.hexdigest()})
+                alphabetical_list.append((file, file_path))
+
+    alphabetical_list.sort()
+    for f,fp in alphabetical_list:
+        m = md5.new()
+        m.update(f)
+        db.files.insert({'name': f, 'path': fp, 'id': m.hexdigest()})
 
 
 # @param extension = ".csv"
