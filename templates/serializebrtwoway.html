@@ -45,7 +45,7 @@
                             <th class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></th>
                             <th class="col-sm-11 col-md-11 col-lg-11 col-xl-11">&nbsp;Filename</th>
                         </tr>
-                        {%- for file in s_b_two_way %}
+                        {% for file in s_b_two_way %}
                             <tr>
                                 <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1">
                                     <input type="radio" name="check" value="{{ file['name'] }}" checked="checked">
@@ -57,12 +57,20 @@
                             <tr>
                                 <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></td>
                                 <td class="col-sm-11 col-md-11 col-lg-11 col-xl-11">
-                                    {%- for line in file['process'] %}
-                                        {{ line }}<br/>
-                                    {%- endfor %}
+                                    {% for line in file['process'] %}
+                                        {% if "\t\t\t" in line %}
+                                            &emsp;&emsp;&emsp;{{ line }}<br/>
+                                        {% elif "\t\t" in line %}
+                                            &emsp;&emsp;{{ line }}<br/>
+                                        {% elif "\t" in line %}
+                                            &emsp;{{ line }}<br/>
+                                        {% else %}
+                                            {{ line }}<br/>
+                                        {% endif %}
+                                    {% endfor %}
                                 </td>
                             </tr>
-                        {%- endfor %}
+                        {% endfor %}
                     </table>
                 </ul>
                 <div id="bottom">

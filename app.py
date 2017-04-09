@@ -428,9 +428,9 @@ def pml_tx_unroll_iteration(origin_filename):
                 unit_body = unit[opening_bracket_index + len(OPENING_BRACKET) + 1:]
                 unit = "\t" + unit[:identifier_index + len(
                     identifier)] + " " + "a" + m.hexdigest() + " " + OPENING_BRACKET + "\n\t" + unit_body.replace("\n",
-                                                                                                            "\n\t",
-                                                                                                            unit_body.count(
-                                                                                                                "\n") - 1)
+                                                                                                                  "\n\t",
+                                                                                                                  unit_body.count(
+                                                                                                                      "\n") - 1)
                 break
         destination_file.write(unit)
 
@@ -783,7 +783,7 @@ def reorder_sequence(origin_filename):
     destination_file.write(get_sequence_ident + CLOSING_BRACKET + "\n")
     destination_file.write("}")
     destination_file.close()
-    
+
     open(origin_filename, 'w').close()
     origin_filename = open(origin_filename, 'w')
 
@@ -827,8 +827,8 @@ def tx_parallelize_sequence():
     output = process.communicate()[0]
     sep = "\n"
     line_list = output.split(sep)
-    db.parsequence.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
 
+    db.parsequence.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
@@ -857,8 +857,8 @@ def tx_remove_selections():
     output = process.communicate()[0]
     sep = "\n"
     line_list = output.split(sep)
+    
     db.removeselections.insert({'name': name, 'path': path, 'process': line_list, 'id': m.hexdigest()})
-
     rootLogger.info('\n')
     rootLogger.info("Name = [ " + name + " ]")
     rootLogger.info("Path = [ " + path + " ]")
@@ -1374,7 +1374,7 @@ def load_pml_source_files(path, extension):
                 alphabetical_list.append((file, file_path))
 
     alphabetical_list.sort()
-    for f,fp in alphabetical_list:
+    for f, fp in alphabetical_list:
         m = md5.new()
         m.update(f)
         db.files.insert({'name': f, 'path': fp, 'id': m.hexdigest()})
