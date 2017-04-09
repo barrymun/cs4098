@@ -43,17 +43,20 @@
                     <table class="table table-striped table-bordered" style="width: 95%;">
                         <tr>
                             <th class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></th>
-                            <th class="col-sm-2 col-md-2 col-lg-2 col-xl-2">&nbsp;Filename</th>
-                            <th class="col-sm-9 col-md-9 col-lg-9 col-xl-9">&nbsp;Result of Transformation</th>
+                            <th class="col-sm-11 col-md-11 col-lg-11 col-xl-11">&nbsp;Filename</th>
                         </tr>
                         {%- for file in par_sequence %}
                             <tr>
-                                <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1"><input type="radio" name="check"
-                                                                                       value="{{ file['name'] }}"></td>
-                                <td class="col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                    <input type="radio" name="check" value="{{ file['name'] }}" checked="checked">
+                                </td>
+                                <td class="col-sm-11 col-md-11 col-lg-11 col-xl-11">
                                     &nbsp;{{ file['name'] }}
                                 </td>
-                                <td class="col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                            </tr>
+                            <tr>
+                                <td class="col-sm-1 col-md-1 col-lg-1 col-xl-1"></td>
+                                <td class="col-sm-11 col-md-11 col-lg-11 col-xl-11">
                                     {%- for line in file['process'] %}
                                         {{ line }}<br/>
                                     {%- endfor %}
